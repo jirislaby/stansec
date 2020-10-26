@@ -24,21 +24,55 @@ FORMS += \
 TRANSLATIONS += \
     trans/stansec_cs_CZ.ts
 
-parser.output  = \
-        ${QMAKE_FILE_BASE}BaseListener.cpp \
-        ${QMAKE_FILE_BASE}BaseListener.h \
-        ${QMAKE_FILE_BASE}BaseVisitor.cpp \
-        ${QMAKE_FILE_BASE}BaseVisitor.h \
-        ${QMAKE_FILE_BASE}Lexer.cpp \
-        ${QMAKE_FILE_BASE}Lexer.h \
-        ${QMAKE_FILE_BASE}Listener.cpp \
-        ${QMAKE_FILE_BASE}Listener.h \
-        ${QMAKE_FILE_BASE}Parser.cpp \
-        ${QMAKE_FILE_BASE}Parser.h \
-        ${QMAKE_FILE_BASE}Visitor.cpp \
-        ${QMAKE_FILE_BASE}Visitor.h
-parser.commands = java -jar antlr-4.8-complete.jar -visitor -Dlanguage=Cpp ${QMAKE_FILE_NAME}
+INCLUDEPATH += /usr/include/antlr4-runtime/
+LIBS += -lantlr4-runtime
+
+defineReplace(get_base) {
+	source = $$1
+	base = $$basename(source)
+	base_split = $$split(base, ".")
+	base_splice = $$member(base_split, 0, -2)
+
+	return($$join(base_splice, "."))
+}
+
+defineReplace(parser_output_function) {
+	base = $$get_base($$1)
+	message(base=$$base)
+
+	HEADERS += \
+		$$OUT_PWD/generated/$${base}BaseListener.h \
+		$$OUT_PWD/generated/$${base}BaseVisitor.h \
+		$$OUT_PWD/generated/$${base}Lexer.h \
+		$$OUT_PWD/generated/$${base}Listener.h \
+		$$OUT_PWD/generated/$${base}Parser.h \
+		$$OUT_PWD/generated/$${base}Visitor.h
+
+	SOURCES += \
+		$$OUT_PWD/generated/$${base}BaseListener.cpp \
+		$$OUT_PWD/generated/$${base}BaseVisitor.cpp \
+		$$OUT_PWD/generated/$${base}Lexer.cpp \
+		$$OUT_PWD/generated/$${base}Listener.cpp \
+		$$OUT_PWD/generated/$${base}Parser.cpp \
+		$$OUT_PWD/generated/$${base}Visitor.cpp
+
+	message(SOURCES=$$SOURCES)
+	message(HEADERS=$$HEADERS)
+
+	return($$OUT_PWD/generated/$${base}Parser.cpp)
+}
+defineReplace(FILE_IN_parser_output_function) {
+	base = $$get_base($$1)
+	return($$OUT_PWD/generated/$${base}Parser.cpp)
+}
+
+parser.output_function = parser_output_function
+#parser.depend_command = cd ${QMAKE_FILE_PATH}; \
+#	java -jar antlr-4.8-complete.jar -Dlanguage=Cpp -depend ${QMAKE_FILE_BASE}${QMAKE_FILE_EXT} | sed "s,.*:\ ,,"
+parser.commands = cd ${QMAKE_FILE_PATH}; \
+	java -jar antlr-4.8-complete.jar -visitor -Dlanguage=Cpp -o $$OUT_PWD/generated ${QMAKE_FILE_BASE}${QMAKE_FILE_EXT}
 parser.input = GRAMMARS
+parser.variable_out = SOURCES
 
 QMAKE_EXTRA_COMPILERS += parser
 

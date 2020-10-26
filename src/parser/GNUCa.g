@@ -62,67 +62,69 @@ COMMENTS:
 
 grammar GNUCa;
 options {
-	backtrack=false;
+        /*backtrack=false;
 	memoize=true;
-	k=2;
-	language=C;
+        k=2;*/
+        language=Cpp;
 }
 
 // list of imaginary nodes
+/*
 tokens{
-	BRACKET_DESIGNATOR;
-	SIGNED;
-	COMPLEX;
-	E1;
-	E2;
-	E3;
-	EXPRESSION_STATEMENT;
-	ASM;
-	PP;
-	MM;
-	PU;
-	MU;
-	XU;
-	AU;
-	LABREF;
-	BUILTIN_OFFSETOF;
-	TYPEDEF_NAME;
-	TYPEOF;
-	ASSIGNMENT_EXPRESSION;
-	TYPE_NAME;
-	FUNCTION_DECLARATOR;
-	ARRAY_DECLARATOR;
-	INITIALIZER;
-	DESIGNATOR;
-	ENUMERATOR;
-	TRANSLATION_UNIT;
-	COMPOUND_LITERAL;
-	ARRAY_ACCESS;
-	PARAMETER;
-	VARARGS;
-	ABSTRACT_DECLARATOR;
-	DECLARATOR;
-	POINTER;
-	STRUCT_DECLARATOR;
-	STRUCT_DECLARATION;
-	FUNCTION_DEFINITION;
-	XID;
-	XTYPE_SPECIFIER;
-	XTYPE_QUALIFIER;
-	XSTORAGE_CLASS;
-	DECLARATION;
-	INIT_DECLARATOR;
-	DECLARATION_SPECIFIERS;
-	BASETYPE;
-	CAST_EXPRESSION;
-	CONDITIONAL_EXPRESSION;
-	LABEL;
-	COMPOUND_STATEMENT;
-	ALIGNOF='alignof';
-	FUNCTION_CALL;
-	STR_LITERAL;
-}
+        BRACKET_DESIGNATOR,
+        SIGNED,
+        COMPLEX,
+        E1,
+        E2,
+        E3,
+        EXPRESSION_STATEMENT,
+        ASM,
+        PP,
+        MM,
+        PU,
+        MU,
+        XU,
+        AU,
+        LABREF,
+        BUILTIN_OFFSETOF,
+        TYPEDEF_NAME,
+        TYPEOF,
+        ASSIGNMENT_EXPRESSION,
+        TYPE_NAME,
+        FUNCTION_DECLARATOR,
+        ARRAY_DECLARATOR,
+        INITIALIZER,
+        DESIGNATOR,
+        ENUMERATOR,
+        TRANSLATION_UNIT,
+        COMPOUND_LITERAL,
+        ARRAY_ACCESS,
+        PARAMETER,
+        VARARGS,
+        ABSTRACT_DECLARATOR,
+        DECLARATOR,
+        POINTER,
+        STRUCT_DECLARATOR,
+        STRUCT_DECLARATION,
+        FUNCTION_DEFINITION,
+        XID,
+        XTYPE_SPECIFIER,
+        XTYPE_QUALIFIER,
+        XSTORAGE_CLASS,
+        DECLARATION,
+        INIT_DECLARATOR,
+        DECLARATION_SPECIFIERS,
+        BASETYPE,
+        CAST_EXPRESSION,
+        CONDITIONAL_EXPRESSION,
+        LABEL,
+        COMPOUND_STATEMENT,
+        ALIGNOF='alignof',
+        FUNCTION_CALL,
+        STR_LITERAL,
+}*/
 
+/*
 scope Symbols {
 	pANTLR3_HASH_TABLE types; // only track types in order to get parser working
 }
@@ -156,7 +158,7 @@ scope Typedef {
 		symtab->types->free(symtab->types);
 	}
 
-	/* overtaken from antlr3collections.c */
+        /* overtaken from antlr3collections.c *
 	void dump_types(SCOPE_TYPE(Symbols) symtab)
 	{
 		pANTLR3_HASH_TABLE types = symtab->types;
@@ -180,24 +182,25 @@ scope Typedef {
 		}
 	}
 }
+*/
 
 /** The grammar starts here */
 
 // A.2.4 External definitions
 
 translationUnit							// (6.9)
-scope Symbols; // entire file is a scope
-@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
+//scope Symbols; // entire file is a scope
+//@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
         :	externalDeclaration* {
-			dump_types(SCOPE_TOP(Symbols));
+                        //dump_types(SCOPE_TOP(Symbols));
 	}
         ;
 
 // left factoring - inlined parts of declaration and functionDefinition  to gain speed
 externalDeclaration
-scope Typedef;
-@init { $Typedef::isTypedef = 0; }
-	:	'typedef' declarationSpecifiers? {$Typedef::isTypedef = 1;} initDeclaratorList? ';'
+//scope Typedef;
+//@init { $Typedef::isTypedef = 0; }
+        :	'typedef' declarationSpecifiers? /*{$Typedef::isTypedef = 1;}*/ initDeclaratorList? ';'
 	|	declarationSpecifiers
 		(	';'
 		|	declarator declarationOrFnDef
@@ -237,9 +240,9 @@ asmStringLiteral // GNU
 // A.2.2 Declarations
 
 declaration		// (6.7)
-scope Typedef;
-@init { $Typedef::isTypedef = 0; }
-	:	'typedef' declarationSpecifiers? {$Typedef::isTypedef=1;} initDeclaratorList? ';'
+//scope Typedef;
+//@init { $Typedef::isTypedef = 0; }
+        :	'typedef' declarationSpecifiers? /*{$Typedef::isTypedef=1;}*/ initDeclaratorList? ';'
 		  // special case, looking for typedef
 	|	declarationSpecifiers initDeclaratorList? ';'
 	;
@@ -294,9 +297,9 @@ typeSpecifier		// (6.7.2)
         ;
 
 structOrUnionSpecifier // (6.7.2.1)
-options{k=3;}
-scope Symbols; // structs are scopes
-@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
+//options{k=3;}
+//scope Symbols; // structs are scopes
+//@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
 	:	structOrUnion IDENTIFIER? '{' structDeclaration* '}'
 	|	structOrUnion IDENTIFIER
 	;
@@ -367,24 +370,24 @@ declarator
 	;
 
 directDeclarator
-@init {_Bool wasTypedef=0;}
-@after {if (wasTypedef) $Typedef::isTypedef=1;}
+/*@init {_Bool wasTypedef=0;}
+@after {if (wasTypedef) $Typedef::isTypedef=1;}*/
 	:	 ( IDENTIFIER
-			{
+                        /*{
 			// $declaration.size() is 0 if declaration is currently not being evaluated
 			if ($Typedef->size($Typedef)>0 && $Typedef::isTypedef) {
 				pANTLR3_STRING idText = $IDENTIFIER.text;
 				$Symbols::types->put($Symbols::types, idText->chars, idText, NULL);
 			}
-			}
+                        }*/
 	|	'(' declarator ')'
 		)
 	// prevents getting function parameters into types
-	{	if ($Typedef->size($Typedef)>0 && $Typedef::isTypedef) {
+        /*{	if ($Typedef->size($Typedef)>0 && $Typedef::isTypedef) {
 			$Typedef::isTypedef = 0;
 			wasTypedef = 1;
 		}
-	}
+        }*/
 	// left factoring array declarator
 	(	'['
 		(	'static' tq=typeQualifier*  ae=assignmentExpression ']'
@@ -397,7 +400,7 @@ directDeclarator
 		|	ae=assignmentExpression? ']'
 		)
 		|	'(' parameterTypeList ')'
-		|	('(' (IDENTIFIER (',' | ')')| ')') ) => '(' identifierList? ')'
+                |	('(' (IDENTIFIER (',' | ')')| ')') ) // TODO => '(' identifierList? ')'
 	)*
 	;
 
@@ -417,7 +420,7 @@ parameterDeclaration
 	// syntactic predicate: declarator must end-up with an IDENTIFIER, abstract with pointer or '['
 	//   TODO check for correctness
 // the complicated rewrite of attributes? is necessary to remove ambiguities. If abstractDeclarator is empty, it should not have any attributes.
-	:	declarationSpecifiers ( ( pointer? ('(' pointer?)* IDENTIFIER ) => declarator | abstractDeclarator ? )
+        :	declarationSpecifiers ( ( pointer? ('(' pointer?)* IDENTIFIER ) /* TODO => declarator | abstractDeclarator ?*/ )
 	;
 
 identifierList
@@ -440,12 +443,12 @@ directAbstractDeclarator
 
 arrayOrFunctionDeclarator
 	:	'[' assignmentExpression? ']'
-	|	('[' '*' ']') => '[' '*' ']'
+        |	('[' '*' ']') // TODO => '[' '*' ']'
 	|	'(' parameterTypeList? ')'
 	;
 
 typedefName
-	:	{isTypeName(ctx, LT(1)->getText(LT(1))->chars)}? IDENTIFIER
+        :	/*{isTypeName(ctx, LT(1)->getText(LT(1))->chars)}?*/ IDENTIFIER
 	;
 
 typeofSpecifier
@@ -469,7 +472,7 @@ designation
 
 designator
 	// this semantic predicate may be expensive, backtrack+memmoize are probably better
-	:	('[' constantExpression '...') => arrayDesignator
+        :	('[' constantExpression '...') // TODO => arrayDesignator
 	|	'[' constantExpression ']'
 	|	'.' IDENTIFIER
 	;
@@ -513,7 +516,7 @@ offsetofMemberDesignator
 
 postfixExpression
 	:
-	(	('(' typeName ')') => '(' typeName ')' '{' initializerList ','? '}'
+        (	('(' typeName ')') // TODO => '(' typeName ')' '{' initializerList ','? '}'
 	|	primaryExpression
 	)
 	(	'[' expression ']'
@@ -534,9 +537,9 @@ unaryExpression
 	|	'++' unaryExpression
 	|	'--' unaryExpression
 	|	unaryOperator castExpression
-	|	('sizeof' '(' typeName ')') => 'sizeof' '(' typeName ')'
+        |	('sizeof' '(' typeName ')') // TODO => 'sizeof' '(' typeName ')'
 	|	'sizeof' unaryExpression
-	|	(('__alignof'|'__alignof__') '(' typeName ')')=> ('__alignof'|'__alignof__') '(' typeName ')'
+        |	(('__alignof'|'__alignof__') '(' typeName ')') // TODO => ('__alignof'|'__alignof__') '(' typeName ')'
 	|	('__alignof'|'__alignof__') unaryExpression
 	;
 
@@ -555,7 +558,7 @@ unaryOperator
 	;
 
 castExpression
-	:	('(' typeName ')') => '('typeName ')' ( castExpression  | '{' initializerList ','? '}' )
+        :	('(' typeName ')') // TODO => '('typeName ')' ( castExpression  | '{' initializerList ','? '}' )
 	|	unaryExpression
 	;
 
@@ -652,8 +655,8 @@ labeledStatement
 	;
 
 compoundStatement
-scope Symbols; // blocks are scopes
-@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
+//scope Symbols; // blocks are scopes
+//@init { $Symbols::types = antlr3HashTableNew(HASH_SIZE); SCOPE_TOP(Symbols)->free = freetypes; }
 	:	'{' blockItem* '}'
 	|	'{' labelDeclaration+ blockItem* '}'
 	;
@@ -674,7 +677,7 @@ expressionStatement
 	;
 
 selectionStatement
-	:	'if' '(' expression ')' the=statement (options {k=1; backtrack=false;}:'else' els=statement)?
+        :	'if' '(' expression ')' the=statement (/*options {k=1; backtrack=false;}:*/'else' els=statement)?
 	|	'switch' '(' expression ')' statement
 	;
 
@@ -731,7 +734,7 @@ sTRING_LITERAL
 // A.1.3 Identifiers
 
 EXTENSION	// GNU
-	:	'__extension__' {$channel=HIDDEN;}	// just ignore - see 5.28
+        :	'__extension__' -> channel(HIDDEN) // just ignore - see 5.28
 	;
 
 IDENTIFIER
@@ -879,19 +882,19 @@ FloatingSuffix
 
 // Comments - not in the grammar?
 
-WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}
+WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') -> channel(HIDDEN)
     ;
 
 COMMENT
-    :   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+    :   '/*' /*( options {greedy=false;} : . )* */ .*? '*/' -> channel(HIDDEN)
     ;
 
 LINE_COMMENT
-    : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    : '//' ~('\n'|'\r')* '\r'? '\n' -> channel(HIDDEN)
     ;
 
 // ignore #line info for now
 LINE_COMMAND
-    : '#' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+    : '#' ~('\n'|'\r')* '\r'? '\n' -> channel(HIDDEN)
     ;
 
