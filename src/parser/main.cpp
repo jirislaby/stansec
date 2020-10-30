@@ -1,22 +1,40 @@
-#include <err.h>
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <iostream>
+#include <string>
 
 #include "antlr4-runtime.h"
 #include "CLexer.h"
 #include "CParser.h"
+#include "main.h"
 
-int main(int argc, char **argv)
+std::string getParseTree(antlr4::ANTLRInputStream &input)
 {
-	antlr4::ANTLRInputStream input(std::cin);
-	CLexer lexer(&input);
-	antlr4::CommonTokenStream tokens(&lexer);
-	CParser parser(&tokens);
-	antlr4::tree::ParseTree* tree = parser.translationUnit();
+    CLexer lexer(&input);
+    antlr4::CommonTokenStream tokens(&lexer);
+    CParser parser(&tokens);
+    antlr4::tree::ParseTree* tree = parser.translationUnit();
 
-	std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+    return tree->toStringTree(&parser, true);
+}
+
+std::string getParseTree(std::istream &in)
+{
+    antlr4::ANTLRInputStream input(in);
+    return getParseTree(input);
+}
+
+std::string getParseTree(const std::string &in)
+{
+    antlr4::ANTLRInputStream input(in);
+    return getParseTree(input);
+}
+
+int __attribute__((weak)) main(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+
+    std::cout << getParseTree(std::cin) << std::endl << std::endl;
 
 	return 0;
 }

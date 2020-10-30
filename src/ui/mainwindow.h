@@ -16,7 +16,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void about();
+    void aboutQt();
+
+    void on_open();
+    void on_pbRun_clicked();
 
 private:
     Ui::MainWindow *ui;
