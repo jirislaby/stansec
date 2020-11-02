@@ -12,7 +12,7 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
     CLexer lexer(&input);
     antlr4::CommonTokenStream tokens(&lexer);
     CParser parser(&tokens);
-    antlr4::tree::ParseTree* tree = parser.translationUnit();
+    auto tree = parser.compilationUnit();
 
     return tree->toStringTree(&parser, true);
 }
@@ -29,7 +29,8 @@ std::string getParseTree(const std::string &in)
     return getParseTree(input);
 }
 
-int __attribute__((weak)) main(int argc, char **argv)
+#ifdef PARSER_STANDALONE
+int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
@@ -38,4 +39,4 @@ int __attribute__((weak)) main(int argc, char **argv)
 
 	return 0;
 }
-
+#endif

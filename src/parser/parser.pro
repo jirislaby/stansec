@@ -1,5 +1,7 @@
 TEMPLATE = lib
-CONFIG = staticlib
+CONFIG = staticlib #qt
+
+QT       += core
 
 QMAKE_CXXFLAGS += -Wno-attributes -Wno-unused-parameter
 INCLUDEPATH += generated
@@ -11,7 +13,9 @@ GRAMMARS += \
     C.g4
 
 HEADERS = \
+    CFG.h \
         main.h \
+	CFGListener.h \
         generated/CBaseListener.h \
         generated/CBaseVisitor.h \
         generated/CLexer.h \
@@ -20,7 +24,9 @@ HEADERS = \
         generated/CVisitor.h
 
 SOURCES = \
+    CFG.cpp \
         main.cpp \
+	CFGListener.cpp \
         generated/CBaseListener.cpp \
         generated/CBaseVisitor.cpp \
         generated/CLexer.cpp \
