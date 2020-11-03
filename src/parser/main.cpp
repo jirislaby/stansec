@@ -3,6 +3,7 @@
 #include <string>
 
 #include "antlr4-runtime.h"
+#include "CFGListener.h"
 #include "CLexer.h"
 #include "CParser.h"
 #include "main.h"
@@ -13,6 +14,8 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
     antlr4::CommonTokenStream tokens(&lexer);
     CParser parser(&tokens);
     auto tree = parser.compilationUnit();
+    CFGListener cfgListener;
+    antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
 
     return tree->toStringTree(&parser, true);
 }
