@@ -21,7 +21,7 @@ FORMS += \
     ../ui/mainwindow.ui
 
 TRANSLATIONS += \
-    ../../trans/stansec_cs_CZ.ts
+    ../../trans/stansec_cs.ts
 
 INCLUDEPATH += ../ui
 LIBS += -L../parser -lparser -lantlr4-runtime
