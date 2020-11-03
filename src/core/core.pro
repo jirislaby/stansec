@@ -25,6 +25,8 @@ TRANSLATIONS += \
 
 INCLUDEPATH += ../ui
 LIBS += -L../parser -lparser -lantlr4-runtime
+unix:PRE_TARGETDEPS += ../parser/libparser.a
+win32:PRE_TARGETDEPS += ../parser/parser.lib
 
 unix {
 	isEmpty(PREFIX) {

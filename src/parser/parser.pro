@@ -14,25 +14,25 @@ GRAMMARS += \
 
 HEADERS = \
     CFG.h \
-        main.h \
-	CFGListener.h \
-        generated/CBaseListener.h \
-        generated/CBaseVisitor.h \
-        generated/CLexer.h \
-        generated/CListener.h \
-        generated/CParser.h \
-        generated/CVisitor.h
+    CFGListener.h \
+    generated/CBaseListener.h \
+    generated/CBaseVisitor.h \
+    generated/CLexer.h \
+    generated/CListener.h \
+    generated/CParser.h \
+    generated/CVisitor.h \
+    parser.h
 
 SOURCES = \
     CFG.cpp \
-        main.cpp \
-	CFGListener.cpp \
-        generated/CBaseListener.cpp \
-        generated/CBaseVisitor.cpp \
-        generated/CLexer.cpp \
-        generated/CListener.cpp \
-        generated/CParser.cpp \
-        generated/CVisitor.cpp
+    parser.cpp \
+    CFGListener.cpp \
+    generated/CBaseListener.cpp \
+    generated/CBaseVisitor.cpp \
+    generated/CLexer.cpp \
+    generated/CListener.cpp \
+    generated/CParser.cpp \
+    generated/CVisitor.cpp
 
 #defineReplace(get_base) {
 #	source = $$1

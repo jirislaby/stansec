@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "../parser/main.h"
+#include "../parser/parser.h"
 
 #include <iostream>
 #include <fstream>
@@ -79,5 +79,6 @@ void MainWindow::on_pbRun_clicked()
         return;
     }
 
-    std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
+    getParseTree(cur->toPlainText().toStdString());
+    //std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
 }

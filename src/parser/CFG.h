@@ -7,7 +7,11 @@ class CFGNode {
 };
 
 class CFG {
-    CFG();
+public:
+    CFG(QString &name);
+
+private:
+    QMap<int, CFGNode> nodes;
 };
 
 #endif // CFG_H

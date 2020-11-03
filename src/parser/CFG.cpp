@@ -1,5 +1,5 @@
 #include "CFG.h"
 
-CFG::CFG()
+CFG::CFG(QString &name)
 {
 }
