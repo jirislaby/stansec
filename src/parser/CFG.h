@@ -7,7 +7,7 @@ class CFGNode {
 };
 
 class CFG {
-
+    CFG();
 };
 
 #endif // CFG_H
