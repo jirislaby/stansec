@@ -9,13 +9,16 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QString>
+#include <QStringList>
 #include <QTextCodec>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const QStringList &sources, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    for (auto file: sources)
+        open(file);
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +49,11 @@ void MainWindow::on_open()
     if (fileName.isEmpty())
         return;
 
+    open(fileName);
+}
+
+void MainWindow::open(const QString &fileName)
+{
     QFile f(fileName);
     if (!f.open(QFile::ReadOnly | QFile::Text)) {
         QMessageBox::warning(this, "Open Failed",

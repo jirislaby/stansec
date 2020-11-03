@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStringList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,7 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(const QStringList &sources, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -23,6 +24,8 @@ private slots:
     void on_pbRun_clicked();
 
 private:
+    void open(const QString &fileName);
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
