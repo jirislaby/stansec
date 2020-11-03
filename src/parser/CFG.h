@@ -1,7 +1,7 @@
 #ifndef CFG_H
 #define CFG_H
 
-//#include <QMap>
+#include <QMap>
 
 class CFGNode {
 };

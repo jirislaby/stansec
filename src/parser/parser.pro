@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG = staticlib #qt
+CONFIG += staticlib
 
 QT       += core
 
