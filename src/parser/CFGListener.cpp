@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <QString>
 
+#include "CFG.h"
+#include "CFGNode.h"
+
 CFGListener::CFGListener(antlr4::CommonTokenStream &tokens) :
     currentCFG(nullptr), tokens(tokens)
 {
@@ -12,7 +15,7 @@ void CFGListener::enterFunctionDefinition(CParser::FunctionDefinitionContext *ct
 {
     QString name(ctx->declarator()->directDeclarator()->directDeclarator()->Identifier()->getText().c_str());
     assert(!currentCFG);
-    currentCFG = new CFG(tokens, name);
+    currentCFG = new CFG(tokens, nullptr, nullptr, name);
     map.insert(name, currentCFG);
     qDebug() << __func__ << name;
 }

@@ -4,7 +4,7 @@ CONFIG += staticlib
 QT       += core
 
 QMAKE_CXXFLAGS += -Wno-attributes -Wno-unused-parameter
-INCLUDEPATH += generated
+INCLUDEPATH += generated codestructures
 
 INCLUDEPATH += /usr/include/antlr4-runtime/
 LIBS += -lantlr4-runtime
@@ -13,8 +13,10 @@ GRAMMARS += \
     C.g4
 
 HEADERS = \
-    CFG.h \
     CFGListener.h \
+    codestructures/CFG.h \
+    codestructures/CFGNode.h \
+    codestructures/CFGPart.h \
     generated/CBaseListener.h \
     generated/CBaseVisitor.h \
     generated/CLexer.h \
@@ -24,9 +26,11 @@ HEADERS = \
     parser.h
 
 SOURCES = \
-    CFG.cpp \
+    codestructures/CFGPart.cpp \
     parser.cpp \
     CFGListener.cpp \
+    codestructures/CFG.cpp \
+    codestructures/CFGNode.cpp \
     generated/CBaseListener.cpp \
     generated/CBaseVisitor.cpp \
     generated/CLexer.cpp \
