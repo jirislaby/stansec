@@ -199,17 +199,6 @@ private:
 	preds.add(pred);
     }
 
-    public void drop() {
-	preds.clear();
-	succs.clear();
-	edgeLabels.clear();
-	optPreds.clear();
-	optSuccs.clear();
-	element.clearContent();
-	element = null;
-	code = null;
-    }
-
     @Override
     public boolean equals(Object obj) {
     if (this == obj)
@@ -222,13 +211,6 @@ private:
 	if (number != other.getNumber())
 	    return false;
 	return true;
-    }
-
-    @Override
-    public int hashCode() {
-	int hash = 5;
-	hash = 59 * hash + number;
-	return hash;
     }
 
     @Override

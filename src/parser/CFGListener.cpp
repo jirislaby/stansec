@@ -20,8 +20,27 @@ void CFGListener::enterFunctionDefinition(CParser::FunctionDefinitionContext *ct
     qDebug() << __func__ << name;
 }
 
-void CFGListener::exitFunctionDefinition(CParser::FunctionDefinitionContext *)
+void CFGListener::exitFunctionDefinition(CParser::FunctionDefinitionContext */*ctx*/)
 {
+#if 0
+    auto g = CFG::createFromCFGPart(ctx->compoundStatement()->g, nullptr);
+                   $functionDefinition.start.getElement());
+    $g.setSymbols($Function::symbols);
+    CFGNode endNode = new CFGNode(xmlFactory.createElement("exit").
+                      addAttribute("bl", Integer.toString(
+                               $compoundStatement.start.getChild(0).
+                               getLine())));
+    $g.setEndNode(endNode);
+    for (CFGBreakNode n: $Function::rets)
+        n.addBreakEdge(endNode);
+    $Function::lastStatement.addEdge(endNode);
+    for (Pair<String, CFGBreakNode> gotoPair: $Function::gotos) {
+        CFGNode labelNode =
+                $Function::labels.get(gotoPair.getFirst());
+        gotoPair.getSecond().addBreakEdge(labelNode);
+    }
+#endif
+
     currentCFG = nullptr;
 }
 

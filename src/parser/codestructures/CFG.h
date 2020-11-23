@@ -23,6 +23,8 @@ public:
 
     QString toDot();
 
+    static CFG *createFromCFGPart(CFGPart *cfgPart, void *functionDefinition);
+
 protected:
     QString getFunctionName() const { return functionName; }
 

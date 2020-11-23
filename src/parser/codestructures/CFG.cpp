@@ -11,6 +11,39 @@ CFG::CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
 {
 }
 
+/**
+ * Creates a new instance of CFG
+ *
+ * @param cfgPart CFGPart to create CFG from
+ * @param functionDefinition XML representation of a function definition
+ * @return CFG created from CFGPart
+ */
+CFG *CFG::createFromCFGPart(CFGPart *cfgPart, void */*functionDefinition*/)
+{
+#if 0
+	List<Element> linear = XMLLinearizeASTElement.functionDeclaration(functionDefinition);
+	assert linear.size() > 0;
+	assert linear.get(0).getName().equals("id");
+
+	String functionName = linear.get(0).getText();
+
+	List<String> params = new ArrayList<String>();
+	for (int i = 1; i < linear.size(); ++i) {
+		assert linear.get(i).getName().equals("id");
+		params.add(linear.get(i).getText());
+	}
+#else
+    QString functionName("N/A");
+#endif
+    auto cfg = new CFG(cfgPart->getTokens(), cfgPart->getStartNode(),
+                       cfgPart->getEndNode(), functionName);
+
+	//cfg.setParams(params);
+    //cfg->functionDefinition = functionDefinition;
+
+	return cfg;
+}
+
 void CFG::addNode(CFGNode *node)
 {
     nodes.insert(node->getNumber(), node);
@@ -69,34 +102,6 @@ QString CFG::toDot()
 
 
 #if 0
-    /**
-     * Creates a new instance of CFG
-     *
-     * @param cfgPart CFGPart to create CFG from
-     * @param functionDefinition XML representation of a function definition
-     * @return CFG created from CFGPart
-     */
-    public static CFG createFromCFGPart(CFGPart cfgPart,
-		Element functionDefinition) {
-
-	List<Element> linear = XMLLinearizeASTElement.functionDeclaration(functionDefinition);
-	assert linear.size() > 0;
-	assert linear.get(0).getName().equals("id");
-
-	String functionName = linear.get(0).getText();
-
-	List<String> params = new ArrayList<String>();
-	for (int i = 1; i < linear.size(); ++i) {
-	    assert linear.get(i).getName().equals("id");
-	    params.add(linear.get(i).getText());
-	}
-
-	CFG cfg = new CFG(cfgPart.getStartNode(), cfgPart.getEndNode(), functionName);
-	cfg.setParams(params);
-	cfg.functionDefinition = functionDefinition;
-	return cfg;
-    }
-
     protected Element getElement() {
         if (functionDefinition != null && !functionDefinition.getName().equals("functionDefinition"))
 	    throw new UnsupportedOperationException(
