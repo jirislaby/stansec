@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    //antlr4::tree::ParseTreeProperty<> props;
+    antlr4::tree::ParseTreeProperty<CFGPart *> cfgs;
     QMap<QString, CFG *> map;
     CFG *currentCFG;
 

@@ -1,5 +1,7 @@
 #include <antlr4-runtime.h>
 
+#include <QDebug>
+
 #include "CFGNode.h"
 #include "CFGPart.h"
 
@@ -13,14 +15,14 @@ CFGPart::CFGPart(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
  * Appends one CFG to the another
  * @param g a CFG to append at the end of this instance
  */
-void CFGPart::append(CFGPart &g) {
+void CFGPart::append(CFGPart *g) {
     if (isEmpty()) {
-        setStartNode(g.getStartNode());
-        setEndNode(g.getEndNode());
+        setStartNode(g->getStartNode());
+        setEndNode(g->getEndNode());
         return;
     }
-    getEndNode()->addEdge(g.getStartNode());
-    setEndNode(g.getEndNode());
+    getEndNode()->addEdge(g->getStartNode());
+    setEndNode(g->getEndNode());
 }
 
 /**
@@ -37,51 +39,120 @@ void CFGPart::append(CFGNode *n) {
     setEndNode(n);
 }
 
+/**
+ * @brief Converts CFGPart to a dot graph representation
+ *
+ * Useful for dumping cfgs to a file and generating e.g. PostScript from it.
+ * See Graphviz software.
+ *
+ * @return dot representation stored in a string
+ */
+QString CFGPart::toDot()
+{
+    auto allNodes = getAllNodesOpt();
+    QString sb("digraph CFG {");
+
+    sb.append("\n\tnode [shape=box];\n");
+
+    for (auto n: allNodes) {
+        sb.append('\t').
+            append(QString::number(n->getNumber()));
 #if 0
-    private Set<CFGNode> getAllNodes(boolean optimized) {
-	Set<CFGNode> nodesToDo = new HashSet<CFGNode>();
-	Set<CFGNode> nodesDone = new LinkedHashSet<CFGNode>();
-
-	nodesToDo.add(getStartNode());
-
-	while (!nodesToDo.isEmpty()) {
-	    CFGNode node = nodesToDo.iterator().next();
-	    nodesToDo.remove(node);
-
-	    nodesDone.add(node);
-
-	    for (CFGNode succ : node.getSuccessors())
-		if (!nodesDone.contains(succ))
-		    nodesToDo.add(succ);
-	    if (!optimized)
-		continue;
-	    for (CFGNode succ : node.getOptSuccessors())
-		if (!nodesDone.contains(succ))
-		    nodesToDo.add(succ);
-	}
-
-	/* endNode might be unavailable, add it unconditionally */
-	nodesDone.add(getEndNode());
-
-	return nodesDone;
+        Element e = n.getElement();
+        if (e != null) {
+            sb.append(" [label=\"");
+            sb.append(n.getNumber());
+            sb.append(": ");
+            String label = e.getName();
+            if (e.getName().equals("functionCall")) {
+                Element funName = (Element)e.node(0);
+                if (funName != null)
+                    label = funName.getText();
+            }
+            sb.append(label);
+            sb.append("\"];");
+        }
+#else
+            sb.append(" [label=\"").
+                append(QString::number(n->getNumber())).
+                append(": ").
+                append(n->getCode()).
+                append("\"];");
+#endif
+        sb.append('\n');
     }
 
-    /**
-     * Returns all nodes in this CFG
-     * @return list of all nodes
-     */
-    public Set<CFGNode> getAllNodes() {
-	return getAllNodes(false);
+    for (auto from: allNodes) {
+        buildArcs(sb, from, false);
+        buildArcs(sb, from, true);
     }
 
-    /**
-     * Returns all nodes in this CFG including optimized ones
-     * @return list of all nodes
-     */
-    public Set<CFGNode> getAllNodesOpt() {
-	return getAllNodes(true);
+    sb.append("}");
+
+    return sb;
+}
+
+QSet<CFGNode *> CFGPart::getAllNodes(bool optimized) {
+    QSet<CFGNode *> nodesToDo;
+    QSet<CFGNode *> nodesDone;
+
+    if (!getStartNode()) {
+        qWarning() << "no start node!";
+        return nodesDone;
     }
 
+    nodesToDo.insert(getStartNode());
+
+    while (!nodesToDo.isEmpty()) {
+        auto node = *nodesToDo.begin();
+        nodesToDo.remove(node);
+
+        nodesDone.insert(node);
+
+        for (auto succ : node->getSuccessors())
+            if (!nodesDone.contains(succ))
+                nodesToDo.insert(succ);
+        if (!optimized)
+            continue;
+        for (auto succ : node->getOptSuccessors())
+            if (!nodesDone.contains(succ))
+                nodesToDo.insert(succ);
+    }
+
+    /* endNode might be unavailable, add it unconditionally */
+    nodesDone.insert(getEndNode());
+
+    return nodesDone;
+}
+
+void CFGPart::buildArcs(QString &sb, CFGNode *from, bool optimized)
+{
+    //int edge = 0;
+
+    for (auto succ: optimized ? from->getOptSuccessors() : from->getSuccessors()) {
+        sb.append('\t').append(QString::number(from->getNumber())).
+                append(" -> ").
+                append(QString::number(succ->getNumber()));
+#if 0
+        Object edgeLabel = from->getEdgeLabel(edge);
+        if (edgeLabel instanceof Element) {
+            sb.append(" [label=\"");
+            Element label = (Element)edgeLabel;
+            if (label.getName().equals("intConst"))
+                sb.append(label.getText());
+            else
+                sb.append(label.getName());
+            sb.append("\"]");
+            edge++;
+        }
+#endif
+        if (optimized)
+            sb.append(" [style=dashed]");
+        sb.append(';').append('\n');
+    }
+}
+
+#if 0
     public Set<CFGNode> getAllNodesReverse() {
 	Set<CFGNode> nodesToDo = new HashSet<CFGNode>();
 	Set<CFGNode> nodesDone = new LinkedHashSet<CFGNode>();
@@ -115,25 +186,6 @@ void CFGPart::append(CFGNode *n) {
 	    n.drop();
 	setStartNode(null);
 	setEndNode(null);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	return true;
-    }
-
-    @Override
-    public int hashCode() {
-	int hash = super.hashCode();
-	hash = 5 * hash + getStartNode().getNumber();
-	hash = 7 * hash + getEndNode().getNumber();
-	return hash;
     }
 
     @Override
@@ -183,77 +235,5 @@ void CFGPart::append(CFGNode *n) {
 
 	return sb.toString();
     }
-
-    /**
-     * @brief Converts CFGPart to a dot graph representation
-     *
-     * Useful for dumping cfgs to a file and generating e.g. PostScript from it.
-     * See Graphviz software.
-     *
-     * @return dot representation stored in a string
-     */
-    public String toDot() {
-	String eol = System.getProperty("line.separator");
-	StringBuilder sb = new StringBuilder("digraph CFG {");
-	Set<CFGNode> allNodes = getAllNodesOpt();
-
-	sb.append(eol);
-	sb.append("\tnode [shape=box];");
-	sb.append(eol);
-
-	for (CFGNode n: allNodes) {
-	    sb.append('\t');
-	    sb.append(n.getNumber());
-	    Element e = n.getElement();
-	    if (e != null) {
-		sb.append(" [label=\"");
-		sb.append(n.getNumber());
-		sb.append(": ");
-		String label = e.getName();
-		if (e.getName().equals("functionCall")) {
-		    Element funName = (Element)e.node(0);
-		    if (funName != null)
-			label = funName.getText();
-		}
-		sb.append(label);
-		sb.append("\"];");
-	    }
-	    sb.append(eol);
-	}
-
-	for (CFGNode from: allNodes) {
-	    buildArcs(sb, from, false, eol);
-	    buildArcs(sb, from, true, eol);
-	}
-
-	sb.append("}");
-
-	return sb.toString();
-    }
-
-    private void buildArcs(StringBuilder sb, CFGNode from, boolean optimized,
-	    String eol) {
-	int edge = 0;
-	for (CFGNode succ: optimized ? from.getOptSuccessors() :
-		from.getSuccessors()) {
-	    sb.append('\t').append(from.getNumber()).append(" -> ").
-		    append(succ.getNumber());
-	    Object edgeLabel = from.getEdgeLabel(edge);
-	    if (edgeLabel instanceof Element) {
-		sb.append(" [label=\"");
-		Element label = (Element)edgeLabel;
-		if (label.getName().equals("intConst"))
-		    sb.append(label.getText());
-		else
-		    sb.append(label.getName());
-		sb.append("\"]");
-		edge++;
-	    }
-	    if (optimized)
-		sb.append(" [style=dashed]");
-	    sb.append(';').append(eol);
-	}
-    }
-}
 
 #endif

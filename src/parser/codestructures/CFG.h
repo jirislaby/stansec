@@ -4,7 +4,6 @@
 #include <antlr4-runtime.h>
 
 #include <QList>
-#include <QMap>
 #include <QSet>
 
 #include "CFGPart.h"
@@ -16,12 +15,8 @@ public:
     CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
 		    CFGNode *endNode, QString &functionName);
 
-    void addNode(CFGNode *);
-
     QString getRetVar() const { return retvar; }
     void setRetVar(QString &value) { retvar = value; }
-
-    QString toDot();
 
     static CFG *createFromCFGPart(CFGPart *cfgPart, void *functionDefinition);
 
@@ -30,8 +25,6 @@ protected:
 
 
 private:
-    QMap<unsigned int, CFGNode *> nodes;
-
     const QString functionName;
     QList<QString> params;
     QSet<QString> localSymbols;

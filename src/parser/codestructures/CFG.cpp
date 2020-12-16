@@ -44,63 +44,6 @@ CFG *CFG::createFromCFGPart(CFGPart *cfgPart, void */*functionDefinition*/)
 	return cfg;
 }
 
-void CFG::addNode(CFGNode *node)
-{
-    nodes.insert(node->getNumber(), node);
-
-    if (!startNode) {
-        startNode = node;
-        return;
-    }
-
-    startNode->addSucc(node);
-}
-
-QString CFG::toDot()
-{
-    QString sb("digraph CFG {");
-
-    sb.append("\n\tnode [shape=box];\n");
-
-    foreach (auto n, nodes) {
-        sb.append('\t').
-            append(QString::number(n->getNumber()));
-#if 0
-        Element e = n.getElement();
-        if (e != null) {
-            sb.append(" [label=\"");
-            sb.append(n.getNumber());
-            sb.append(": ");
-            String label = e.getName();
-            if (e.getName().equals("functionCall")) {
-                Element funName = (Element)e.node(0);
-                if (funName != null)
-                    label = funName.getText();
-            }
-            sb.append(label);
-            sb.append("\"];");
-        }
-#else
-            sb.append(" [label=\"").
-                append(QString::number(n->getNumber())).
-                append(": ").
-                append(n->getCode()).
-                append("\"];");
-#endif
-        sb.append('\n');
-    }
-
-    /*for (CFGNode from: allNodes) {
-        buildArcs(sb, from, false, eol);
-        buildArcs(sb, from, true, eol);
-    }*/
-
-    sb.append("}");
-
-    return sb;
-}
-
-
 #if 0
     protected Element getElement() {
         if (functionDefinition != null && !functionDefinition.getName().equals("functionDefinition"))

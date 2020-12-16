@@ -24,7 +24,7 @@ CFGNode::Operand::Operand(QString &type, void *id) :
 
 unsigned CFGNode::numberCounter;
 
-CFGNode::CFGNode(CFG *cfg, const antlr4::misc::Interval &intvl) :
+CFGNode::CFGNode(CFGPart *cfg, const antlr4::misc::Interval &intvl) :
     cfg(cfg), intvl(intvl), number(getNextNumber()), visible(true)
 {
 }

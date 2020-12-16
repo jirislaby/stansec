@@ -6,7 +6,7 @@
 #include <QList>
 #include <QString>
 
-class CFG;
+class CFGPart;
 
 /**
  * CFGNode -- Represents a node in control-flow graph (class ControlFlowGraph
@@ -48,7 +48,7 @@ public:
 	    void *id;
     };
 
-    CFGNode(CFG *cfg, const antlr4::misc::Interval &intvl);
+    CFGNode(CFGPart *cfg, const antlr4::misc::Interval &intvl);
 
     void addSucc(CFGNode *node) { succs.append(node); }
     void addPred(CFGNode *node) { preds.append(node); }
@@ -78,6 +78,11 @@ public:
     void replaceEdge(CFGNode *oldTo, CFGNode *newTo);
     void replaceOptEdge(CFGNode *oldTo, CFGNode *newTo);
 
+    const QList<CFGNode *> getPredecessors()	{ return preds; }
+    const QList<CFGNode *> getSuccessors()		{ return succs; }
+    const QList<CFGNode *> getOptPredecessors()	{ return optPreds; }
+    const QList<CFGNode *> getOptSuccessors()	{ return optSuccs; }
+
     static unsigned int getNextNumber() { return numberCounter++; }
 
 protected:
@@ -86,7 +91,7 @@ protected:
 private:
     static unsigned int numberCounter;
 
-    CFG *cfg;
+    CFGPart *cfg;
     const antlr4::misc::Interval intvl;
     unsigned int number;
 
@@ -136,38 +141,6 @@ private:
 	for (Operand op : operands)
 	    res.addAll(getDependentVars(op));
 	return res;
-    }
-
-    /**
-     * Get all predecessors of the node
-     * @return (read only) set of this node's predecessors
-     */
-    public List<CFGNode> getPredecessors() {
-	return Collections.unmodifiableList(preds);
-    }
-
-    /**
-     * Get all successors of the node
-     * @return (read only) set of this node's successors
-     */
-    public List<CFGNode> getSuccessors() {
-	return Collections.unmodifiableList(succs);
-    }
-
-    /**
-     * Get all predecessors of the node
-     * @return (read only) set of this node's predecessors
-     */
-    public List<CFGNode> getOptPredecessors() {
-	return Collections.unmodifiableList(optPreds);
-    }
-
-    /**
-     * Get all successors of the node
-     * @return (read only) set of this node's successors
-     */
-    public List<CFGNode> getOptSuccessors() {
-	return Collections.unmodifiableList(optSuccs);
     }
 
     public List<Operand> getOperands() {

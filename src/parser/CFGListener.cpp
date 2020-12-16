@@ -57,5 +57,14 @@ void CFGListener::enterExpression(CParser::ExpressionContext *)
 
 void CFGListener::exitExpression(CParser::ExpressionContext *ctx)
 {
-    currentCFG->addNode(new CFGNode(currentCFG, ctx->getSourceInterval()));
+    auto cfg = new CFGPart(tokens);
+
+    cfgs.put(ctx, cfg);
+
+    if (ctx->expression())
+        cfg->append(cfgs.get(ctx->expression()));
+
+    cfg->append(new CFGNode(cfg, ctx->assignmentExpression()->getSourceInterval()));
+    qDebug() << ctx->getText().c_str() << "->";
+    qDebug().noquote() << cfg->toDot();
 }
