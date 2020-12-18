@@ -11,6 +11,12 @@ CFG::CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
 {
 }
 
+CFG::~CFG()
+{
+    for (auto n: getAllNodes())
+        delete n;
+}
+
 /**
  * Creates a new instance of CFG
  *
@@ -40,6 +46,8 @@ CFG *CFG::createFromCFGPart(CFGPart *cfgPart, void */*functionDefinition*/)
 
 	//cfg.setParams(params);
     //cfg->functionDefinition = functionDefinition;
+
+    delete cfgPart;
 
 	return cfg;
 }

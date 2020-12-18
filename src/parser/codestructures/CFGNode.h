@@ -48,13 +48,14 @@ public:
 	    void *id;
     };
 
-    CFGNode(CFGPart *cfg, const antlr4::misc::Interval &intvl);
+    CFGNode(const antlr4::misc::Interval &intvl);
+    ~CFGNode();
 
     void addSucc(CFGNode *node) { succs.append(node); }
     void addPred(CFGNode *node) { preds.append(node); }
 
     antlr4::misc::Interval getIntvl() const { return intvl; }
-    QString getCode() const;
+    QString getCode(const CFGPart *cfg) const;
     unsigned int getNumber() const { return number; }
 
     unsigned int getColumn() const { return column; }
@@ -91,7 +92,6 @@ protected:
 private:
     static unsigned int numberCounter;
 
-    CFGPart *cfg;
     const antlr4::misc::Interval intvl;
     unsigned int number;
 

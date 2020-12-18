@@ -14,6 +14,7 @@ class CFG : public CFGPart {
 public:
     CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
 		    CFGNode *endNode, QString &functionName);
+    ~CFG();
 
     QString getRetVar() const { return retvar; }
     void setRetVar(QString &value) { retvar = value; }

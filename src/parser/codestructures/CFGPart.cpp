@@ -23,6 +23,7 @@ void CFGPart::append(CFGPart *g) {
     }
     getEndNode()->addEdge(g->getStartNode());
     setEndNode(g->getEndNode());
+    delete g;
 }
 
 /**
@@ -76,7 +77,7 @@ QString CFGPart::toDot()
             sb.append(" [label=\"").
                 append(QString::number(n->getNumber())).
                 append(": ").
-                append(n->getCode()).
+                append(n->getCode(this)).
                 append("\"];");
 #endif
         sb.append('\n');

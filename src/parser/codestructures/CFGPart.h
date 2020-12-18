@@ -42,8 +42,6 @@ protected:
     CFGNode *endNode;
 
 private:
-    QSet<CFGNode> getAllNodes();
-
     void buildArcs(QString &sb, CFGNode *from, bool optimized);
 };
 

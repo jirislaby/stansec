@@ -24,12 +24,18 @@ CFGNode::Operand::Operand(QString &type, void *id) :
 
 unsigned CFGNode::numberCounter;
 
-CFGNode::CFGNode(CFGPart *cfg, const antlr4::misc::Interval &intvl) :
-    cfg(cfg), intvl(intvl), number(getNextNumber()), visible(true)
+CFGNode::CFGNode(const antlr4::misc::Interval &intvl) :
+    intvl(intvl), number(getNextNumber()), visible(true)
 {
 }
 
-QString CFGNode::getCode() const
+CFGNode::~CFGNode()
+{
+    for (auto el: edgeLabels)
+        delete el;
+}
+
+QString CFGNode::getCode(const CFGPart *cfg) const
 {
     return QString(cfg->getTokens().getText(intvl).c_str());
 }

@@ -11,13 +11,29 @@ class CFGListener : public CBaseListener {
 
 public:
     CFGListener(antlr4::CommonTokenStream &tokens);
+    ~CFGListener();
 
     void enterFunctionDefinition(CParser::FunctionDefinitionContext *) override;
     void exitFunctionDefinition(CParser::FunctionDefinitionContext *) override;
     void enterEveryRule(antlr4::ParserRuleContext *) override;
 
-    void enterExpression(CParser::ExpressionContext *) override;
+    void exitCompoundStatement(CParser::CompoundStatementContext *) override;
+    void exitBlockItemList(CParser::BlockItemListContext *) override;
+    void exitBlockItem(CParser::BlockItemContext *) override;
+
+    void exitStatement(CParser::StatementContext *) override;
+    void exitExpressionStatement(CParser::ExpressionStatementContext *) override;
+    void exitJumpStatement(CParser::JumpStatementContext *) override;
+
+    void exitAssignmentExpression(CParser::AssignmentExpressionContext *) override;
     void exitExpression(CParser::ExpressionContext *) override;
+
+    void exitDeclaration(CParser::DeclarationContext *) override;
+    void exitInitDeclaratorList(CParser::InitDeclaratorListContext *) override;
+    void exitInitDeclarator(CParser::InitDeclaratorContext *) override;
+
+    /*void exitInitializerList(CParser::InitializerListContext *) override;
+    void exitInitializer(CParser::InitializerContext *) override;*/
 
     QString getDot(const QString &fun) {
         const auto cfg = map[fun];
@@ -27,7 +43,7 @@ public:
 private:
     antlr4::tree::ParseTreeProperty<CFGPart *> cfgs;
     QMap<QString, CFG *> map;
-    CFG *currentCFG;
+    //CFG *currentCFG;
 
     antlr4::CommonTokenStream &tokens;
 };
