@@ -93,6 +93,23 @@ void CFGListener::exitExpressionStatement(CParser::ExpressionStatementContext *c
         cfgs.put(ctx, cfgs.removeFrom(e));
 }
 
+void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx)
+{
+    auto cfg = new CFGPart(tokens);
+    cfgs.put(ctx, cfg);
+
+    if (ctx->If()) {
+        auto e = ctx->expression();
+        auto s1 = ctx->statement(0);
+        auto s2 = ctx->statement(1);
+        qDebug() << "if" << e->getText().c_str() <<
+                    "then" << s1->getText().c_str() <<
+                    "else" << s2->getText().c_str();
+        cfg->append(cfgs.removeFrom(e));
+        return;
+    }
+}
+
 void CFGListener::exitJumpStatement(CParser::JumpStatementContext *ctx)
 {
     auto cfg = new CFGPart(tokens);

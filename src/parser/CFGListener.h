@@ -23,6 +23,7 @@ public:
 
     void exitStatement(CParser::StatementContext *) override;
     void exitExpressionStatement(CParser::ExpressionStatementContext *) override;
+    void exitSelectionStatement(CParser::SelectionStatementContext *) override;
     void exitJumpStatement(CParser::JumpStatementContext *) override;
 
     void exitAssignmentExpression(CParser::AssignmentExpressionContext *) override;
