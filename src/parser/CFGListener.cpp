@@ -7,7 +7,7 @@
 #include "CFGNode.h"
 
 CFGListener::CFGListener(antlr4::CommonTokenStream &tokens) :
-    tokens(tokens)
+    currentCFG(nullptr), tokens(tokens)
 {
 }
 
@@ -97,7 +97,9 @@ void CFGListener::exitJumpStatement(CParser::JumpStatementContext *ctx)
 {
     auto cfg = new CFGPart(tokens);
     cfgs.put(ctx, cfg);
-    cfg->append(new CFGNode(ctx->getSourceInterval()));
+    /* drop semicolon */
+    auto i = ctx->getSourceInterval();
+    cfg->append(new CFGNode(antlr4::misc::Interval(i.a, i.b - 1)));
 }
 
 void CFGListener::exitAssignmentExpression(CParser::AssignmentExpressionContext *ctx)
@@ -119,17 +121,25 @@ void CFGListener::exitExpression(CParser::ExpressionContext *ctx)
     //qDebug().noquote() << cfg->toDot();
 }
 
+void CFGListener::enterDeclaration(CParser::DeclarationContext *ctx)
+{
+    Q_UNUSED(ctx);
+
+    currentCFG = new CFGPart(tokens);
+}
+
 void CFGListener::exitDeclaration(CParser::DeclarationContext *ctx)
 {
-    if (auto idl = ctx->initDeclaratorList())
-        if (auto idlCfg = cfgs.get(idl))
-            cfgs.put(ctx, idlCfg);
+    cfgs.put(ctx, currentCFG);
+    currentCFG = nullptr;
 
     qDebug() << __func__ << ctx->getText().c_str();
 }
 
 void CFGListener::exitInitDeclaratorList(CParser::InitDeclaratorListContext *ctx)
 {
+    Q_UNUSED(ctx);
+#if 0
     auto cfg = cfgs.removeFrom(ctx->initDeclarator());
 
     if (auto idl = ctx->initDeclaratorList()) {
@@ -143,6 +153,7 @@ void CFGListener::exitInitDeclaratorList(CParser::InitDeclaratorListContext *ctx
 
     if (cfg)
         cfgs.put(ctx, cfg);
+#endif
 }
 
 void CFGListener::exitInitDeclarator(CParser::InitDeclaratorContext *ctx)
@@ -150,10 +161,10 @@ void CFGListener::exitInitDeclarator(CParser::InitDeclaratorContext *ctx)
     if (!ctx->initializer())
         return;
 
-    auto cfg = new CFGPart(tokens);
-    cfgs.put(ctx, cfg);
+    /*auto cfg = new CFGPart(tokens);
+    cfgs.put(ctx, cfg);*/
 
-    cfg->append(new CFGNode(ctx->getSourceInterval()));
+    currentCFG->append(new CFGNode(ctx->getSourceInterval()));
 }
 
 #if 0

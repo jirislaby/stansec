@@ -28,6 +28,7 @@ public:
     void exitAssignmentExpression(CParser::AssignmentExpressionContext *) override;
     void exitExpression(CParser::ExpressionContext *) override;
 
+    void enterDeclaration(CParser::DeclarationContext *) override;
     void exitDeclaration(CParser::DeclarationContext *) override;
     void exitInitDeclaratorList(CParser::InitDeclaratorListContext *) override;
     void exitInitDeclarator(CParser::InitDeclaratorContext *) override;
@@ -43,7 +44,7 @@ public:
 private:
     antlr4::tree::ParseTreeProperty<CFGPart *> cfgs;
     QMap<QString, CFG *> map;
-    //CFG *currentCFG;
+    CFGPart *currentCFG;
 
     antlr4::CommonTokenStream &tokens;
 };

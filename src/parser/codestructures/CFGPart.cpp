@@ -19,10 +19,11 @@ void CFGPart::append(CFGPart *g) {
     if (isEmpty()) {
         setStartNode(g->getStartNode());
         setEndNode(g->getEndNode());
-        return;
+    } else if (!g->isEmpty()) {
+        getEndNode()->addEdge(g->getStartNode());
+        setEndNode(g->getEndNode());
     }
-    getEndNode()->addEdge(g->getStartNode());
-    setEndNode(g->getEndNode());
+
     delete g;
 }
 

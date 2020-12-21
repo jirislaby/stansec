@@ -5,6 +5,8 @@
 #include <antlr4-runtime.h>
 
 #include <QDebug>
+#include <QFile>
+#include <QProcess>
 
 #include "CFGListener.h"
 #include "CLexer.h"
@@ -20,7 +22,16 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
     CFGListener cfgListener(tokens);
     antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
 
-    qDebug().noquote() << cfgListener.getDot("main");
+    auto dot = cfgListener.getDot("main");
+    qDebug().noquote() << dot;
+
+    QFile file("main.dot");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << dot;
+        file.close();
+        QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << "main.dot");
+    }
 
     return tree->toStringTree(&parser, true);
 }

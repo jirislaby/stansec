@@ -37,7 +37,26 @@ CFGNode::~CFGNode()
 
 QString CFGNode::getCode(const CFGPart *cfg) const
 {
-    return QString(cfg->getTokens().getText(intvl).c_str());
+    static const QChar noSpace[] = { ';', '(', ')' };
+    QString ret;
+
+    for (auto tok: cfg->getTokens().getTokens(intvl.a, intvl.b)) {
+        QString tokStr(tok->getText().c_str());
+        if (!ret.isEmpty()) {
+            bool addSpace = true;
+            for (auto ch: noSpace)
+                if (tokStr == ch) {
+                    addSpace = false;
+                    break;
+                }
+            if (addSpace)
+                ret.append(' ');
+        }
+        ret.append(tokStr);
+    }
+
+    return ret;
+    //return QString(cfg->getTokens().getText(intvl).c_str());
 }
 
 /**
