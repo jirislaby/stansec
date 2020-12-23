@@ -93,19 +93,39 @@ void CFGListener::exitExpressionStatement(CParser::ExpressionStatementContext *c
         cfgs.put(ctx, cfgs.removeFrom(e));
 }
 
+CFGNode *CFGListener::buildAssert(antlr4::ParserRuleContext *ctx, bool branch)
+{
+    return new CFGAssertNode(ctx->getSourceInterval(), !branch);
+}
+
 void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx)
 {
-    auto cfg = new CFGPart(tokens);
-    cfgs.put(ctx, cfg);
-
     if (ctx->If()) {
+        auto joinN = new CFGJoinNode(ctx->getSourceInterval());
         auto e = ctx->expression();
-        auto s1 = ctx->statement(0);
-        auto s2 = ctx->statement(1);
-        qDebug() << "if" << e->getText().c_str() <<
-                    "then" << s1->getText().c_str() <<
-                    "else" << s2->getText().c_str();
-        cfg->append(cfgs.removeFrom(e));
+        auto eCFG = cfgs.removeFrom(e);
+        auto endECFG = eCFG->getEndNode();
+
+        /* true */
+        auto s1C = cfgs.removeFrom(ctx->statement(0));
+        auto assTrue = buildAssert(e, true);
+        endECFG->addEdge(assTrue);
+        assTrue->addEdge(s1C->getStartNode());
+        s1C->getEndNode()->addEdge(joinN);
+        delete s1C;
+
+        /* false */
+        if (auto s2 = ctx->statement(1)) {
+            auto s2C = cfgs.removeFrom(s2);
+            auto assFalse = buildAssert(e, false);
+            endECFG->addEdge(assFalse);
+            assFalse->addEdge(s2C->getStartNode());
+            s2C->getEndNode()->addEdge(joinN);
+            delete s2C;
+        }
+
+        eCFG->setEndNode(joinN);
+        cfgs.put(ctx, eCFG);
         return;
     }
 }

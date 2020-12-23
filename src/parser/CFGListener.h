@@ -48,6 +48,8 @@ private:
     CFGPart *currentCFG;
 
     antlr4::CommonTokenStream &tokens;
+
+    static CFGNode *buildAssert(antlr4::ParserRuleContext *ctx, bool neg);
 };
 
 #endif

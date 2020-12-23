@@ -131,3 +131,19 @@ void CFGNode::removeSucc(int index) {
     succs.removeAt(index);
 }
 
+QString CFGAssertNode::getCode(const CFGPart *cfg) const
+{
+    QString ret("assert(");
+
+    if (neg)
+        ret.append("!(");
+
+    ret.append(CFGNode::getCode(cfg));
+
+    if (neg)
+        ret.append(')');
+
+    ret.append(')');
+
+    return ret;
+}

@@ -49,13 +49,13 @@ public:
     };
 
     CFGNode(const antlr4::misc::Interval &intvl);
-    ~CFGNode();
+    virtual ~CFGNode();
 
     void addSucc(CFGNode *node) { succs.append(node); }
     void addPred(CFGNode *node) { preds.append(node); }
 
     antlr4::misc::Interval getIntvl() const { return intvl; }
-    QString getCode(const CFGPart *cfg) const;
+    virtual QString getCode(const CFGPart *cfg) const;
     unsigned int getNumber() const { return number; }
 
     unsigned int getColumn() const { return column; }
@@ -110,6 +110,23 @@ private:
     unsigned int column;
     bool visible;
 
+};
+
+class CFGJoinNode : public CFGNode {
+public:
+    CFGJoinNode(const antlr4::misc::Interval &intvl) : CFGNode(intvl) {};
+
+    QString getCode(const CFGPart *) const override { return "JOIN"; }
+};
+
+class CFGAssertNode : public CFGNode {
+public:
+    CFGAssertNode(const antlr4::misc::Interval &intvl, bool neg) :
+        CFGNode(intvl), neg(neg) {};
+
+    QString getCode(const CFGPart *) const override;
+private:
+    bool neg;
 };
 
 #if 0
