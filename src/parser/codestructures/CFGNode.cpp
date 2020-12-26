@@ -74,7 +74,7 @@ void CFGNode::addEdge(CFGNode *to)
  * Adds an edge between two nodes
  * @param to which node to add the edge to
  */
-void CFGNode::addEdge(CFGNode *to, void *label)
+void CFGNode::addEdge(CFGNode *to, const QString &label)
 {
     succs.append(to);
     edgeLabels.append(new EdgeLabel(0, label));
@@ -85,7 +85,7 @@ void CFGNode::addEdge(CFGNode *to, void *label)
  * Adds an edge between two nodes
  * @param to which node to add the edge to
  */
-void CFGNode::addEdge(CFGNode *to, unsigned int edgeIndex, void *label)
+void CFGNode::addEdge(CFGNode *to, unsigned int edgeIndex, const QString &label)
 {
     succs.append(to);
     edgeLabels.append(new EdgeLabel(edgeIndex, label));

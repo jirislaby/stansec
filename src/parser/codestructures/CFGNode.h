@@ -18,16 +18,15 @@ public:
     class EdgeLabel final {
     public:
 	    unsigned int edgeIndex;
-	    void *cond;
+        QString cond;
 
-	    EdgeLabel() : edgeIndex(0), cond(nullptr) { }
+        EdgeLabel() : edgeIndex(0) { }
 
-        EdgeLabel(unsigned int edgeIndex, void *cond)
+        EdgeLabel(unsigned int edgeIndex, const QString &cond)
 		    : edgeIndex(edgeIndex), cond(cond) { }
 
 	    QString toString() const {
-		    return "(" + QString::number(edgeIndex) + ", " +
-			    /*cond.toString() +*/ ")";
+            return "(" + QString::number(edgeIndex) + ", " + cond + ")";
 	    }
     };
 
@@ -70,11 +69,11 @@ public:
      * @param edge edge index
      * @return element which is the label
      */
-    void *getEdgeLabel(unsigned int edge) const { return edgeLabels[edge]; }
+    EdgeLabel *getEdgeLabel(unsigned int edge) const { return edgeLabels[edge]; }
 
     void addEdge(CFGNode *to);
-    void addEdge(CFGNode *to, void *label);
-    void addEdge(CFGNode *to, unsigned int edgeIndex, void *label);
+    void addEdge(CFGNode *to, const QString &label);
+    void addEdge(CFGNode *to, unsigned int edgeIndex, const QString &label);
     void addOptEdge(CFGNode *to);
     void replaceEdge(CFGNode *oldTo, CFGNode *newTo);
     void replaceOptEdge(CFGNode *oldTo, CFGNode *newTo);

@@ -109,25 +109,83 @@ void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx
         /* true */
         auto s1C = cfgs.removeFrom(ctx->statement(0));
         auto assTrue = buildAssert(e, true);
-        endECFG->addEdge(assTrue);
+        endECFG->addEdge(assTrue, "true");
         assTrue->addEdge(s1C->getStartNode());
         s1C->getEndNode()->addEdge(joinN);
         delete s1C;
 
         /* false */
+        auto assFalse = buildAssert(e, false);
+        endECFG->addEdge(assFalse, "false");
         if (auto s2 = ctx->statement(1)) {
             auto s2C = cfgs.removeFrom(s2);
-            auto assFalse = buildAssert(e, false);
-            endECFG->addEdge(assFalse);
             assFalse->addEdge(s2C->getStartNode());
             s2C->getEndNode()->addEdge(joinN);
             delete s2C;
-        }
+        } else
+            assFalse->addEdge(joinN);
 
         eCFG->setEndNode(joinN);
         cfgs.put(ctx, eCFG);
         return;
     }
+}
+
+void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx)
+{
+    auto cfg = new CFGPart(tokens);
+    cfgs.put(ctx, cfg);
+
+    if (ctx->For()) {
+        if (auto init = ctx->forCondition()->forDeclaration())
+            cfg->append(cfgs.removeFrom(init));
+        if (auto init = ctx->forCondition()->expression())
+            cfg->append(cfgs.removeFrom(init));
+
+        auto cond = cfgs.removeFrom(ctx->forCondition()->forExpression(0));
+        auto incr = cfgs.removeFrom(ctx->forCondition()->forExpression(1));
+        auto stmt = cfgs.removeFrom(ctx->statement());
+        auto joinN = new CFGJoinNode(ctx->getSourceInterval());
+
+        cfg->append(cond->getStartNode());
+        cond->getEndNode()->addEdge(stmt->getStartNode(), "true");
+        cond->getEndNode()->addEdge(joinN, "false");
+
+        stmt->append(incr);
+        stmt->append(cond);
+
+        cfg->setEndNode(joinN);
+
+        delete stmt;
+    } else if (ctx->Do()) {
+        cfg->append(cfgs.removeFrom(ctx->statement()));
+    } else {
+        cfg->append(cfgs.removeFrom(ctx->statement()));
+    }
+}
+
+void CFGListener::enterForDeclaration(CParser::ForDeclarationContext *)
+{
+    currentCFG = new CFGPart(tokens);
+}
+
+void CFGListener::exitForDeclaration(CParser::ForDeclarationContext *ctx)
+{
+    cfgs.put(ctx, currentCFG);
+    currentCFG = nullptr;
+}
+
+void CFGListener::exitForExpression(CParser::ForExpressionContext *ctx)
+{
+    auto cfg = cfgs.removeFrom(ctx->assignmentExpression());
+
+    if (auto forE = ctx->forExpression()) {
+        auto forECfg = cfgs.removeFrom(forE);
+        forECfg->append(cfg);
+        cfg = forECfg;
+    }
+
+    cfgs.put(ctx, cfg);
 }
 
 void CFGListener::exitJumpStatement(CParser::JumpStatementContext *ctx)
@@ -170,7 +228,7 @@ void CFGListener::exitDeclaration(CParser::DeclarationContext *ctx)
     cfgs.put(ctx, currentCFG);
     currentCFG = nullptr;
 
-    qDebug() << __func__ << ctx->getText().c_str();
+    //qDebug() << __func__ << ctx->getText().c_str();
 }
 
 void CFGListener::exitInitDeclaratorList(CParser::InitDeclaratorListContext *ctx)

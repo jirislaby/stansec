@@ -129,13 +129,19 @@ QSet<CFGNode *> CFGPart::getAllNodes(bool optimized) {
 
 void CFGPart::buildArcs(QString &sb, CFGNode *from, bool optimized)
 {
-    //int edge = 0;
+    int edge = 0;
 
     for (auto succ: optimized ? from->getOptSuccessors() : from->getSuccessors()) {
         sb.append('\t').append(QString::number(from->getNumber())).
                 append(" -> ").
                 append(QString::number(succ->getNumber()));
-#if 0
+#if 1
+        auto edgeLabel = from->getEdgeLabel(edge);
+        sb.append(" [label=\"").
+            append(edgeLabel->cond).
+            append("\"]");
+        edge++;
+#else
         Object edgeLabel = from->getEdgeLabel(edge);
         if (edgeLabel instanceof Element) {
             sb.append(" [label=\"");

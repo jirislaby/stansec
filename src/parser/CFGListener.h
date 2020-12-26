@@ -24,6 +24,10 @@ public:
     void exitStatement(CParser::StatementContext *) override;
     void exitExpressionStatement(CParser::ExpressionStatementContext *) override;
     void exitSelectionStatement(CParser::SelectionStatementContext *) override;
+    void exitIterationStatement(CParser::IterationStatementContext *) override;
+    void enterForDeclaration(CParser::ForDeclarationContext *) override;
+    void exitForDeclaration(CParser::ForDeclarationContext *) override;
+    void exitForExpression(CParser::ForExpressionContext *) override;
     void exitJumpStatement(CParser::JumpStatementContext *) override;
 
     void exitAssignmentExpression(CParser::AssignmentExpressionContext *) override;
