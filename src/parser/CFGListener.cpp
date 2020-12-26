@@ -133,19 +133,20 @@ void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx
 
 void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx)
 {
-    auto cfg = new CFGPart(tokens);
-    cfgs.put(ctx, cfg);
+    CFGPart *cfg;
+    auto joinN = new CFGJoinNode(ctx->getSourceInterval());
 
     if (ctx->For()) {
         if (auto init = ctx->forCondition()->forDeclaration())
-            cfg->append(cfgs.removeFrom(init));
-        if (auto init = ctx->forCondition()->expression())
-            cfg->append(cfgs.removeFrom(init));
+            cfg = cfgs.removeFrom(init);
+        else if (auto init = ctx->forCondition()->expression())
+            cfg = cfgs.removeFrom(init);
+        else
+            cfg = new CFGPart(tokens);
 
         auto cond = cfgs.removeFrom(ctx->forCondition()->forExpression(0));
         auto incr = cfgs.removeFrom(ctx->forCondition()->forExpression(1));
         auto stmt = cfgs.removeFrom(ctx->statement());
-        auto joinN = new CFGJoinNode(ctx->getSourceInterval());
 
         cfg->append(cond->getStartNode());
         cond->getEndNode()->addEdge(stmt->getStartNode(), "true");
@@ -154,14 +155,28 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
         stmt->append(incr);
         stmt->append(cond);
 
-        cfg->setEndNode(joinN);
-
         delete stmt;
     } else if (ctx->Do()) {
-        cfg->append(cfgs.removeFrom(ctx->statement()));
+        cfg = cfgs.removeFrom(ctx->statement());
+        cfg->append(cfgs.removeFrom(ctx->expression()));
+
+        auto cond = cfg->getEndNode();
+        cond->addEdge(cfg->getStartNode(), "true");
+        cond->addEdge(joinN, "false");
+
     } else {
-        cfg->append(cfgs.removeFrom(ctx->statement()));
+        cfg = cfgs.removeFrom(ctx->expression());
+        auto stmt = cfgs.removeFrom(ctx->statement());
+
+        cfg->getEndNode()->addEdge(stmt->getStartNode(), "true");
+        cfg->getEndNode()->addEdge(joinN, "false");
+
+        stmt->getEndNode()->addEdge(cfg->getStartNode());
+
+        delete stmt;
     }
+    cfg->setEndNode(joinN);
+    cfgs.put(ctx, cfg);
 }
 
 void CFGListener::enterForDeclaration(CParser::ForDeclarationContext *)

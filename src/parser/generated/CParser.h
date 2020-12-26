@@ -800,9 +800,9 @@ public:
     virtual size_t getRuleIndex() const override;
     StructOrUnionContext *structOrUnion();
     antlr4::tree::TerminalNode *LeftBrace();
-    StructDeclarationListContext *structDeclarationList();
     antlr4::tree::TerminalNode *RightBrace();
     antlr4::tree::TerminalNode *Identifier();
+    StructDeclarationListContext *structDeclarationList();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1530,7 +1530,9 @@ public:
     antlr4::tree::TerminalNode *Colon();
     StatementContext *statement();
     antlr4::tree::TerminalNode *Case();
-    ConstantExpressionContext *constantExpression();
+    std::vector<ConstantExpressionContext *> constantExpression();
+    ConstantExpressionContext* constantExpression(size_t i);
+    antlr4::tree::TerminalNode *Ellipsis();
     antlr4::tree::TerminalNode *Default();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;

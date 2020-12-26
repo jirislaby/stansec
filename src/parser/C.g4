@@ -210,7 +210,7 @@ initDeclarator
     ;
 
 storageClassSpecifier
-    :   'typedef'
+    :   '__extension__'? 'typedef'
     |   'extern'
     |   'static'
     |   '_Thread_local'
@@ -243,7 +243,7 @@ typeSpecifier
     ;
 
 structOrUnionSpecifier
-    :   structOrUnion Identifier? '{' structDeclarationList '}'
+    :   structOrUnion Identifier? '{' structDeclarationList? '}'
     |   structOrUnion Identifier
     ;
 
@@ -465,7 +465,7 @@ statement
 
 labeledStatement
     :   Identifier ':' statement
-    |   'case' constantExpression ':' statement
+    |   'case' constantExpression ('...' constantExpression)? ':' statement
     |   'default' ':' statement
     ;
 
