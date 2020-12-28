@@ -262,6 +262,33 @@ public:
   virtual void enterJumpStatement(CParser::JumpStatementContext * /*ctx*/) override { }
   virtual void exitJumpStatement(CParser::JumpStatementContext * /*ctx*/) override { }
 
+  virtual void enterAsmStatement(CParser::AsmStatementContext * /*ctx*/) override { }
+  virtual void exitAsmStatement(CParser::AsmStatementContext * /*ctx*/) override { }
+
+  virtual void enterAsmArgument(CParser::AsmArgumentContext * /*ctx*/) override { }
+  virtual void exitAsmArgument(CParser::AsmArgumentContext * /*ctx*/) override { }
+
+  virtual void enterAsmOperands(CParser::AsmOperandsContext * /*ctx*/) override { }
+  virtual void exitAsmOperands(CParser::AsmOperandsContext * /*ctx*/) override { }
+
+  virtual void enterAsmOperand(CParser::AsmOperandContext * /*ctx*/) override { }
+  virtual void exitAsmOperand(CParser::AsmOperandContext * /*ctx*/) override { }
+
+  virtual void enterAsmClobbers(CParser::AsmClobbersContext * /*ctx*/) override { }
+  virtual void exitAsmClobbers(CParser::AsmClobbersContext * /*ctx*/) override { }
+
+  virtual void enterAsmLabels(CParser::AsmLabelsContext * /*ctx*/) override { }
+  virtual void exitAsmLabels(CParser::AsmLabelsContext * /*ctx*/) override { }
+
+  virtual void enterAsmDefinition(CParser::AsmDefinitionContext * /*ctx*/) override { }
+  virtual void exitAsmDefinition(CParser::AsmDefinitionContext * /*ctx*/) override { }
+
+  virtual void enterSimpleAsmExpr(CParser::SimpleAsmExprContext * /*ctx*/) override { }
+  virtual void exitSimpleAsmExpr(CParser::SimpleAsmExprContext * /*ctx*/) override { }
+
+  virtual void enterAsmStringLiteral(CParser::AsmStringLiteralContext * /*ctx*/) override { }
+  virtual void exitAsmStringLiteral(CParser::AsmStringLiteralContext * /*ctx*/) override { }
+
   virtual void enterCompilationUnit(CParser::CompilationUnitContext * /*ctx*/) override { }
   virtual void exitCompilationUnit(CParser::CompilationUnitContext * /*ctx*/) override { }
 

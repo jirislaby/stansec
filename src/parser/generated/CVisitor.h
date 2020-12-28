@@ -183,6 +183,24 @@ public:
 
     virtual antlrcpp::Any visitJumpStatement(CParser::JumpStatementContext *context) = 0;
 
+    virtual antlrcpp::Any visitAsmStatement(CParser::AsmStatementContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmArgument(CParser::AsmArgumentContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmOperands(CParser::AsmOperandsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmOperand(CParser::AsmOperandContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmClobbers(CParser::AsmClobbersContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmLabels(CParser::AsmLabelsContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmDefinition(CParser::AsmDefinitionContext *context) = 0;
+
+    virtual antlrcpp::Any visitSimpleAsmExpr(CParser::SimpleAsmExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitAsmStringLiteral(CParser::AsmStringLiteralContext *context) = 0;
+
     virtual antlrcpp::Any visitCompilationUnit(CParser::CompilationUnitContext *context) = 0;
 
     virtual antlrcpp::Any visitTranslationUnit(CParser::TranslationUnitContext *context) = 0;

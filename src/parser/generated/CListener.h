@@ -260,6 +260,33 @@ public:
   virtual void enterJumpStatement(CParser::JumpStatementContext *ctx) = 0;
   virtual void exitJumpStatement(CParser::JumpStatementContext *ctx) = 0;
 
+  virtual void enterAsmStatement(CParser::AsmStatementContext *ctx) = 0;
+  virtual void exitAsmStatement(CParser::AsmStatementContext *ctx) = 0;
+
+  virtual void enterAsmArgument(CParser::AsmArgumentContext *ctx) = 0;
+  virtual void exitAsmArgument(CParser::AsmArgumentContext *ctx) = 0;
+
+  virtual void enterAsmOperands(CParser::AsmOperandsContext *ctx) = 0;
+  virtual void exitAsmOperands(CParser::AsmOperandsContext *ctx) = 0;
+
+  virtual void enterAsmOperand(CParser::AsmOperandContext *ctx) = 0;
+  virtual void exitAsmOperand(CParser::AsmOperandContext *ctx) = 0;
+
+  virtual void enterAsmClobbers(CParser::AsmClobbersContext *ctx) = 0;
+  virtual void exitAsmClobbers(CParser::AsmClobbersContext *ctx) = 0;
+
+  virtual void enterAsmLabels(CParser::AsmLabelsContext *ctx) = 0;
+  virtual void exitAsmLabels(CParser::AsmLabelsContext *ctx) = 0;
+
+  virtual void enterAsmDefinition(CParser::AsmDefinitionContext *ctx) = 0;
+  virtual void exitAsmDefinition(CParser::AsmDefinitionContext *ctx) = 0;
+
+  virtual void enterSimpleAsmExpr(CParser::SimpleAsmExprContext *ctx) = 0;
+  virtual void exitSimpleAsmExpr(CParser::SimpleAsmExprContext *ctx) = 0;
+
+  virtual void enterAsmStringLiteral(CParser::AsmStringLiteralContext *ctx) = 0;
+  virtual void exitAsmStringLiteral(CParser::AsmStringLiteralContext *ctx) = 0;
+
   virtual void enterCompilationUnit(CParser::CompilationUnitContext *ctx) = 0;
   virtual void exitCompilationUnit(CParser::CompilationUnitContext *ctx) = 0;
 

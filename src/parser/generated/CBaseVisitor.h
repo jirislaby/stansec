@@ -343,6 +343,42 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitAsmStatement(CParser::AsmStatementContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmArgument(CParser::AsmArgumentContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmOperands(CParser::AsmOperandsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmOperand(CParser::AsmOperandContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmClobbers(CParser::AsmClobbersContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmLabels(CParser::AsmLabelsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmDefinition(CParser::AsmDefinitionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitSimpleAsmExpr(CParser::SimpleAsmExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAsmStringLiteral(CParser::AsmStringLiteralContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitCompilationUnit(CParser::CompilationUnitContext *ctx) override {
     return visitChildren(ctx);
   }

@@ -14,27 +14,27 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    Auto = 15, Break = 16, Case = 17, Char = 18, Const = 19, Continue = 20, 
-    Default = 21, Do = 22, Double = 23, Else = 24, Enum = 25, Extern = 26, 
-    Float = 27, For = 28, Goto = 29, If = 30, Inline = 31, Int = 32, Long = 33, 
-    Register = 34, Restrict = 35, Return = 36, Short = 37, Signed = 38, 
-    Sizeof = 39, Static = 40, Struct = 41, Switch = 42, Typedef = 43, Union = 44, 
-    Unsigned = 45, Void = 46, Volatile = 47, While = 48, Alignas = 49, Alignof = 50, 
-    Atomic = 51, Bool = 52, Complex = 53, Generic = 54, Imaginary = 55, 
-    Noreturn = 56, StaticAssert = 57, ThreadLocal = 58, LeftParen = 59, 
-    RightParen = 60, LeftBracket = 61, RightBracket = 62, LeftBrace = 63, 
-    RightBrace = 64, Less = 65, LessEqual = 66, Greater = 67, GreaterEqual = 68, 
-    LeftShift = 69, RightShift = 70, Plus = 71, PlusPlus = 72, Minus = 73, 
-    MinusMinus = 74, Star = 75, Div = 76, Mod = 77, And = 78, Or = 79, AndAnd = 80, 
-    OrOr = 81, Caret = 82, Not = 83, Tilde = 84, Question = 85, Colon = 86, 
-    Semi = 87, Comma = 88, Assign = 89, StarAssign = 90, DivAssign = 91, 
-    ModAssign = 92, PlusAssign = 93, MinusAssign = 94, LeftShiftAssign = 95, 
-    RightShiftAssign = 96, AndAssign = 97, XorAssign = 98, OrAssign = 99, 
-    Equal = 100, NotEqual = 101, Arrow = 102, Dot = 103, Ellipsis = 104, 
-    Identifier = 105, Constant = 106, DigitSequence = 107, StringLiteral = 108, 
-    ComplexDefine = 109, IncludeDirective = 110, AsmBlock = 111, LineAfterPreprocessing = 112, 
-    LineDirective = 113, PragmaDirective = 114, Whitespace = 115, Newline = 116, 
-    BlockComment = 117, LineComment = 118
+    T__14 = 15, T__15 = 16, T__16 = 17, Auto = 18, Break = 19, Case = 20, 
+    Char = 21, Const = 22, Continue = 23, Default = 24, Do = 25, Double = 26, 
+    Else = 27, Enum = 28, Extern = 29, Float = 30, For = 31, Goto = 32, 
+    If = 33, Inline = 34, Int = 35, Long = 36, Register = 37, Restrict = 38, 
+    Return = 39, Short = 40, Signed = 41, Sizeof = 42, Static = 43, Struct = 44, 
+    Switch = 45, Typedef = 46, Typeof = 47, Union = 48, Unsigned = 49, Void = 50, 
+    Volatile = 51, While = 52, Alignas = 53, Alignof = 54, Atomic = 55, 
+    Bool = 56, Complex = 57, Generic = 58, Imaginary = 59, Noreturn = 60, 
+    StaticAssert = 61, ThreadLocal = 62, LeftParen = 63, RightParen = 64, 
+    LeftBracket = 65, RightBracket = 66, LeftBrace = 67, RightBrace = 68, 
+    Less = 69, LessEqual = 70, Greater = 71, GreaterEqual = 72, LeftShift = 73, 
+    RightShift = 74, Plus = 75, PlusPlus = 76, Minus = 77, MinusMinus = 78, 
+    Star = 79, Div = 80, Mod = 81, And = 82, Or = 83, AndAnd = 84, OrOr = 85, 
+    Caret = 86, Not = 87, Tilde = 88, Question = 89, Colon = 90, Semi = 91, 
+    Comma = 92, Assign = 93, StarAssign = 94, DivAssign = 95, ModAssign = 96, 
+    PlusAssign = 97, MinusAssign = 98, LeftShiftAssign = 99, RightShiftAssign = 100, 
+    AndAssign = 101, XorAssign = 102, OrAssign = 103, Equal = 104, NotEqual = 105, 
+    Arrow = 106, Dot = 107, Ellipsis = 108, Identifier = 109, Constant = 110, 
+    DigitSequence = 111, StringLiteral = 112, ComplexDefine = 113, IncludeDirective = 114, 
+    LineAfterPreprocessing = 115, LineDirective = 116, PragmaDirective = 117, 
+    Whitespace = 118, Newline = 119, BlockComment = 120, LineComment = 121
   };
 
   enum {
@@ -65,8 +65,11 @@ public:
     RuleCompoundStatement = 72, RuleBlockItemList = 73, RuleBlockItem = 74, 
     RuleExpressionStatement = 75, RuleSelectionStatement = 76, RuleIterationStatement = 77, 
     RuleForCondition = 78, RuleForDeclaration = 79, RuleForExpression = 80, 
-    RuleJumpStatement = 81, RuleCompilationUnit = 82, RuleTranslationUnit = 83, 
-    RuleExternalDeclaration = 84, RuleFunctionDefinition = 85, RuleDeclarationList = 86
+    RuleJumpStatement = 81, RuleAsmStatement = 82, RuleAsmArgument = 83, 
+    RuleAsmOperands = 84, RuleAsmOperand = 85, RuleAsmClobbers = 86, RuleAsmLabels = 87, 
+    RuleAsmDefinition = 88, RuleSimpleAsmExpr = 89, RuleAsmStringLiteral = 90, 
+    RuleCompilationUnit = 91, RuleTranslationUnit = 92, RuleExternalDeclaration = 93, 
+    RuleFunctionDefinition = 94, RuleDeclarationList = 95
   };
 
   CParser(antlr4::TokenStream *input);
@@ -161,6 +164,15 @@ public:
   class ForDeclarationContext;
   class ForExpressionContext;
   class JumpStatementContext;
+  class AsmStatementContext;
+  class AsmArgumentContext;
+  class AsmOperandsContext;
+  class AsmOperandContext;
+  class AsmClobbersContext;
+  class AsmLabelsContext;
+  class AsmDefinitionContext;
+  class SimpleAsmExprContext;
+  class AsmStringLiteralContext;
   class CompilationUnitContext;
   class TranslationUnitContext;
   class ExternalDeclarationContext;
@@ -782,6 +794,7 @@ public:
     EnumSpecifierContext *enumSpecifier();
     TypedefNameContext *typedefName();
     ConstantExpressionContext *constantExpression();
+    antlr4::tree::TerminalNode *Typeof();
     TypeSpecifierContext *typeSpecifier();
     PointerContext *pointer();
 
@@ -1502,16 +1515,7 @@ public:
     SelectionStatementContext *selectionStatement();
     IterationStatementContext *iterationStatement();
     JumpStatementContext *jumpStatement();
-    antlr4::tree::TerminalNode *LeftParen();
-    antlr4::tree::TerminalNode *RightParen();
-    antlr4::tree::TerminalNode *Semi();
-    antlr4::tree::TerminalNode *Volatile();
-    std::vector<LogicalOrExpressionContext *> logicalOrExpression();
-    LogicalOrExpressionContext* logicalOrExpression(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> Colon();
-    antlr4::tree::TerminalNode* Colon(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> Comma();
-    antlr4::tree::TerminalNode* Comma(size_t i);
+    AsmStatementContext *asmStatement();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1729,6 +1733,170 @@ public:
 
   JumpStatementContext* jumpStatement();
 
+  class  AsmStatementContext : public antlr4::ParserRuleContext {
+  public:
+    AsmStatementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *LeftParen();
+    AsmArgumentContext *asmArgument();
+    antlr4::tree::TerminalNode *RightParen();
+    antlr4::tree::TerminalNode *Semi();
+    TypeQualifierContext *typeQualifier();
+    antlr4::tree::TerminalNode *Goto();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmStatementContext* asmStatement();
+
+  class  AsmArgumentContext : public antlr4::ParserRuleContext {
+  public:
+    AsmArgumentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AsmStringLiteralContext *asmStringLiteral();
+    std::vector<antlr4::tree::TerminalNode *> Colon();
+    antlr4::tree::TerminalNode* Colon(size_t i);
+    std::vector<AsmOperandsContext *> asmOperands();
+    AsmOperandsContext* asmOperands(size_t i);
+    AsmClobbersContext *asmClobbers();
+    AsmLabelsContext *asmLabels();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmArgumentContext* asmArgument();
+
+  class  AsmOperandsContext : public antlr4::ParserRuleContext {
+  public:
+    AsmOperandsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<AsmOperandContext *> asmOperand();
+    AsmOperandContext* asmOperand(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Comma();
+    antlr4::tree::TerminalNode* Comma(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmOperandsContext* asmOperands();
+
+  class  AsmOperandContext : public antlr4::ParserRuleContext {
+  public:
+    AsmOperandContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AsmStringLiteralContext *asmStringLiteral();
+    antlr4::tree::TerminalNode *LeftParen();
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *RightParen();
+    antlr4::tree::TerminalNode *LeftBracket();
+    antlr4::tree::TerminalNode *Identifier();
+    antlr4::tree::TerminalNode *RightBracket();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmOperandContext* asmOperand();
+
+  class  AsmClobbersContext : public antlr4::ParserRuleContext {
+  public:
+    AsmClobbersContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<AsmStringLiteralContext *> asmStringLiteral();
+    AsmStringLiteralContext* asmStringLiteral(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Comma();
+    antlr4::tree::TerminalNode* Comma(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmClobbersContext* asmClobbers();
+
+  class  AsmLabelsContext : public antlr4::ParserRuleContext {
+  public:
+    AsmLabelsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<antlr4::tree::TerminalNode *> Identifier();
+    antlr4::tree::TerminalNode* Identifier(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> Comma();
+    antlr4::tree::TerminalNode* Comma(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmLabelsContext* asmLabels();
+
+  class  AsmDefinitionContext : public antlr4::ParserRuleContext {
+  public:
+    AsmDefinitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    SimpleAsmExprContext *simpleAsmExpr();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmDefinitionContext* asmDefinition();
+
+  class  SimpleAsmExprContext : public antlr4::ParserRuleContext {
+  public:
+    SimpleAsmExprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *LeftParen();
+    AsmStringLiteralContext *asmStringLiteral();
+    antlr4::tree::TerminalNode *RightParen();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  SimpleAsmExprContext* simpleAsmExpr();
+
+  class  AsmStringLiteralContext : public antlr4::ParserRuleContext {
+  public:
+    AsmStringLiteralContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<antlr4::tree::TerminalNode *> StringLiteral();
+    antlr4::tree::TerminalNode* StringLiteral(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmStringLiteralContext* asmStringLiteral();
+
   class  CompilationUnitContext : public antlr4::ParserRuleContext {
   public:
     CompilationUnitContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -1768,6 +1936,7 @@ public:
     FunctionDefinitionContext *functionDefinition();
     DeclarationContext *declaration();
     antlr4::tree::TerminalNode *Semi();
+    AsmDefinitionContext *asmDefinition();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
