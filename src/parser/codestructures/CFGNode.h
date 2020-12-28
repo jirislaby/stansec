@@ -128,6 +128,14 @@ private:
     bool neg;
 };
 
+class CFGAsmNode : public CFGNode {
+public:
+    CFGAsmNode(const antlr4::misc::Interval &intvl) :
+        CFGNode(intvl) {};
+
+    QString getCode(const CFGPart *) const override { return "asm"; }
+};
+
 #if 0
     public void setLocation(File file, int line, int column) {
         this.file = file;

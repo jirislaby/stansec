@@ -212,6 +212,13 @@ void CFGListener::exitJumpStatement(CParser::JumpStatementContext *ctx)
     cfg->append(new CFGNode(antlr4::misc::Interval(i.a, i.b - 1)));
 }
 
+void CFGListener::exitAsmStatement(CParser::AsmStatementContext *ctx)
+{
+    auto cfg = new CFGPart(tokens);
+    cfgs.put(ctx, cfg);
+    cfg->append(new CFGAsmNode(ctx->getSourceInterval()));
+}
+
 void CFGListener::exitAssignmentExpression(CParser::AssignmentExpressionContext *ctx)
 {
     auto cfg = new CFGPart(tokens);

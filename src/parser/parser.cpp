@@ -25,12 +25,17 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
     auto dot = cfgListener.getDot("main");
     qDebug().noquote() << dot;
 
-    QFile file("main.dot");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream out(&file);
-        out << dot;
-        file.close();
-        QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << "main.dot");
+    for (auto i = cfgListener.cfgBegin(); i != cfgListener.cfgEnd(); ++i) {
+        auto name = i.key();
+        auto cfg = i.value();
+
+        QFile file(name + ".dot");
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << cfg->toDot();
+            file.close();
+            QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << file.fileName());
+        }
     }
 
     return tree->toStringTree(&parser, true);

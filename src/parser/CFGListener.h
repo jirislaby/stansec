@@ -29,6 +29,7 @@ public:
     void exitForDeclaration(CParser::ForDeclarationContext *) override;
     void exitForExpression(CParser::ForExpressionContext *) override;
     void exitJumpStatement(CParser::JumpStatementContext *) override;
+    void exitAsmStatement(CParser::AsmStatementContext *) override;
 
     void exitAssignmentExpression(CParser::AssignmentExpressionContext *) override;
     void exitExpression(CParser::ExpressionContext *) override;
@@ -40,6 +41,9 @@ public:
 
     /*void exitInitializerList(CParser::InitializerListContext *) override;
     void exitInitializer(CParser::InitializerContext *) override;*/
+
+    QMap<QString, CFG *>::const_iterator cfgBegin() const { return map.begin(); }
+    QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
 
     QString getDot(const QString &fun) {
         const auto cfg = map[fun];
