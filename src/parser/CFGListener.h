@@ -46,8 +46,9 @@ public:
     QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
 
     QString getDot(const QString &fun) {
-        const auto cfg = map[fun];
-        return cfg ? cfg->toDot() : QString();
+        if (!map.contains(fun))
+            return QString();
+        return map[fun]->toDot();
     }
 
 private:

@@ -58,6 +58,10 @@ void CFGListener::exitCompoundStatement(CParser::CompoundStatementContext *ctx)
     if (auto bil = ctx->blockItemList()) {
         auto bilCfg = cfgs.removeFrom(bil);
         cfgs.put(ctx, bilCfg);
+    } else {
+        auto cfg = new CFGPart(tokens);
+        cfg->append(new CFGNode(ctx->getSourceInterval()));
+        cfgs.put(ctx, cfg);
     }
 }
 
