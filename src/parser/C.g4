@@ -319,6 +319,7 @@ typeQualifier
 functionSpecifier
     :   ('inline'
     |   '_Noreturn'
+    |   '__inline' // GCC extension
     |   '__inline__' // GCC extension
     |   '__stdcall')
     |   gccAttributeSpecifier
@@ -348,7 +349,7 @@ directDeclarator
     ;
 
 gccDeclaratorExtension
-    :   ('asm' | '__asm') '(' StringLiteral+ ')'
+    :   ('asm' | '__asm' | '__asm__') '(' StringLiteral+ ')'
     |   gccAttributeSpecifier
     ;
 
