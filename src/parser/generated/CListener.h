@@ -35,6 +35,9 @@ public:
   virtual void enterUnaryExpression(CParser::UnaryExpressionContext *ctx) = 0;
   virtual void exitUnaryExpression(CParser::UnaryExpressionContext *ctx) = 0;
 
+  virtual void enterGccBuiltin(CParser::GccBuiltinContext *ctx) = 0;
+  virtual void exitGccBuiltin(CParser::GccBuiltinContext *ctx) = 0;
+
   virtual void enterUnaryOperator(CParser::UnaryOperatorContext *ctx) = 0;
   virtual void exitUnaryOperator(CParser::UnaryOperatorContext *ctx) = 0;
 

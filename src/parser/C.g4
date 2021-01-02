@@ -83,6 +83,11 @@ unaryExpression
     |   'sizeof' '(' typeName ')'
     |   ('_Alignof' | '__alignof__') '(' typeName ')'
     |   '&&' Identifier // GCC extension address of label
+    |   gccBuiltin
+    ;
+
+gccBuiltin
+    :   '__builtin_types_compatible_p' '(' typeName ',' typeName ')'
     ;
 
 unaryOperator

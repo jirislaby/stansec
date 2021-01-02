@@ -43,6 +43,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitGccBuiltin(CParser::GccBuiltinContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitUnaryOperator(CParser::UnaryOperatorContext *ctx) override {
     return visitChildren(ctx);
   }

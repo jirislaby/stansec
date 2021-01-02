@@ -37,6 +37,9 @@ public:
   virtual void enterUnaryExpression(CParser::UnaryExpressionContext * /*ctx*/) override { }
   virtual void exitUnaryExpression(CParser::UnaryExpressionContext * /*ctx*/) override { }
 
+  virtual void enterGccBuiltin(CParser::GccBuiltinContext * /*ctx*/) override { }
+  virtual void exitGccBuiltin(CParser::GccBuiltinContext * /*ctx*/) override { }
+
   virtual void enterUnaryOperator(CParser::UnaryOperatorContext * /*ctx*/) override { }
   virtual void exitUnaryOperator(CParser::UnaryOperatorContext * /*ctx*/) override { }
 

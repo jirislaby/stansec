@@ -14,62 +14,62 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, T__15 = 16, T__16 = 17, Auto = 18, Break = 19, Case = 20, 
-    Char = 21, Const = 22, Continue = 23, Default = 24, Do = 25, Double = 26, 
-    Else = 27, Enum = 28, Extern = 29, Float = 30, For = 31, Goto = 32, 
-    If = 33, Inline = 34, Int = 35, Long = 36, Register = 37, Restrict = 38, 
-    Return = 39, Short = 40, Signed = 41, Sizeof = 42, Static = 43, Struct = 44, 
-    Switch = 45, Typedef = 46, Typeof = 47, Union = 48, Unsigned = 49, Void = 50, 
-    Volatile = 51, While = 52, Alignas = 53, Alignof = 54, Atomic = 55, 
-    Bool = 56, Complex = 57, Generic = 58, Imaginary = 59, Noreturn = 60, 
-    StaticAssert = 61, ThreadLocal = 62, LeftParen = 63, RightParen = 64, 
-    LeftBracket = 65, RightBracket = 66, LeftBrace = 67, RightBrace = 68, 
-    Less = 69, LessEqual = 70, Greater = 71, GreaterEqual = 72, LeftShift = 73, 
-    RightShift = 74, Plus = 75, PlusPlus = 76, Minus = 77, MinusMinus = 78, 
-    Star = 79, Div = 80, Mod = 81, And = 82, Or = 83, AndAnd = 84, OrOr = 85, 
-    Caret = 86, Not = 87, Tilde = 88, Question = 89, Colon = 90, Semi = 91, 
-    Comma = 92, Assign = 93, StarAssign = 94, DivAssign = 95, ModAssign = 96, 
-    PlusAssign = 97, MinusAssign = 98, LeftShiftAssign = 99, RightShiftAssign = 100, 
-    AndAssign = 101, XorAssign = 102, OrAssign = 103, Equal = 104, NotEqual = 105, 
-    Arrow = 106, Dot = 107, Ellipsis = 108, Identifier = 109, Constant = 110, 
-    DigitSequence = 111, StringLiteral = 112, ComplexDefine = 113, IncludeDirective = 114, 
-    LineAfterPreprocessing = 115, LineDirective = 116, PragmaDirective = 117, 
-    Whitespace = 118, Newline = 119, BlockComment = 120, LineComment = 121
+    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, Auto = 19, Break = 20, 
+    Case = 21, Char = 22, Const = 23, Continue = 24, Default = 25, Do = 26, 
+    Double = 27, Else = 28, Enum = 29, Extern = 30, Float = 31, For = 32, 
+    Goto = 33, If = 34, Inline = 35, Int = 36, Long = 37, Register = 38, 
+    Restrict = 39, Return = 40, Short = 41, Signed = 42, Sizeof = 43, Static = 44, 
+    Struct = 45, Switch = 46, Typedef = 47, Typeof = 48, Union = 49, Unsigned = 50, 
+    Void = 51, Volatile = 52, While = 53, Alignas = 54, Alignof = 55, Atomic = 56, 
+    Bool = 57, Complex = 58, Generic = 59, Imaginary = 60, Noreturn = 61, 
+    StaticAssert = 62, ThreadLocal = 63, LeftParen = 64, RightParen = 65, 
+    LeftBracket = 66, RightBracket = 67, LeftBrace = 68, RightBrace = 69, 
+    Less = 70, LessEqual = 71, Greater = 72, GreaterEqual = 73, LeftShift = 74, 
+    RightShift = 75, Plus = 76, PlusPlus = 77, Minus = 78, MinusMinus = 79, 
+    Star = 80, Div = 81, Mod = 82, And = 83, Or = 84, AndAnd = 85, OrOr = 86, 
+    Caret = 87, Not = 88, Tilde = 89, Question = 90, Colon = 91, Semi = 92, 
+    Comma = 93, Assign = 94, StarAssign = 95, DivAssign = 96, ModAssign = 97, 
+    PlusAssign = 98, MinusAssign = 99, LeftShiftAssign = 100, RightShiftAssign = 101, 
+    AndAssign = 102, XorAssign = 103, OrAssign = 104, Equal = 105, NotEqual = 106, 
+    Arrow = 107, Dot = 108, Ellipsis = 109, Identifier = 110, Constant = 111, 
+    DigitSequence = 112, StringLiteral = 113, ComplexDefine = 114, IncludeDirective = 115, 
+    LineAfterPreprocessing = 116, LineDirective = 117, PragmaDirective = 118, 
+    Whitespace = 119, Newline = 120, BlockComment = 121, LineComment = 122
   };
 
   enum {
     RulePrimaryExpression = 0, RuleGenericSelection = 1, RuleGenericAssocList = 2, 
     RuleGenericAssociation = 3, RulePostfixExpression = 4, RuleArgumentExpressionList = 5, 
-    RuleUnaryExpression = 6, RuleUnaryOperator = 7, RuleCastExpression = 8, 
-    RuleMultiplicativeExpression = 9, RuleAdditiveExpression = 10, RuleShiftExpression = 11, 
-    RuleRelationalExpression = 12, RuleEqualityExpression = 13, RuleAndExpression = 14, 
-    RuleExclusiveOrExpression = 15, RuleInclusiveOrExpression = 16, RuleLogicalAndExpression = 17, 
-    RuleLogicalOrExpression = 18, RuleConditionalExpression = 19, RuleAssignmentExpression = 20, 
-    RuleAssignmentOperator = 21, RuleExpression = 22, RuleConstantExpression = 23, 
-    RuleDeclaration = 24, RuleDeclarationSpecifiers = 25, RuleDeclarationSpecifiers2 = 26, 
-    RuleDeclarationSpecifier = 27, RuleInitDeclaratorList = 28, RuleInitDeclarator = 29, 
-    RuleStorageClassSpecifier = 30, RuleTypeSpecifier = 31, RuleStructOrUnionSpecifier = 32, 
-    RuleStructOrUnion = 33, RuleStructDeclarationList = 34, RuleStructDeclaration = 35, 
-    RuleSpecifierQualifierList = 36, RuleStructDeclaratorList = 37, RuleStructDeclarator = 38, 
-    RuleEnumSpecifier = 39, RuleEnumeratorList = 40, RuleEnumerator = 41, 
-    RuleEnumerationConstant = 42, RuleAtomicTypeSpecifier = 43, RuleTypeQualifier = 44, 
-    RuleFunctionSpecifier = 45, RuleAlignmentSpecifier = 46, RuleDeclarator = 47, 
-    RuleDirectDeclarator = 48, RuleGccDeclaratorExtension = 49, RuleGccAttributeSpecifier = 50, 
-    RuleGccAttributeList = 51, RuleGccAttribute = 52, RuleNestedParenthesesBlock = 53, 
-    RulePointer = 54, RuleTypeQualifierList = 55, RuleParameterTypeList = 56, 
-    RuleParameterList = 57, RuleParameterDeclaration = 58, RuleIdentifierList = 59, 
-    RuleTypeName = 60, RuleAbstractDeclarator = 61, RuleDirectAbstractDeclarator = 62, 
-    RuleTypedefName = 63, RuleInitializer = 64, RuleInitializerList = 65, 
-    RuleDesignation = 66, RuleDesignatorList = 67, RuleDesignator = 68, 
-    RuleStaticAssertDeclaration = 69, RuleStatement = 70, RuleLabeledStatement = 71, 
-    RuleCompoundStatement = 72, RuleBlockItemList = 73, RuleBlockItem = 74, 
-    RuleExpressionStatement = 75, RuleSelectionStatement = 76, RuleIterationStatement = 77, 
-    RuleForCondition = 78, RuleForDeclaration = 79, RuleForExpression = 80, 
-    RuleJumpStatement = 81, RuleAsmStatement = 82, RuleAsmArgument = 83, 
-    RuleAsmOperands = 84, RuleAsmOperand = 85, RuleAsmClobbers = 86, RuleAsmLabels = 87, 
-    RuleAsmDefinition = 88, RuleSimpleAsmExpr = 89, RuleAsmStringLiteral = 90, 
-    RuleCompilationUnit = 91, RuleTranslationUnit = 92, RuleExternalDeclaration = 93, 
-    RuleFunctionDefinition = 94, RuleDeclarationList = 95
+    RuleUnaryExpression = 6, RuleGccBuiltin = 7, RuleUnaryOperator = 8, 
+    RuleCastExpression = 9, RuleMultiplicativeExpression = 10, RuleAdditiveExpression = 11, 
+    RuleShiftExpression = 12, RuleRelationalExpression = 13, RuleEqualityExpression = 14, 
+    RuleAndExpression = 15, RuleExclusiveOrExpression = 16, RuleInclusiveOrExpression = 17, 
+    RuleLogicalAndExpression = 18, RuleLogicalOrExpression = 19, RuleConditionalExpression = 20, 
+    RuleAssignmentExpression = 21, RuleAssignmentOperator = 22, RuleExpression = 23, 
+    RuleConstantExpression = 24, RuleDeclaration = 25, RuleDeclarationSpecifiers = 26, 
+    RuleDeclarationSpecifiers2 = 27, RuleDeclarationSpecifier = 28, RuleInitDeclaratorList = 29, 
+    RuleInitDeclarator = 30, RuleStorageClassSpecifier = 31, RuleTypeSpecifier = 32, 
+    RuleStructOrUnionSpecifier = 33, RuleStructOrUnion = 34, RuleStructDeclarationList = 35, 
+    RuleStructDeclaration = 36, RuleSpecifierQualifierList = 37, RuleStructDeclaratorList = 38, 
+    RuleStructDeclarator = 39, RuleEnumSpecifier = 40, RuleEnumeratorList = 41, 
+    RuleEnumerator = 42, RuleEnumerationConstant = 43, RuleAtomicTypeSpecifier = 44, 
+    RuleTypeQualifier = 45, RuleFunctionSpecifier = 46, RuleAlignmentSpecifier = 47, 
+    RuleDeclarator = 48, RuleDirectDeclarator = 49, RuleGccDeclaratorExtension = 50, 
+    RuleGccAttributeSpecifier = 51, RuleGccAttributeList = 52, RuleGccAttribute = 53, 
+    RuleNestedParenthesesBlock = 54, RulePointer = 55, RuleTypeQualifierList = 56, 
+    RuleParameterTypeList = 57, RuleParameterList = 58, RuleParameterDeclaration = 59, 
+    RuleIdentifierList = 60, RuleTypeName = 61, RuleAbstractDeclarator = 62, 
+    RuleDirectAbstractDeclarator = 63, RuleTypedefName = 64, RuleInitializer = 65, 
+    RuleInitializerList = 66, RuleDesignation = 67, RuleDesignatorList = 68, 
+    RuleDesignator = 69, RuleStaticAssertDeclaration = 70, RuleStatement = 71, 
+    RuleLabeledStatement = 72, RuleCompoundStatement = 73, RuleBlockItemList = 74, 
+    RuleBlockItem = 75, RuleExpressionStatement = 76, RuleSelectionStatement = 77, 
+    RuleIterationStatement = 78, RuleForCondition = 79, RuleForDeclaration = 80, 
+    RuleForExpression = 81, RuleJumpStatement = 82, RuleAsmStatement = 83, 
+    RuleAsmArgument = 84, RuleAsmOperands = 85, RuleAsmOperand = 86, RuleAsmClobbers = 87, 
+    RuleAsmLabels = 88, RuleAsmDefinition = 89, RuleSimpleAsmExpr = 90, 
+    RuleAsmStringLiteral = 91, RuleCompilationUnit = 92, RuleTranslationUnit = 93, 
+    RuleExternalDeclaration = 94, RuleFunctionDefinition = 95, RuleDeclarationList = 96
   };
 
   CParser(antlr4::TokenStream *input);
@@ -89,6 +89,7 @@ public:
   class PostfixExpressionContext;
   class ArgumentExpressionListContext;
   class UnaryExpressionContext;
+  class GccBuiltinContext;
   class UnaryOperatorContext;
   class CastExpressionContext;
   class MultiplicativeExpressionContext;
@@ -326,6 +327,7 @@ public:
     antlr4::tree::TerminalNode *Alignof();
     antlr4::tree::TerminalNode *AndAnd();
     antlr4::tree::TerminalNode *Identifier();
+    GccBuiltinContext *gccBuiltin();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -335,6 +337,25 @@ public:
   };
 
   UnaryExpressionContext* unaryExpression();
+
+  class  GccBuiltinContext : public antlr4::ParserRuleContext {
+  public:
+    GccBuiltinContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *LeftParen();
+    std::vector<TypeNameContext *> typeName();
+    TypeNameContext* typeName(size_t i);
+    antlr4::tree::TerminalNode *Comma();
+    antlr4::tree::TerminalNode *RightParen();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  GccBuiltinContext* gccBuiltin();
 
   class  UnaryOperatorContext : public antlr4::ParserRuleContext {
   public:

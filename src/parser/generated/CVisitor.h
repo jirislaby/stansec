@@ -33,6 +33,8 @@ public:
 
     virtual antlrcpp::Any visitUnaryExpression(CParser::UnaryExpressionContext *context) = 0;
 
+    virtual antlrcpp::Any visitGccBuiltin(CParser::GccBuiltinContext *context) = 0;
+
     virtual antlrcpp::Any visitUnaryOperator(CParser::UnaryOperatorContext *context) = 0;
 
     virtual antlrcpp::Any visitCastExpression(CParser::CastExpressionContext *context) = 0;
