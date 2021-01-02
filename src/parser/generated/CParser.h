@@ -836,6 +836,8 @@ public:
     StructOrUnionContext *structOrUnion();
     antlr4::tree::TerminalNode *LeftBrace();
     antlr4::tree::TerminalNode *RightBrace();
+    std::vector<GccAttributeSpecifierContext *> gccAttributeSpecifier();
+    GccAttributeSpecifierContext* gccAttributeSpecifier(size_t i);
     antlr4::tree::TerminalNode *Identifier();
     StructDeclarationListContext *structDeclarationList();
 
@@ -957,6 +959,8 @@ public:
     antlr4::tree::TerminalNode *LeftBrace();
     EnumeratorListContext *enumeratorList();
     antlr4::tree::TerminalNode *RightBrace();
+    std::vector<GccAttributeSpecifierContext *> gccAttributeSpecifier();
+    GccAttributeSpecifierContext* gccAttributeSpecifier(size_t i);
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *Comma();
 

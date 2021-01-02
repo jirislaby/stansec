@@ -249,8 +249,8 @@ typeSpecifier
     ;
 
 structOrUnionSpecifier
-    :   structOrUnion Identifier? '{' structDeclarationList? '}'
-    |   structOrUnion Identifier
+    :   structOrUnion gccAttributeSpecifier? Identifier? '{' structDeclarationList? '}' gccAttributeSpecifier?
+    |   structOrUnion gccAttributeSpecifier? Identifier
     ;
 
 structOrUnion
@@ -284,9 +284,9 @@ structDeclarator
     ;
 
 enumSpecifier
-    :   'enum' Identifier? '{' enumeratorList '}'
-    |   'enum' Identifier? '{' enumeratorList ',' '}'
-    |   'enum' Identifier
+    :   'enum' gccAttributeSpecifier? Identifier? '{' enumeratorList '}' gccAttributeSpecifier?
+    |   'enum' gccAttributeSpecifier? Identifier? '{' enumeratorList ',' '}' gccAttributeSpecifier?
+    |   'enum' gccAttributeSpecifier? Identifier
     ;
 
 enumeratorList
