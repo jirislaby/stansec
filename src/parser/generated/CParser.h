@@ -814,8 +814,9 @@ public:
     StructOrUnionSpecifierContext *structOrUnionSpecifier();
     EnumSpecifierContext *enumSpecifier();
     TypedefNameContext *typedefName();
-    ConstantExpressionContext *constantExpression();
+    TypeNameContext *typeName();
     antlr4::tree::TerminalNode *Typeof();
+    ConstantExpressionContext *constantExpression();
     TypeSpecifierContext *typeSpecifier();
     PointerContext *pointer();
 

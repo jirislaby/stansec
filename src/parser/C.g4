@@ -243,6 +243,7 @@ typeSpecifier
     |   structOrUnionSpecifier
     |   enumSpecifier
     |   typedefName
+    |   ('__typeof__' | 'typeof') '(' typeName ')' // GCC extension
     |   ('__typeof__' | 'typeof') '(' constantExpression ')' // GCC extension
     |   typeSpecifier pointer
     ;
