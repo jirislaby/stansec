@@ -730,6 +730,7 @@ public:
     TypeQualifierContext *typeQualifier();
     FunctionSpecifierContext *functionSpecifier();
     AlignmentSpecifierContext *alignmentSpecifier();
+    GccAttributeSpecifierContext *gccAttributeSpecifier();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1065,7 +1066,6 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *Inline();
     antlr4::tree::TerminalNode *Noreturn();
-    GccAttributeSpecifierContext *gccAttributeSpecifier();
     antlr4::tree::TerminalNode *LeftParen();
     antlr4::tree::TerminalNode *Identifier();
     antlr4::tree::TerminalNode *RightParen();

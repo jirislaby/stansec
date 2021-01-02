@@ -202,6 +202,7 @@ declarationSpecifier
     |   typeQualifier
     |   functionSpecifier
     |   alignmentSpecifier
+    |   gccAttributeSpecifier
     ;
 
 initDeclaratorList
@@ -322,7 +323,6 @@ functionSpecifier
     |   '__inline' // GCC extension
     |   '__inline__' // GCC extension
     |   '__stdcall')
-    |   gccAttributeSpecifier
     |   '__declspec' '(' Identifier ')'
     ;
 
