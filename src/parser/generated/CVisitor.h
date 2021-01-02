@@ -187,6 +187,8 @@ public:
 
     virtual antlrcpp::Any visitAsmStatement(CParser::AsmStatementContext *context) = 0;
 
+    virtual antlrcpp::Any visitAsmQualifier(CParser::AsmQualifierContext *context) = 0;
+
     virtual antlrcpp::Any visitAsmArgument(CParser::AsmArgumentContext *context) = 0;
 
     virtual antlrcpp::Any visitAsmOperands(CParser::AsmOperandsContext *context) = 0;

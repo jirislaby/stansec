@@ -351,6 +351,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitAsmQualifier(CParser::AsmQualifierContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitAsmArgument(CParser::AsmArgumentContext *ctx) override {
     return visitChildren(ctx);
   }

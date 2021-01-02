@@ -266,6 +266,9 @@ public:
   virtual void enterAsmStatement(CParser::AsmStatementContext *ctx) = 0;
   virtual void exitAsmStatement(CParser::AsmStatementContext *ctx) = 0;
 
+  virtual void enterAsmQualifier(CParser::AsmQualifierContext *ctx) = 0;
+  virtual void exitAsmQualifier(CParser::AsmQualifierContext *ctx) = 0;
+
   virtual void enterAsmArgument(CParser::AsmArgumentContext *ctx) = 0;
   virtual void exitAsmArgument(CParser::AsmArgumentContext *ctx) = 0;
 

@@ -534,7 +534,17 @@ jumpStatement
     ;
 
 asmStatement
-    :   ('asm' | '__asm' | '__asm__') typeQualifier? 'goto'? '(' asmArgument ')' ';'
+    :   ('asm' | '__asm' | '__asm__') asmQualifier* '(' asmArgument ')' ';'
+    |   ('asm' | '__asm' | '__asm__') 'goto' '(' asmArgument ')' ';'
+    ;
+
+asmQualifier
+    :   'inline'
+    |   '__inline'
+    |   '__inline__'
+    |   'volatile'
+    |   '__volatile'
+    |   '__volatile__'
     ;
 
 /*asmArgument

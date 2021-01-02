@@ -268,6 +268,9 @@ public:
   virtual void enterAsmStatement(CParser::AsmStatementContext * /*ctx*/) override { }
   virtual void exitAsmStatement(CParser::AsmStatementContext * /*ctx*/) override { }
 
+  virtual void enterAsmQualifier(CParser::AsmQualifierContext * /*ctx*/) override { }
+  virtual void exitAsmQualifier(CParser::AsmQualifierContext * /*ctx*/) override { }
+
   virtual void enterAsmArgument(CParser::AsmArgumentContext * /*ctx*/) override { }
   virtual void exitAsmArgument(CParser::AsmArgumentContext * /*ctx*/) override { }
 

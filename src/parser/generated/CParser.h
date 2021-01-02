@@ -66,10 +66,10 @@ public:
     RuleBlockItem = 75, RuleExpressionStatement = 76, RuleSelectionStatement = 77, 
     RuleIterationStatement = 78, RuleForCondition = 79, RuleForDeclaration = 80, 
     RuleForExpression = 81, RuleJumpStatement = 82, RuleAsmStatement = 83, 
-    RuleAsmArgument = 84, RuleAsmOperands = 85, RuleAsmOperand = 86, RuleAsmClobbers = 87, 
-    RuleAsmLabels = 88, RuleAsmDefinition = 89, RuleSimpleAsmExpr = 90, 
-    RuleAsmStringLiteral = 91, RuleCompilationUnit = 92, RuleTranslationUnit = 93, 
-    RuleExternalDeclaration = 94, RuleFunctionDefinition = 95, RuleDeclarationList = 96
+    RuleAsmQualifier = 84, RuleAsmArgument = 85, RuleAsmOperands = 86, RuleAsmOperand = 87, 
+    RuleAsmClobbers = 88, RuleAsmLabels = 89, RuleAsmDefinition = 90, RuleSimpleAsmExpr = 91, 
+    RuleAsmStringLiteral = 92, RuleCompilationUnit = 93, RuleTranslationUnit = 94, 
+    RuleExternalDeclaration = 95, RuleFunctionDefinition = 96, RuleDeclarationList = 97
   };
 
   CParser(antlr4::TokenStream *input);
@@ -166,6 +166,7 @@ public:
   class ForExpressionContext;
   class JumpStatementContext;
   class AsmStatementContext;
+  class AsmQualifierContext;
   class AsmArgumentContext;
   class AsmOperandsContext;
   class AsmOperandContext;
@@ -1767,7 +1768,8 @@ public:
     AsmArgumentContext *asmArgument();
     antlr4::tree::TerminalNode *RightParen();
     antlr4::tree::TerminalNode *Semi();
-    TypeQualifierContext *typeQualifier();
+    std::vector<AsmQualifierContext *> asmQualifier();
+    AsmQualifierContext* asmQualifier(size_t i);
     antlr4::tree::TerminalNode *Goto();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1778,6 +1780,22 @@ public:
   };
 
   AsmStatementContext* asmStatement();
+
+  class  AsmQualifierContext : public antlr4::ParserRuleContext {
+  public:
+    AsmQualifierContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Inline();
+    antlr4::tree::TerminalNode *Volatile();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AsmQualifierContext* asmQualifier();
 
   class  AsmArgumentContext : public antlr4::ParserRuleContext {
   public:
