@@ -7,13 +7,24 @@
 
 int main(int argc, char **argv)
 {
-	antlr4::ANTLRInputStream input(std::cin);
+	std::ifstream ifs;
+
+	if (argc > 1) {
+		ifs.open(argv[1]);
+		if (!ifs)
+			return 1;
+	}
+
+	antlr4::ANTLRInputStream input(ifs.is_open() ? ifs : std::cin);
 	CLexer lexer(&input);
 	antlr4::CommonTokenStream tokens(&lexer);
 	CParser parser(&tokens);
 	auto tree = parser.compilationUnit();
 
 	std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+
+	if (ifs.is_open())
+		ifs.close();
 
 	return 0;
 }
