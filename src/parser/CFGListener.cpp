@@ -310,3 +310,8 @@ void CFGListener::exitInitializer(CParser::InitializerContext *ctx)
         cfgs.put(ctx, cfgs.removeFrom(ae));
 }
 #endif
+
+void CFGListener::exitGccAttribute(CParser::GccAttributeContext *ctx)
+{
+    qDebug() << "XXX ATTR:" << ctx->getText().c_str();
+}

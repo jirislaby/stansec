@@ -42,6 +42,8 @@ public:
     /*void exitInitializerList(CParser::InitializerListContext *) override;
     void exitInitializer(CParser::InitializerContext *) override;*/
 
+    void exitGccAttribute(CParser::GccAttributeContext *) override;
+
     QMap<QString, CFG *>::const_iterator cfgBegin() const { return map.begin(); }
     QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
 
