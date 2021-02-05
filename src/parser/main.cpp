@@ -19,9 +19,9 @@ int main(int argc, char **argv)
 	CLexer lexer(&input);
 	antlr4::CommonTokenStream tokens(&lexer);
 	CParser parser(&tokens);
-	auto tree = parser.compilationUnit();
+	/*auto tree =*/ parser.compilationUnit();
 
-	std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+	//std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
 
 	if (ifs.is_open())
 		ifs.close();

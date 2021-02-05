@@ -38,7 +38,7 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
         }
     }
 
-    return tree->toStringTree(&parser, true);
+    return ""; //tree->toStringTree(&parser, true);
 }
 
 std::string getParseTree(const std::string &in)
