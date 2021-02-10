@@ -5,7 +5,7 @@ GEN_FILES=$(patsubst %,generated/$(PROJ)%,$(GEN))
 
 SRCS=$(filter %.cpp,$(GEN_FILES))
 OBJS=$(patsubst %.cpp,%.o,$(SRCS))
-CXXFLAGS=-I/usr/include/antlr4-runtime -Igenerated -Wno-attributes -Wall -g -Og -fPIC -mfentry
+CXXFLAGS=-I/usr/include/antlr4-runtime -Igenerated -Wno-attributes -Wall -g -Og -fPIC -mfentry -MD
 # -ggdb -flto
 LDFLAGS=-Og -fPIC -g
 # -flto
@@ -16,8 +16,8 @@ generate: $(GEN_FILES)
 all: $(PROJ) FORCE
 	LD_LIBRARY_PATH=. ./$< in.c
 
-generated/%BaseListener.cpp generated/%BaseListener.h generated/%BaseVisitor.cpp generated/%BaseVisitor.h generated/%Lexer.cpp generated/%Lexer.h generated/%Listener.cpp generated/%Listener.h generated/%Parser.cpp generated/%Parser.h generated/%Visitor.cpp generated/%Visitor.h: %.g4
-	java -jar $(ANTLR) -visitor -Dlanguage=Cpp -o generated $^
+generated/%BaseListener.cpp generated/%BaseListener.h generated/%BaseVisitor.cpp generated/%BaseVisitor.h generated/%Lexer.cpp generated/%Lexer.h generated/%Listener.cpp generated/%Listener.h generated/%Parser.cpp generated/%Parser.h generated/%Visitor.cpp generated/%Visitor.h: %.g4 $(ANTLR)
+	java -jar $(ANTLR) -visitor -Dlanguage=Cpp -o generated $<
 
 main.cpp: $(filter %.h,$(GEN_FILES))
 
@@ -28,9 +28,11 @@ $(PROJ): main.o libparser.so
 	$(CXX) $(LDFLAGS) -o $@ $< -L. -lparser $(LDLIBS)
 
 clean:
-	rm -f $(PROJ) *.so *.o generated/*.o
+	rm -f $(PROJ) *.so *.o generated/*.o *.d generated/*.d
 
 mrproper: clean
 	rm -fr generated/
 
 .PHONY: FORCE
+
+-include *.d generated/*.d
