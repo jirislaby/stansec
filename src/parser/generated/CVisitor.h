@@ -89,8 +89,6 @@ public:
 
     virtual antlrcpp::Any visitStructOrUnion(CParser::StructOrUnionContext *context) = 0;
 
-    virtual antlrcpp::Any visitStructDeclarationList(CParser::StructDeclarationListContext *context) = 0;
-
     virtual antlrcpp::Any visitStructDeclaration(CParser::StructDeclarationContext *context) = 0;
 
     virtual antlrcpp::Any visitSpecifierQualifierList(CParser::SpecifierQualifierListContext *context) = 0;
@@ -167,8 +165,6 @@ public:
 
     virtual antlrcpp::Any visitCompoundStatement(CParser::CompoundStatementContext *context) = 0;
 
-    virtual antlrcpp::Any visitBlockItemList(CParser::BlockItemListContext *context) = 0;
-
     virtual antlrcpp::Any visitBlockItem(CParser::BlockItemContext *context) = 0;
 
     virtual antlrcpp::Any visitExpressionStatement(CParser::ExpressionStatementContext *context) = 0;
@@ -206,8 +202,6 @@ public:
     virtual antlrcpp::Any visitAsmStringLiteral(CParser::AsmStringLiteralContext *context) = 0;
 
     virtual antlrcpp::Any visitCompilationUnit(CParser::CompilationUnitContext *context) = 0;
-
-    virtual antlrcpp::Any visitTranslationUnit(CParser::TranslationUnitContext *context) = 0;
 
     virtual antlrcpp::Any visitExternalDeclaration(CParser::ExternalDeclarationContext *context) = 0;
 

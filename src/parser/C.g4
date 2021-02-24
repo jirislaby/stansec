@@ -54,8 +54,7 @@ genericSelection
     ;
 
 genericAssocList
-    :   genericAssociation
-    |   genericAssocList ',' genericAssociation
+    :   genericAssociation (',' genericAssociation )*
     ;
 
 genericAssociation
@@ -78,8 +77,7 @@ postfixExpression
     ;
 
 argumentExpressionList
-    :   assignmentExpression
-    |   argumentExpressionList ',' assignmentExpression
+    :   assignmentExpression ( ',' assignmentExpression )*
     ;
 
 unaryExpression
@@ -214,8 +212,7 @@ declarationSpecifier
     ;
 
 initDeclaratorList
-    :   initDeclarator
-    |   initDeclaratorList ',' initDeclarator
+    :   initDeclarator (',' initDeclarator)*
     ;
 
 initDeclarator
@@ -258,7 +255,7 @@ typeSpecifier
     ;
 
 structOrUnionSpecifier
-    :   structOrUnion gccAttributeSpecifier? Identifier? '{' structDeclarationList? '}' gccAttributeSpecifier?
+    :   structOrUnion gccAttributeSpecifier? Identifier? '{' structDeclaration* '}' gccAttributeSpecifier?
     |   structOrUnion gccAttributeSpecifier? Identifier
     ;
 
@@ -267,24 +264,18 @@ structOrUnion
     |   'union'
     ;
 
-structDeclarationList
-    :   structDeclaration
-    |   structDeclarationList structDeclaration
-    ;
-
 structDeclaration
     :   specifierQualifierList structDeclaratorList? ';'
     |   staticAssertDeclaration
     ;
 
 specifierQualifierList
-    :   typeSpecifier specifierQualifierList?
-    |   typeQualifier specifierQualifierList?
+    :   ( typeSpecifier
+    |   typeQualifier )+
     ;
 
 structDeclaratorList
-    :   structDeclarator
-    |   structDeclaratorList ',' structDeclarator
+    :   structDeclarator ( ',' structDeclarator )*
     ;
 
 structDeclarator
@@ -400,8 +391,7 @@ parameterTypeList
     ;
 
 parameterList
-    :   parameterDeclaration
-    |   parameterList ',' parameterDeclaration
+    :   parameterDeclaration ( ',' parameterDeclaration )*
     ;
 
 parameterDeclaration
@@ -487,12 +477,7 @@ labeledStatement
     ;
 
 compoundStatement
-    :   '{' blockItemList? '}'
-    ;
-
-blockItemList
-    :   blockItem
-    |   blockItemList blockItem
+    :   '{' blockItem* '}'
     ;
 
 blockItem
@@ -596,12 +581,7 @@ compilationUnit
 @init {
 	inTypedef = takeTypedef = false;
 }
-    :   translationUnit? EOF
-    ;
-
-translationUnit
-    :   externalDeclaration
-    |   translationUnit externalDeclaration
+    :   externalDeclaration* EOF
     ;
 
 externalDeclaration

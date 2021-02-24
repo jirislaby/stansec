@@ -119,9 +119,6 @@ public:
   virtual void enterStructOrUnion(CParser::StructOrUnionContext *ctx) = 0;
   virtual void exitStructOrUnion(CParser::StructOrUnionContext *ctx) = 0;
 
-  virtual void enterStructDeclarationList(CParser::StructDeclarationListContext *ctx) = 0;
-  virtual void exitStructDeclarationList(CParser::StructDeclarationListContext *ctx) = 0;
-
   virtual void enterStructDeclaration(CParser::StructDeclarationContext *ctx) = 0;
   virtual void exitStructDeclaration(CParser::StructDeclarationContext *ctx) = 0;
 
@@ -236,9 +233,6 @@ public:
   virtual void enterCompoundStatement(CParser::CompoundStatementContext *ctx) = 0;
   virtual void exitCompoundStatement(CParser::CompoundStatementContext *ctx) = 0;
 
-  virtual void enterBlockItemList(CParser::BlockItemListContext *ctx) = 0;
-  virtual void exitBlockItemList(CParser::BlockItemListContext *ctx) = 0;
-
   virtual void enterBlockItem(CParser::BlockItemContext *ctx) = 0;
   virtual void exitBlockItem(CParser::BlockItemContext *ctx) = 0;
 
@@ -295,9 +289,6 @@ public:
 
   virtual void enterCompilationUnit(CParser::CompilationUnitContext *ctx) = 0;
   virtual void exitCompilationUnit(CParser::CompilationUnitContext *ctx) = 0;
-
-  virtual void enterTranslationUnit(CParser::TranslationUnitContext *ctx) = 0;
-  virtual void exitTranslationUnit(CParser::TranslationUnitContext *ctx) = 0;
 
   virtual void enterExternalDeclaration(CParser::ExternalDeclarationContext *ctx) = 0;
   virtual void exitExternalDeclaration(CParser::ExternalDeclarationContext *ctx) = 0;

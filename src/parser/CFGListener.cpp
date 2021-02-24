@@ -55,27 +55,22 @@ void CFGListener::enterEveryRule(antlr4::ParserRuleContext *ctx)
 
 void CFGListener::exitCompoundStatement(CParser::CompoundStatementContext *ctx)
 {
-    if (auto bil = ctx->blockItemList()) {
-        auto bilCfg = cfgs.removeFrom(bil);
-        cfgs.put(ctx, bilCfg);
-    } else {
-        auto cfg = new CFGPart(tokens);
+    CFGPart *cfg;
+    auto nitems = ctx->blockItem().size();
+
+    if (!nitems) {
+        cfg = new CFGPart(tokens);
         cfg->append(new CFGNode(ctx->getSourceInterval()));
-        cfgs.put(ctx, cfg);
-    }
-}
-
-void CFGListener::exitBlockItemList(CParser::BlockItemListContext *ctx)
-{
-    auto cfg = cfgs.removeFrom(ctx->blockItem());
-
-    if (auto bil = ctx->blockItemList()) {
-        auto bilCfg = cfgs.removeFrom(bil);
-        bilCfg->append(cfg);
-        cfg = bilCfg;
-    }
+    } else
+        cfg = cfgs.removeFrom(ctx->blockItem(0));
 
     cfgs.put(ctx, cfg);
+
+    for (typeof(nitems) i = 1; i < nitems; ++i) {
+        auto bi = ctx->blockItem(i);
+        auto bilCfg = cfgs.removeFrom(bi);
+        cfg->append(bilCfg);
+    }
 }
 
 void CFGListener::exitBlockItem(CParser::BlockItemContext *ctx)

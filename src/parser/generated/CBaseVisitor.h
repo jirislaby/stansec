@@ -155,10 +155,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitStructDeclarationList(CParser::StructDeclarationListContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitStructDeclaration(CParser::StructDeclarationContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -311,10 +307,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitBlockItemList(CParser::BlockItemListContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual antlrcpp::Any visitBlockItem(CParser::BlockItemContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -388,10 +380,6 @@ public:
   }
 
   virtual antlrcpp::Any visitCompilationUnit(CParser::CompilationUnitContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitTranslationUnit(CParser::TranslationUnitContext *ctx) override {
     return visitChildren(ctx);
   }
 

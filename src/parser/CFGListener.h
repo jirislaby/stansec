@@ -18,7 +18,6 @@ public:
     void enterEveryRule(antlr4::ParserRuleContext *) override;
 
     void exitCompoundStatement(CParser::CompoundStatementContext *) override;
-    void exitBlockItemList(CParser::BlockItemListContext *) override;
     void exitBlockItem(CParser::BlockItemContext *) override;
 
     void exitStatement(CParser::StatementContext *) override;
