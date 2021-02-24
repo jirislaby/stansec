@@ -70,9 +70,9 @@ postfixExpression
     |   postfixExpression '->' Identifier
     |   postfixExpression '++'
     |   postfixExpression '--'
-    |   '(' typeName ')' '{' initializerList '}'
+    |   '(' typeName ')' '{' initializerList? '}' // ? is GNU
     |   '(' typeName ')' '{' initializerList ',' '}'
-    |   '__extension__' '(' typeName ')' '{' initializerList '}'
+    |   '__extension__' '(' typeName ')' '{' initializerList? '}' // ? is GNU
     |   '__extension__' '(' typeName ')' '{' initializerList ',' '}'
     ;
 
@@ -166,7 +166,7 @@ logicalOrExpression
     ;
 
 conditionalExpression
-    :   logicalOrExpression ('?' expression ':' conditionalExpression)?
+    :   logicalOrExpression ('?' expression? ':' conditionalExpression)? // GNU: "expression?"
     ;
 
 assignmentExpression
@@ -237,14 +237,16 @@ typeSpecifier
     |   'long'
     |   'float'
     |   'double'
-    |   'signed'
+    |   'signed' | '__signed' | '__signed__'
     |   'unsigned'
     |   '_Bool'
-    |   '_Complex'
+    |   '_Complex' | '__complex' | '__complex__'
+    |   '__int128'
     |   '__m128'
     |   '__m128d'
     |   '__m128i')
     |   '__extension__' '(' ('__m128' | '__m128d' | '__m128i') ')'
+    |   '__builtin_va_list'
     |   atomicTypeSpecifier
     |   structOrUnionSpecifier
     |   enumSpecifier
@@ -266,6 +268,7 @@ structOrUnion
 
 structDeclaration
     :   specifierQualifierList structDeclaratorList? ';'
+    |   ';' // GNU
     |   staticAssertDeclaration
     ;
 
@@ -331,7 +334,7 @@ alignmentSpecifier
     ;
 
 declarator
-    :   pointer? directDeclarator gccDeclaratorExtension*
+    :   pointer? gccAttributeSpecifier? directDeclarator gccDeclaratorExtension*
     ;
 
 directDeclarator
@@ -433,6 +436,7 @@ typedefName
 
 initializer
     :   assignmentExpression
+    |   '{' '}' // GNU
     |   '{' initializerList '}'
     |   '{' initializerList ',' '}'
     ;
@@ -478,11 +482,16 @@ labeledStatement
 
 compoundStatement
     :   '{' blockItem* '}'
+    |   '{' labelDeclaration+ blockItem* '}'
     ;
 
 blockItem
     :   statement
     |   declaration
+    ;
+
+labelDeclaration
+    :   '__label__' identifierList ';'
     ;
 
 expressionStatement

@@ -236,6 +236,9 @@ public:
   virtual void enterBlockItem(CParser::BlockItemContext *ctx) = 0;
   virtual void exitBlockItem(CParser::BlockItemContext *ctx) = 0;
 
+  virtual void enterLabelDeclaration(CParser::LabelDeclarationContext *ctx) = 0;
+  virtual void exitLabelDeclaration(CParser::LabelDeclarationContext *ctx) = 0;
+
   virtual void enterExpressionStatement(CParser::ExpressionStatementContext *ctx) = 0;
   virtual void exitExpressionStatement(CParser::ExpressionStatementContext *ctx) = 0;
 
