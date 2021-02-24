@@ -1,5 +1,5 @@
 
-// Generated from C.g4 by ANTLR 4.8
+// Generated from C.g4 by ANTLR 4.9.1
 
 
 #include "CLexer.h"
@@ -60,37 +60,33 @@ atn::ATN CLexer::_atn;
 std::vector<uint16_t> CLexer::_serializedATN;
 
 std::vector<std::string> CLexer::_ruleNames = {
-  u8"T__0", u8"T__1", u8"T__2", u8"T__3", u8"T__4", u8"T__5", u8"T__6", 
-  u8"T__7", u8"T__8", u8"T__9", u8"T__10", u8"T__11", u8"T__12", u8"T__13", 
-  u8"T__14", u8"T__15", u8"T__16", u8"T__17", u8"T__18", u8"Auto", u8"Break", 
-  u8"Case", u8"Char", u8"Const", u8"Continue", u8"Default", u8"Do", u8"Double", 
-  u8"Else", u8"Enum", u8"Extern", u8"Float", u8"For", u8"Goto", u8"If", 
-  u8"Inline", u8"Int", u8"Long", u8"Register", u8"Restrict", u8"Return", 
-  u8"Short", u8"Signed", u8"Sizeof", u8"Static", u8"Struct", u8"Switch", 
-  u8"Typedef", u8"Typeof", u8"Union", u8"Unsigned", u8"Void", u8"Volatile", 
-  u8"While", u8"Alignas", u8"Alignof", u8"Atomic", u8"Bool", u8"Complex", 
-  u8"Generic", u8"Imaginary", u8"Noreturn", u8"StaticAssert", u8"ThreadLocal", 
-  u8"LeftParen", u8"RightParen", u8"LeftBracket", u8"RightBracket", u8"LeftBrace", 
-  u8"RightBrace", u8"Less", u8"LessEqual", u8"Greater", u8"GreaterEqual", 
-  u8"LeftShift", u8"RightShift", u8"Plus", u8"PlusPlus", u8"Minus", u8"MinusMinus", 
-  u8"Star", u8"Div", u8"Mod", u8"And", u8"Or", u8"AndAnd", u8"OrOr", u8"Caret", 
-  u8"Not", u8"Tilde", u8"Question", u8"Colon", u8"Semi", u8"Comma", u8"Assign", 
-  u8"StarAssign", u8"DivAssign", u8"ModAssign", u8"PlusAssign", u8"MinusAssign", 
-  u8"LeftShiftAssign", u8"RightShiftAssign", u8"AndAssign", u8"XorAssign", 
-  u8"OrAssign", u8"Equal", u8"NotEqual", u8"Arrow", u8"Dot", u8"Ellipsis", 
-  u8"Identifier", u8"IdentifierNondigit", u8"Nondigit", u8"Digit", u8"UniversalCharacterName", 
-  u8"HexQuad", u8"Constant", u8"IntegerConstant", u8"BinaryConstant", u8"DecimalConstant", 
-  u8"OctalConstant", u8"HexadecimalConstant", u8"HexadecimalPrefix", u8"NonzeroDigit", 
-  u8"OctalDigit", u8"HexadecimalDigit", u8"IntegerSuffix", u8"UnsignedSuffix", 
-  u8"LongSuffix", u8"LongLongSuffix", u8"FloatingConstant", u8"DecimalFloatingConstant", 
-  u8"HexadecimalFloatingConstant", u8"FractionalConstant", u8"ExponentPart", 
-  u8"Sign", u8"DigitSequence", u8"HexadecimalFractionalConstant", u8"BinaryExponentPart", 
-  u8"HexadecimalDigitSequence", u8"FloatingSuffix", u8"CharacterConstant", 
-  u8"CCharSequence", u8"CChar", u8"EscapeSequence", u8"SimpleEscapeSequence", 
-  u8"OctalEscapeSequence", u8"HexadecimalEscapeSequence", u8"StringLiteral", 
-  u8"EncodingPrefix", u8"SCharSequence", u8"SChar", u8"ComplexDefine", u8"IncludeDirective", 
-  u8"LineAfterPreprocessing", u8"LineDirective", u8"PragmaDirective", u8"Whitespace", 
-  u8"Newline", u8"BlockComment", u8"LineComment"
+  "T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
+  "T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
+  "T__17", "T__18", "Auto", "Break", "Case", "Char", "Const", "Continue", 
+  "Default", "Do", "Double", "Else", "Enum", "Extern", "Float", "For", "Goto", 
+  "If", "Inline", "Int", "Long", "Register", "Restrict", "Return", "Short", 
+  "Signed", "Sizeof", "Static", "Struct", "Switch", "Typedef", "Typeof", 
+  "Union", "Unsigned", "Void", "Volatile", "While", "Alignas", "Alignof", 
+  "Atomic", "Bool", "Complex", "Generic", "Imaginary", "Noreturn", "StaticAssert", 
+  "ThreadLocal", "LeftParen", "RightParen", "LeftBracket", "RightBracket", 
+  "LeftBrace", "RightBrace", "Less", "LessEqual", "Greater", "GreaterEqual", 
+  "LeftShift", "RightShift", "Plus", "PlusPlus", "Minus", "MinusMinus", 
+  "Star", "Div", "Mod", "And", "Or", "AndAnd", "OrOr", "Caret", "Not", "Tilde", 
+  "Question", "Colon", "Semi", "Comma", "Assign", "StarAssign", "DivAssign", 
+  "ModAssign", "PlusAssign", "MinusAssign", "LeftShiftAssign", "RightShiftAssign", 
+  "AndAssign", "XorAssign", "OrAssign", "Equal", "NotEqual", "Arrow", "Dot", 
+  "Ellipsis", "Identifier", "IdentifierNondigit", "Nondigit", "Digit", "UniversalCharacterName", 
+  "HexQuad", "Constant", "IntegerConstant", "BinaryConstant", "DecimalConstant", 
+  "OctalConstant", "HexadecimalConstant", "HexadecimalPrefix", "NonzeroDigit", 
+  "OctalDigit", "HexadecimalDigit", "IntegerSuffix", "UnsignedSuffix", "LongSuffix", 
+  "LongLongSuffix", "FloatingConstant", "DecimalFloatingConstant", "HexadecimalFloatingConstant", 
+  "FractionalConstant", "ExponentPart", "Sign", "DigitSequence", "HexadecimalFractionalConstant", 
+  "BinaryExponentPart", "HexadecimalDigitSequence", "FloatingSuffix", "CharacterConstant", 
+  "CCharSequence", "CChar", "EscapeSequence", "SimpleEscapeSequence", "OctalEscapeSequence", 
+  "HexadecimalEscapeSequence", "StringLiteral", "EncodingPrefix", "SCharSequence", 
+  "SChar", "ComplexDefine", "IncludeDirective", "LineAfterPreprocessing", 
+  "LineDirective", "PragmaDirective", "Whitespace", "Newline", "BlockComment", 
+  "LineComment"
 };
 
 std::vector<std::string> CLexer::_channelNames = {
@@ -98,52 +94,46 @@ std::vector<std::string> CLexer::_channelNames = {
 };
 
 std::vector<std::string> CLexer::_modeNames = {
-  u8"DEFAULT_MODE"
+  "DEFAULT_MODE"
 };
 
 std::vector<std::string> CLexer::_literalNames = {
-  "", u8"'__extension__'", u8"'__builtin_va_arg'", u8"'__builtin_offsetof'", 
-  u8"'__alignof__'", u8"'__builtin_types_compatible_p'", u8"'__m128'", u8"'__m128d'", 
-  u8"'__m128i'", u8"'__typeof__'", u8"'__volatile'", u8"'__volatile__'", 
-  u8"'__inline'", u8"'__inline__'", u8"'__stdcall'", u8"'__declspec'", u8"'asm'", 
-  u8"'__asm'", u8"'__asm__'", u8"'__attribute__'", u8"'auto'", u8"'break'", 
-  u8"'case'", u8"'char'", u8"'const'", u8"'continue'", u8"'default'", u8"'do'", 
-  u8"'double'", u8"'else'", u8"'enum'", u8"'extern'", u8"'float'", u8"'for'", 
-  u8"'goto'", u8"'if'", u8"'inline'", u8"'int'", u8"'long'", u8"'register'", 
-  u8"'restrict'", u8"'return'", u8"'short'", u8"'signed'", u8"'sizeof'", 
-  u8"'static'", u8"'struct'", u8"'switch'", u8"'typedef'", u8"'typeof'", 
-  u8"'union'", u8"'unsigned'", u8"'void'", u8"'volatile'", u8"'while'", 
-  u8"'_Alignas'", u8"'_Alignof'", u8"'_Atomic'", u8"'_Bool'", u8"'_Complex'", 
-  u8"'_Generic'", u8"'_Imaginary'", u8"'_Noreturn'", u8"'_Static_assert'", 
-  u8"'_Thread_local'", u8"'('", u8"')'", u8"'['", u8"']'", u8"'{'", u8"'}'", 
-  u8"'<'", u8"'<='", u8"'>'", u8"'>='", u8"'<<'", u8"'>>'", u8"'+'", u8"'++'", 
-  u8"'-'", u8"'--'", u8"'*'", u8"'/'", u8"'%'", u8"'&'", u8"'|'", u8"'&&'", 
-  u8"'||'", u8"'^'", u8"'!'", u8"'~'", u8"'?'", u8"':'", u8"';'", u8"','", 
-  u8"'='", u8"'*='", u8"'/='", u8"'%='", u8"'+='", u8"'-='", u8"'<<='", 
-  u8"'>>='", u8"'&='", u8"'^='", u8"'|='", u8"'=='", u8"'!='", u8"'->'", 
-  u8"'.'", u8"'...'"
+  "", "'__extension__'", "'__builtin_va_arg'", "'__builtin_offsetof'", "'__alignof__'", 
+  "'__builtin_types_compatible_p'", "'__m128'", "'__m128d'", "'__m128i'", 
+  "'__typeof__'", "'__volatile'", "'__volatile__'", "'__inline'", "'__inline__'", 
+  "'__stdcall'", "'__declspec'", "'asm'", "'__asm'", "'__asm__'", "'__attribute__'", 
+  "'auto'", "'break'", "'case'", "'char'", "'const'", "'continue'", "'default'", 
+  "'do'", "'double'", "'else'", "'enum'", "'extern'", "'float'", "'for'", 
+  "'goto'", "'if'", "'inline'", "'int'", "'long'", "'register'", "'restrict'", 
+  "'return'", "'short'", "'signed'", "'sizeof'", "'static'", "'struct'", 
+  "'switch'", "'typedef'", "'typeof'", "'union'", "'unsigned'", "'void'", 
+  "'volatile'", "'while'", "'_Alignas'", "'_Alignof'", "'_Atomic'", "'_Bool'", 
+  "'_Complex'", "'_Generic'", "'_Imaginary'", "'_Noreturn'", "'_Static_assert'", 
+  "'_Thread_local'", "'('", "')'", "'['", "']'", "'{'", "'}'", "'<'", "'<='", 
+  "'>'", "'>='", "'<<'", "'>>'", "'+'", "'++'", "'-'", "'--'", "'*'", "'/'", 
+  "'%'", "'&'", "'|'", "'&&'", "'||'", "'^'", "'!'", "'~'", "'\u003F'", 
+  "':'", "';'", "','", "'='", "'*='", "'/='", "'%='", "'+='", "'-='", "'<<='", 
+  "'>>='", "'&='", "'^='", "'|='", "'=='", "'!='", "'->'", "'.'", "'...'"
 };
 
 std::vector<std::string> CLexer::_symbolicNames = {
   "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
-  "", "", u8"Auto", u8"Break", u8"Case", u8"Char", u8"Const", u8"Continue", 
-  u8"Default", u8"Do", u8"Double", u8"Else", u8"Enum", u8"Extern", u8"Float", 
-  u8"For", u8"Goto", u8"If", u8"Inline", u8"Int", u8"Long", u8"Register", 
-  u8"Restrict", u8"Return", u8"Short", u8"Signed", u8"Sizeof", u8"Static", 
-  u8"Struct", u8"Switch", u8"Typedef", u8"Typeof", u8"Union", u8"Unsigned", 
-  u8"Void", u8"Volatile", u8"While", u8"Alignas", u8"Alignof", u8"Atomic", 
-  u8"Bool", u8"Complex", u8"Generic", u8"Imaginary", u8"Noreturn", u8"StaticAssert", 
-  u8"ThreadLocal", u8"LeftParen", u8"RightParen", u8"LeftBracket", u8"RightBracket", 
-  u8"LeftBrace", u8"RightBrace", u8"Less", u8"LessEqual", u8"Greater", u8"GreaterEqual", 
-  u8"LeftShift", u8"RightShift", u8"Plus", u8"PlusPlus", u8"Minus", u8"MinusMinus", 
-  u8"Star", u8"Div", u8"Mod", u8"And", u8"Or", u8"AndAnd", u8"OrOr", u8"Caret", 
-  u8"Not", u8"Tilde", u8"Question", u8"Colon", u8"Semi", u8"Comma", u8"Assign", 
-  u8"StarAssign", u8"DivAssign", u8"ModAssign", u8"PlusAssign", u8"MinusAssign", 
-  u8"LeftShiftAssign", u8"RightShiftAssign", u8"AndAssign", u8"XorAssign", 
-  u8"OrAssign", u8"Equal", u8"NotEqual", u8"Arrow", u8"Dot", u8"Ellipsis", 
-  u8"Identifier", u8"Constant", u8"DigitSequence", u8"StringLiteral", u8"ComplexDefine", 
-  u8"IncludeDirective", u8"LineAfterPreprocessing", u8"LineDirective", u8"PragmaDirective", 
-  u8"Whitespace", u8"Newline", u8"BlockComment", u8"LineComment"
+  "", "", "Auto", "Break", "Case", "Char", "Const", "Continue", "Default", 
+  "Do", "Double", "Else", "Enum", "Extern", "Float", "For", "Goto", "If", 
+  "Inline", "Int", "Long", "Register", "Restrict", "Return", "Short", "Signed", 
+  "Sizeof", "Static", "Struct", "Switch", "Typedef", "Typeof", "Union", 
+  "Unsigned", "Void", "Volatile", "While", "Alignas", "Alignof", "Atomic", 
+  "Bool", "Complex", "Generic", "Imaginary", "Noreturn", "StaticAssert", 
+  "ThreadLocal", "LeftParen", "RightParen", "LeftBracket", "RightBracket", 
+  "LeftBrace", "RightBrace", "Less", "LessEqual", "Greater", "GreaterEqual", 
+  "LeftShift", "RightShift", "Plus", "PlusPlus", "Minus", "MinusMinus", 
+  "Star", "Div", "Mod", "And", "Or", "AndAnd", "OrOr", "Caret", "Not", "Tilde", 
+  "Question", "Colon", "Semi", "Comma", "Assign", "StarAssign", "DivAssign", 
+  "ModAssign", "PlusAssign", "MinusAssign", "LeftShiftAssign", "RightShiftAssign", 
+  "AndAssign", "XorAssign", "OrAssign", "Equal", "NotEqual", "Arrow", "Dot", 
+  "Ellipsis", "Identifier", "Constant", "DigitSequence", "StringLiteral", 
+  "ComplexDefine", "IncludeDirective", "LineAfterPreprocessing", "LineDirective", 
+  "PragmaDirective", "Whitespace", "Newline", "BlockComment", "LineComment"
 };
 
 dfa::Vocabulary CLexer::_vocabulary(_literalNames, _symbolicNames);

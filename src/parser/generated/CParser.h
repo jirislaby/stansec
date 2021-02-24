@@ -1,5 +1,5 @@
 
-// Generated from C.g4 by ANTLR 4.8
+// Generated from C.g4 by ANTLR 4.9.1
 
 #pragma once
 
@@ -72,7 +72,7 @@ public:
     RuleExternalDeclaration = 95, RuleFunctionDefinition = 96, RuleDeclarationList = 97
   };
 
-  CParser(antlr4::TokenStream *input);
+  explicit CParser(antlr4::TokenStream *input);
   ~CParser();
 
   virtual std::string getGrammarFileName() const override;

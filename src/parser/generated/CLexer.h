@@ -1,5 +1,5 @@
 
-// Generated from C.g4 by ANTLR 4.8
+// Generated from C.g4 by ANTLR 4.9.1
 
 #pragma once
 
@@ -37,7 +37,7 @@ public:
     Whitespace = 120, Newline = 121, BlockComment = 122, LineComment = 123
   };
 
-  CLexer(antlr4::CharStream *input);
+  explicit CLexer(antlr4::CharStream *input);
   ~CLexer();
 
   virtual std::string getGrammarFileName() const override;

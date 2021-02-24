@@ -1,4 +1,4 @@
-ANTLR=antlr-4.8-complete.jar
+ANTLR=antlr-4.9.1-complete.jar
 PROJ=C
 GEN=BaseListener.cpp BaseListener.h BaseVisitor.cpp BaseVisitor.h Lexer.cpp Lexer.h Listener.cpp Listener.h Parser.cpp Parser.h Visitor.cpp Visitor.h
 GEN_FILES=$(patsubst %,generated/$(PROJ)%,$(GEN))

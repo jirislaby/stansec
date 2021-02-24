@@ -1,5 +1,5 @@
 
-// Generated from C.g4 by ANTLR 4.8
+// Generated from C.g4 by ANTLR 4.9.1
 
 
 #include "CListener.h"
@@ -116,7 +116,11 @@ CParser::PrimaryExpressionContext* CParser::primaryExpression() {
   enterRule(_localctx, 0, CParser::RulePrimaryExpression);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -232,6 +236,8 @@ CParser::PrimaryExpressionContext* CParser::primaryExpression() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -303,7 +309,11 @@ CParser::GenericSelectionContext* CParser::genericSelection() {
   GenericSelectionContext *_localctx = _tracker.createInstance<GenericSelectionContext>(_ctx, getState());
   enterRule(_localctx, 2, CParser::RuleGenericSelection);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -390,7 +400,11 @@ CParser::GenericAssocListContext* CParser::genericAssocList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -481,7 +495,11 @@ CParser::GenericAssociationContext* CParser::genericAssociation() {
   GenericAssociationContext *_localctx = _tracker.createInstance<GenericAssociationContext>(_ctx, getState());
   enterRule(_localctx, 6, CParser::RuleGenericAssociation);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -669,7 +687,11 @@ CParser::PostfixExpressionContext* CParser::postfixExpression(int precedence) {
 
     size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -756,6 +778,8 @@ CParser::PostfixExpressionContext* CParser::postfixExpression(int precedence) {
       break;
     }
 
+    default:
+      break;
     }
     _ctx->stop = _input->LT(-1);
     setState(317);
@@ -875,6 +899,8 @@ CParser::PostfixExpressionContext* CParser::postfixExpression(int precedence) {
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(319);
@@ -949,7 +975,11 @@ CParser::ArgumentExpressionListContext* CParser::argumentExpressionList(int prec
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -1081,7 +1111,11 @@ CParser::UnaryExpressionContext* CParser::unaryExpression() {
   enterRule(_localctx, 12, CParser::RuleUnaryExpression);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -1182,6 +1216,8 @@ CParser::UnaryExpressionContext* CParser::unaryExpression() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -1249,7 +1285,11 @@ CParser::GccBuiltinContext* CParser::gccBuiltin() {
   GccBuiltinContext *_localctx = _tracker.createInstance<GccBuiltinContext>(_ctx, getState());
   enterRule(_localctx, 14, CParser::RuleGccBuiltin);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -1337,7 +1377,11 @@ CParser::UnaryOperatorContext* CParser::unaryOperator() {
   enterRule(_localctx, 16, CParser::RuleUnaryOperator);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -1427,7 +1471,11 @@ CParser::CastExpressionContext* CParser::castExpression() {
   CastExpressionContext *_localctx = _tracker.createInstance<CastExpressionContext>(_ctx, getState());
   enterRule(_localctx, 18, CParser::RuleCastExpression);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -1476,6 +1524,8 @@ CParser::CastExpressionContext* CParser::castExpression() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -1555,7 +1605,11 @@ CParser::MultiplicativeExpressionContext* CParser::multiplicativeExpression(int 
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -1614,6 +1668,8 @@ CParser::MultiplicativeExpressionContext* CParser::multiplicativeExpression(int 
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(396);
@@ -1692,7 +1748,11 @@ CParser::AdditiveExpressionContext* CParser::additiveExpression(int precedence) 
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -1738,6 +1798,8 @@ CParser::AdditiveExpressionContext* CParser::additiveExpression(int precedence) 
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(410);
@@ -1816,7 +1878,11 @@ CParser::ShiftExpressionContext* CParser::shiftExpression(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -1862,6 +1928,8 @@ CParser::ShiftExpressionContext* CParser::shiftExpression(int precedence) {
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(424);
@@ -1948,7 +2016,11 @@ CParser::RelationalExpressionContext* CParser::relationalExpression(int preceden
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2020,6 +2092,8 @@ CParser::RelationalExpressionContext* CParser::relationalExpression(int preceden
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(444);
@@ -2098,7 +2172,11 @@ CParser::EqualityExpressionContext* CParser::equalityExpression(int precedence) 
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2144,6 +2222,8 @@ CParser::EqualityExpressionContext* CParser::equalityExpression(int precedence) 
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(458);
@@ -2218,7 +2298,11 @@ CParser::AndExpressionContext* CParser::andExpression(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2317,7 +2401,11 @@ CParser::ExclusiveOrExpressionContext* CParser::exclusiveOrExpression(int preced
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2416,7 +2504,11 @@ CParser::InclusiveOrExpressionContext* CParser::inclusiveOrExpression(int preced
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2515,7 +2607,11 @@ CParser::LogicalAndExpressionContext* CParser::logicalAndExpression(int preceden
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2614,7 +2710,11 @@ CParser::LogicalOrExpressionContext* CParser::logicalOrExpression(int precedence
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -2709,7 +2809,11 @@ CParser::ConditionalExpressionContext* CParser::conditionalExpression() {
   ConditionalExpressionContext *_localctx = _tracker.createInstance<ConditionalExpressionContext>(_ctx, getState());
   enterRule(_localctx, 40, CParser::RuleConditionalExpression);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -2732,6 +2836,8 @@ CParser::ConditionalExpressionContext* CParser::conditionalExpression() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -2799,7 +2905,11 @@ CParser::AssignmentExpressionContext* CParser::assignmentExpression() {
   AssignmentExpressionContext *_localctx = _tracker.createInstance<AssignmentExpressionContext>(_ctx, getState());
   enterRule(_localctx, 42, CParser::RuleAssignmentExpression);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -2831,6 +2941,8 @@ CParser::AssignmentExpressionContext* CParser::assignmentExpression() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -2923,7 +3035,11 @@ CParser::AssignmentOperatorContext* CParser::assignmentOperator() {
   enterRule(_localctx, 44, CParser::RuleAssignmentOperator);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3018,7 +3134,11 @@ CParser::ExpressionContext* CParser::expression(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -3097,7 +3217,11 @@ CParser::ConstantExpressionContext* CParser::constantExpression() {
   ConstantExpressionContext *_localctx = _tracker.createInstance<ConstantExpressionContext>(_ctx, getState());
   enterRule(_localctx, 48, CParser::RuleConstantExpression);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3166,7 +3290,11 @@ CParser::DeclarationContext* CParser::declaration() {
   DeclarationContext *_localctx = _tracker.createInstance<DeclarationContext>(_ctx, getState());
   enterRule(_localctx, 50, CParser::RuleDeclaration);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3200,6 +3328,8 @@ CParser::DeclarationContext* CParser::declaration() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -3255,7 +3385,11 @@ CParser::DeclarationSpecifiersContext* CParser::declarationSpecifiers() {
   DeclarationSpecifiersContext *_localctx = _tracker.createInstance<DeclarationSpecifiersContext>(_ctx, getState());
   enterRule(_localctx, 52, CParser::RuleDeclarationSpecifiers);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3333,7 +3467,11 @@ CParser::DeclarationSpecifiers2Context* CParser::declarationSpecifiers2() {
   DeclarationSpecifiers2Context *_localctx = _tracker.createInstance<DeclarationSpecifiers2Context>(_ctx, getState());
   enterRule(_localctx, 54, CParser::RuleDeclarationSpecifiers2);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3427,7 +3565,11 @@ CParser::DeclarationSpecifierContext* CParser::declarationSpecifier() {
   DeclarationSpecifierContext *_localctx = _tracker.createInstance<DeclarationSpecifierContext>(_ctx, getState());
   enterRule(_localctx, 56, CParser::RuleDeclarationSpecifier);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3476,6 +3618,8 @@ CParser::DeclarationSpecifierContext* CParser::declarationSpecifier() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -3547,7 +3691,11 @@ CParser::InitDeclaratorListContext* CParser::initDeclaratorList(int precedence) 
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -3634,7 +3782,11 @@ CParser::InitDeclaratorContext* CParser::initDeclarator() {
   InitDeclaratorContext *_localctx = _tracker.createInstance<InitDeclaratorContext>(_ctx, getState());
   enterRule(_localctx, 60, CParser::RuleInitDeclarator);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3659,6 +3811,8 @@ CParser::InitDeclaratorContext* CParser::initDeclarator() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -3731,7 +3885,11 @@ CParser::StorageClassSpecifierContext* CParser::storageClassSpecifier() {
   enterRule(_localctx, 62, CParser::RuleStorageClassSpecifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -3938,7 +4096,11 @@ CParser::TypeSpecifierContext* CParser::typeSpecifier(int precedence) {
 
     size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -4062,6 +4224,8 @@ CParser::TypeSpecifierContext* CParser::typeSpecifier(int precedence) {
       break;
     }
 
+    default:
+      break;
     }
     _ctx->stop = _input->LT(-1);
     setState(628);
@@ -4157,7 +4321,11 @@ CParser::StructOrUnionSpecifierContext* CParser::structOrUnionSpecifier() {
   enterRule(_localctx, 66, CParser::RuleStructOrUnionSpecifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4233,6 +4401,8 @@ CParser::StructOrUnionSpecifierContext* CParser::structOrUnionSpecifier() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -4254,6 +4424,8 @@ CParser::StructOrUnionSpecifierContext* CParser::structOrUnionSpecifier() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -4310,7 +4482,11 @@ CParser::StructOrUnionContext* CParser::structOrUnion() {
   enterRule(_localctx, 68, CParser::RuleStructOrUnion);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4392,7 +4568,11 @@ CParser::StructDeclarationListContext* CParser::structDeclarationList(int preced
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -4482,7 +4662,11 @@ CParser::StructDeclarationContext* CParser::structDeclaration() {
   enterRule(_localctx, 72, CParser::RuleStructDeclaration);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4605,7 +4789,11 @@ CParser::SpecifierQualifierListContext* CParser::specifierQualifierList() {
   SpecifierQualifierListContext *_localctx = _tracker.createInstance<SpecifierQualifierListContext>(_ctx, getState());
   enterRule(_localctx, 74, CParser::RuleSpecifierQualifierList);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4626,6 +4814,8 @@ CParser::SpecifierQualifierListContext* CParser::specifierQualifierList() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -4644,10 +4834,14 @@ CParser::SpecifierQualifierListContext* CParser::specifierQualifierList() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -4719,7 +4913,11 @@ CParser::StructDeclaratorListContext* CParser::structDeclaratorList(int preceden
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -4807,7 +5005,11 @@ CParser::StructDeclaratorContext* CParser::structDeclarator() {
   enterRule(_localctx, 78, CParser::RuleStructDeclarator);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4842,6 +5044,8 @@ CParser::StructDeclaratorContext* CParser::structDeclarator() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -4922,7 +5126,11 @@ CParser::EnumSpecifierContext* CParser::enumSpecifier() {
   enterRule(_localctx, 80, CParser::RuleEnumSpecifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -4965,6 +5173,8 @@ CParser::EnumSpecifierContext* CParser::enumSpecifier() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -5007,6 +5217,8 @@ CParser::EnumSpecifierContext* CParser::enumSpecifier() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -5028,6 +5240,8 @@ CParser::EnumSpecifierContext* CParser::enumSpecifier() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -5099,7 +5313,11 @@ CParser::EnumeratorListContext* CParser::enumeratorList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -5186,7 +5404,11 @@ CParser::EnumeratorContext* CParser::enumerator() {
   EnumeratorContext *_localctx = _tracker.createInstance<EnumeratorContext>(_ctx, getState());
   enterRule(_localctx, 84, CParser::RuleEnumerator);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5211,6 +5433,8 @@ CParser::EnumeratorContext* CParser::enumerator() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -5262,7 +5486,11 @@ CParser::EnumerationConstantContext* CParser::enumerationConstant() {
   EnumerationConstantContext *_localctx = _tracker.createInstance<EnumerationConstantContext>(_ctx, getState());
   enterRule(_localctx, 86, CParser::RuleEnumerationConstant);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5331,7 +5559,11 @@ CParser::AtomicTypeSpecifierContext* CParser::atomicTypeSpecifier() {
   AtomicTypeSpecifierContext *_localctx = _tracker.createInstance<AtomicTypeSpecifierContext>(_ctx, getState());
   enterRule(_localctx, 88, CParser::RuleAtomicTypeSpecifier);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5407,7 +5639,11 @@ CParser::TypeQualifierContext* CParser::typeQualifier() {
   enterRule(_localctx, 90, CParser::RuleTypeQualifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5494,7 +5730,11 @@ CParser::FunctionSpecifierContext* CParser::functionSpecifier() {
   enterRule(_localctx, 92, CParser::RuleFunctionSpecifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5606,7 +5846,11 @@ CParser::AlignmentSpecifierContext* CParser::alignmentSpecifier() {
   AlignmentSpecifierContext *_localctx = _tracker.createInstance<AlignmentSpecifierContext>(_ctx, getState());
   enterRule(_localctx, 94, CParser::RuleAlignmentSpecifier);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5639,6 +5883,8 @@ CParser::AlignmentSpecifierContext* CParser::alignmentSpecifier() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -5703,7 +5949,11 @@ CParser::DeclaratorContext* CParser::declarator() {
   enterRule(_localctx, 96, CParser::RuleDeclarator);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -5859,7 +6109,11 @@ CParser::DirectDeclaratorContext* CParser::directDeclarator(int precedence) {
 
     size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -5935,6 +6189,8 @@ CParser::DirectDeclaratorContext* CParser::directDeclarator(int precedence) {
       break;
     }
 
+    default:
+      break;
     }
     _ctx->stop = _input->LT(-1);
     setState(858);
@@ -6120,6 +6376,8 @@ CParser::DirectDeclaratorContext* CParser::directDeclarator(int precedence) {
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(860);
@@ -6191,7 +6449,11 @@ CParser::GccDeclaratorExtensionContext* CParser::gccDeclaratorExtension() {
   enterRule(_localctx, 100, CParser::RuleGccDeclaratorExtension);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -6307,7 +6569,11 @@ CParser::GccAttributeSpecifierContext* CParser::gccAttributeSpecifier() {
   GccAttributeSpecifierContext *_localctx = _tracker.createInstance<GccAttributeSpecifierContext>(_ctx, getState());
   enterRule(_localctx, 102, CParser::RuleGccAttributeSpecifier);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -6387,7 +6653,11 @@ CParser::GccAttributeListContext* CParser::gccAttributeList() {
   enterRule(_localctx, 104, CParser::RuleGccAttributeList);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -6419,6 +6689,8 @@ CParser::GccAttributeListContext* CParser::gccAttributeList() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -6491,7 +6763,11 @@ CParser::GccAttributeContext* CParser::gccAttribute() {
   enterRule(_localctx, 106, CParser::RuleGccAttribute);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -6755,7 +7031,11 @@ CParser::NestedParenthesesBlockContext* CParser::nestedParenthesesBlock() {
   enterRule(_localctx, 108, CParser::RuleNestedParenthesesBlock);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7104,7 +7384,11 @@ CParser::PointerContext* CParser::pointer() {
   enterRule(_localctx, 110, CParser::RulePointer);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7125,6 +7409,8 @@ CParser::PointerContext* CParser::pointer() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -7166,6 +7452,8 @@ CParser::PointerContext* CParser::pointer() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
@@ -7193,6 +7481,8 @@ CParser::PointerContext* CParser::pointer() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -7260,7 +7550,11 @@ CParser::TypeQualifierListContext* CParser::typeQualifierList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -7345,7 +7639,11 @@ CParser::ParameterTypeListContext* CParser::parameterTypeList() {
   ParameterTypeListContext *_localctx = _tracker.createInstance<ParameterTypeListContext>(_ctx, getState());
   enterRule(_localctx, 114, CParser::RuleParameterTypeList);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7370,6 +7668,8 @@ CParser::ParameterTypeListContext* CParser::parameterTypeList() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -7441,7 +7741,11 @@ CParser::ParameterListContext* CParser::parameterList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -7532,7 +7836,11 @@ CParser::ParameterDeclarationContext* CParser::parameterDeclaration() {
   ParameterDeclarationContext *_localctx = _tracker.createInstance<ParameterDeclarationContext>(_ctx, getState());
   enterRule(_localctx, 118, CParser::RuleParameterDeclaration);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7562,10 +7870,14 @@ CParser::ParameterDeclarationContext* CParser::parameterDeclaration() {
         break;
       }
 
+      default:
+        break;
       }
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -7637,7 +7949,11 @@ CParser::IdentifierListContext* CParser::identifierList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -7721,7 +8037,11 @@ CParser::TypeNameContext* CParser::typeName() {
   enterRule(_localctx, 122, CParser::RuleTypeName);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7803,7 +8123,11 @@ CParser::AbstractDeclaratorContext* CParser::abstractDeclarator() {
   enterRule(_localctx, 124, CParser::RuleAbstractDeclarator);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -7847,6 +8171,8 @@ CParser::AbstractDeclaratorContext* CParser::abstractDeclarator() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -7958,7 +8284,11 @@ CParser::DirectAbstractDeclaratorContext* CParser::directAbstractDeclarator(int 
 
     size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -8160,6 +8490,8 @@ CParser::DirectAbstractDeclaratorContext* CParser::directAbstractDeclarator(int 
       break;
     }
 
+    default:
+      break;
     }
     _ctx->stop = _input->LT(-1);
     setState(1087);
@@ -8369,6 +8701,8 @@ CParser::DirectAbstractDeclaratorContext* CParser::directAbstractDeclarator(int 
           break;
         }
 
+        default:
+          break;
         } 
       }
       setState(1089);
@@ -8423,7 +8757,11 @@ CParser::TypedefNameContext* CParser::typedefName() {
   TypedefNameContext *_localctx = _tracker.createInstance<TypedefNameContext>(_ctx, getState());
   enterRule(_localctx, 128, CParser::RuleTypedefName);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -8496,7 +8834,11 @@ CParser::InitializerContext* CParser::initializer() {
   InitializerContext *_localctx = _tracker.createInstance<InitializerContext>(_ctx, getState());
   enterRule(_localctx, 130, CParser::RuleInitializer);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -8534,6 +8876,8 @@ CParser::InitializerContext* CParser::initializer() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -8609,7 +8953,11 @@ CParser::InitializerListContext* CParser::initializerList(int precedence) {
 
     size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -8712,7 +9060,11 @@ CParser::DesignationContext* CParser::designation() {
   DesignationContext *_localctx = _tracker.createInstance<DesignationContext>(_ctx, getState());
   enterRule(_localctx, 134, CParser::RuleDesignation);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -8787,7 +9139,11 @@ CParser::DesignatorListContext* CParser::designatorList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -8880,7 +9236,11 @@ CParser::DesignatorContext* CParser::designator() {
   DesignatorContext *_localctx = _tracker.createInstance<DesignatorContext>(_ctx, getState());
   enterRule(_localctx, 138, CParser::RuleDesignator);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -8989,7 +9349,11 @@ CParser::StaticAssertDeclarationContext* CParser::staticAssertDeclaration() {
   enterRule(_localctx, 140, CParser::RuleStaticAssertDeclaration);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9090,7 +9454,11 @@ CParser::StatementContext* CParser::statement() {
   StatementContext *_localctx = _tracker.createInstance<StatementContext>(_ctx, getState());
   enterRule(_localctx, 142, CParser::RuleStatement);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9146,6 +9514,8 @@ CParser::StatementContext* CParser::statement() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -9226,7 +9596,11 @@ CParser::LabeledStatementContext* CParser::labeledStatement() {
   enterRule(_localctx, 144, CParser::RuleLabeledStatement);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9340,7 +9714,11 @@ CParser::CompoundStatementContext* CParser::compoundStatement() {
   enterRule(_localctx, 146, CParser::RuleCompoundStatement);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9501,7 +9879,11 @@ CParser::BlockItemListContext* CParser::blockItemList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -9582,7 +9964,11 @@ CParser::BlockItemContext* CParser::blockItem() {
   BlockItemContext *_localctx = _tracker.createInstance<BlockItemContext>(_ctx, getState());
   enterRule(_localctx, 150, CParser::RuleBlockItem);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9603,6 +9989,8 @@ CParser::BlockItemContext* CParser::blockItem() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -9659,7 +10047,11 @@ CParser::ExpressionStatementContext* CParser::expressionStatement() {
   enterRule(_localctx, 152, CParser::RuleExpressionStatement);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9774,7 +10166,11 @@ CParser::SelectionStatementContext* CParser::selectionStatement() {
   SelectionStatementContext *_localctx = _tracker.createInstance<SelectionStatementContext>(_ctx, getState());
   enterRule(_localctx, 154, CParser::RuleSelectionStatement);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -9805,6 +10201,8 @@ CParser::SelectionStatementContext* CParser::selectionStatement() {
           break;
         }
 
+        default:
+          break;
         }
         break;
       }
@@ -9909,7 +10307,11 @@ CParser::IterationStatementContext* CParser::iterationStatement() {
   IterationStatementContext *_localctx = _tracker.createInstance<IterationStatementContext>(_ctx, getState());
   enterRule(_localctx, 156, CParser::RuleIterationStatement);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10039,7 +10441,11 @@ CParser::ForConditionContext* CParser::forCondition() {
   enterRule(_localctx, 158, CParser::RuleForCondition);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10216,6 +10622,8 @@ CParser::ForConditionContext* CParser::forCondition() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -10271,7 +10679,11 @@ CParser::ForDeclarationContext* CParser::forDeclaration() {
   ForDeclarationContext *_localctx = _tracker.createInstance<ForDeclarationContext>(_ctx, getState());
   enterRule(_localctx, 160, CParser::RuleForDeclaration);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10294,6 +10706,8 @@ CParser::ForDeclarationContext* CParser::forDeclaration() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -10365,7 +10779,11 @@ CParser::ForExpressionContext* CParser::forExpression(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -10473,7 +10891,11 @@ CParser::JumpStatementContext* CParser::jumpStatement() {
   enterRule(_localctx, 164, CParser::RuleJumpStatement);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10559,6 +10981,8 @@ CParser::JumpStatementContext* CParser::jumpStatement() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -10635,7 +11059,11 @@ CParser::AsmStatementContext* CParser::asmStatement() {
   enterRule(_localctx, 166, CParser::RuleAsmStatement);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10710,6 +11138,8 @@ CParser::AsmStatementContext* CParser::asmStatement() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -10766,7 +11196,11 @@ CParser::AsmQualifierContext* CParser::asmQualifier() {
   enterRule(_localctx, 168, CParser::RuleAsmQualifier);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10861,7 +11295,11 @@ CParser::AsmArgumentContext* CParser::asmArgument() {
   enterRule(_localctx, 170, CParser::RuleAsmArgument);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -10993,7 +11431,11 @@ CParser::AsmOperandsContext* CParser::asmOperands() {
   enterRule(_localctx, 172, CParser::RuleAsmOperands);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11086,7 +11528,11 @@ CParser::AsmOperandContext* CParser::asmOperand() {
   AsmOperandContext *_localctx = _tracker.createInstance<AsmOperandContext>(_ctx, getState());
   enterRule(_localctx, 174, CParser::RuleAsmOperand);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11191,7 +11637,11 @@ CParser::AsmClobbersContext* CParser::asmClobbers() {
   enterRule(_localctx, 176, CParser::RuleAsmClobbers);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11273,7 +11723,11 @@ CParser::AsmLabelsContext* CParser::asmLabels() {
   enterRule(_localctx, 178, CParser::RuleAsmLabels);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11342,7 +11796,11 @@ CParser::AsmDefinitionContext* CParser::asmDefinition() {
   AsmDefinitionContext *_localctx = _tracker.createInstance<AsmDefinitionContext>(_ctx, getState());
   enterRule(_localctx, 180, CParser::RuleAsmDefinition);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11408,7 +11866,11 @@ CParser::SimpleAsmExprContext* CParser::simpleAsmExpr() {
   enterRule(_localctx, 182, CParser::RuleSimpleAsmExpr);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11486,7 +11948,11 @@ CParser::AsmStringLiteralContext* CParser::asmStringLiteral() {
   enterRule(_localctx, 184, CParser::RuleAsmStringLiteral);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11556,7 +12022,11 @@ CParser::CompilationUnitContext* CParser::compilationUnit() {
   enterRule(_localctx, 186, CParser::RuleCompilationUnit);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11686,7 +12156,11 @@ CParser::TranslationUnitContext* CParser::translationUnit(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -11775,7 +12249,11 @@ CParser::ExternalDeclarationContext* CParser::externalDeclaration() {
   ExternalDeclarationContext *_localctx = _tracker.createInstance<ExternalDeclarationContext>(_ctx, getState());
   enterRule(_localctx, 190, CParser::RuleExternalDeclaration);
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11810,6 +12288,8 @@ CParser::ExternalDeclarationContext* CParser::externalDeclaration() {
       break;
     }
 
+    default:
+      break;
     }
    
   }
@@ -11874,7 +12354,11 @@ CParser::FunctionDefinitionContext* CParser::functionDefinition() {
   enterRule(_localctx, 192, CParser::RuleFunctionDefinition);
   size_t _la = 0;
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     exitRule();
   });
   try {
@@ -11889,6 +12373,8 @@ CParser::FunctionDefinitionContext* CParser::functionDefinition() {
       break;
     }
 
+    default:
+      break;
     }
     setState(1422);
     declarator();
@@ -12010,7 +12496,11 @@ CParser::DeclarationListContext* CParser::declarationList(int precedence) {
 
     
 
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
   auto onExit = finally([=] {
+#endif
     unrollRecursionContexts(parentContext);
   });
   try {
@@ -12459,8 +12949,8 @@ std::vector<std::string> CParser::_literalNames = {
   "'_Complex'", "'_Generic'", "'_Imaginary'", "'_Noreturn'", "'_Static_assert'", 
   "'_Thread_local'", "'('", "')'", "'['", "']'", "'{'", "'}'", "'<'", "'<='", 
   "'>'", "'>='", "'<<'", "'>>'", "'+'", "'++'", "'-'", "'--'", "'*'", "'/'", 
-  "'%'", "'&'", "'|'", "'&&'", "'||'", "'^'", "'!'", "'~'", "'?'", "':'", 
-  "';'", "','", "'='", "'*='", "'/='", "'%='", "'+='", "'-='", "'<<='", 
+  "'%'", "'&'", "'|'", "'&&'", "'||'", "'^'", "'!'", "'~'", "'\u003F'", 
+  "':'", "';'", "','", "'='", "'*='", "'/='", "'%='", "'+='", "'-='", "'<<='", 
   "'>>='", "'&='", "'^='", "'|='", "'=='", "'!='", "'->'", "'.'", "'...'"
 };
 
