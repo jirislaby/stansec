@@ -5,6 +5,15 @@
 #include "CLexer.h"
 #include "CParser.h"
 
+#undef DUMP_TREE
+
+static void dumpTree(CParser &parser, antlr4::ParserRuleContext *tree)
+{
+#ifdef DUMP_TREE
+	std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+#endif
+}
+
 int main(int argc, char **argv)
 {
 	std::ifstream ifs;
@@ -19,9 +28,7 @@ int main(int argc, char **argv)
 	CLexer lexer(&input);
 	antlr4::CommonTokenStream tokens(&lexer);
 	CParser parser(&tokens);
-	/*auto tree =*/ parser.compilationUnit();
-
-	//std::cout << tree->toStringTree(&parser, true) << std::endl << std::endl;
+	dumpTree(parser, parser.compilationUnit());
 
 	if (ifs.is_open())
 		ifs.close();

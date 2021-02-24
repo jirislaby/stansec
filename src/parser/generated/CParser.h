@@ -90,6 +90,8 @@ public:
   	void addTypeName(const antlr4::Token *tok);
   	bool isTypeName(const antlr4::Token *tok);
 
+  	void dumpTypes();
+
 
   class PrimaryExpressionContext;
   class GenericSelectionContext;
