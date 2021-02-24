@@ -1,1 +1,5 @@
 !Makefile
+*.d
+*.dot
+*.pdf
+C
