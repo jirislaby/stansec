@@ -35,6 +35,8 @@ grammar C;
 
 	void addTypeName(const antlr4::Token *tok);
 	bool isTypeName(const antlr4::Token *tok);
+
+	void dumpTypes();
 }
 
 
@@ -589,6 +591,9 @@ asmStringLiteral // GNU
 compilationUnit
 @init {
 	inTypedef = takeTypedef = false;
+}
+@after {
+	dumpTypes();
 }
     :   externalDeclaration* EOF
     ;

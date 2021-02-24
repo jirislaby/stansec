@@ -11826,7 +11826,10 @@ CParser::CompilationUnitContext* CParser::compilationUnit() {
     }
     setState(1403);
     match(CParser::EOF);
-   
+   _ctx->stop = _input->LT(-1);
+
+    	dumpTypes();
+
   }
   catch (RecognitionException &e) {
     _errHandler->reportError(this, e);
