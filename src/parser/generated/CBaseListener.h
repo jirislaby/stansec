@@ -121,9 +121,6 @@ public:
   virtual void enterStructOrUnion(CParser::StructOrUnionContext * /*ctx*/) override { }
   virtual void exitStructOrUnion(CParser::StructOrUnionContext * /*ctx*/) override { }
 
-  virtual void enterStructDeclarationList(CParser::StructDeclarationListContext * /*ctx*/) override { }
-  virtual void exitStructDeclarationList(CParser::StructDeclarationListContext * /*ctx*/) override { }
-
   virtual void enterStructDeclaration(CParser::StructDeclarationContext * /*ctx*/) override { }
   virtual void exitStructDeclaration(CParser::StructDeclarationContext * /*ctx*/) override { }
 
@@ -238,9 +235,6 @@ public:
   virtual void enterCompoundStatement(CParser::CompoundStatementContext * /*ctx*/) override { }
   virtual void exitCompoundStatement(CParser::CompoundStatementContext * /*ctx*/) override { }
 
-  virtual void enterBlockItemList(CParser::BlockItemListContext * /*ctx*/) override { }
-  virtual void exitBlockItemList(CParser::BlockItemListContext * /*ctx*/) override { }
-
   virtual void enterBlockItem(CParser::BlockItemContext * /*ctx*/) override { }
   virtual void exitBlockItem(CParser::BlockItemContext * /*ctx*/) override { }
 
@@ -297,9 +291,6 @@ public:
 
   virtual void enterCompilationUnit(CParser::CompilationUnitContext * /*ctx*/) override { }
   virtual void exitCompilationUnit(CParser::CompilationUnitContext * /*ctx*/) override { }
-
-  virtual void enterTranslationUnit(CParser::TranslationUnitContext * /*ctx*/) override { }
-  virtual void exitTranslationUnit(CParser::TranslationUnitContext * /*ctx*/) override { }
 
   virtual void enterExternalDeclaration(CParser::ExternalDeclarationContext * /*ctx*/) override { }
   virtual void exitExternalDeclaration(CParser::ExternalDeclarationContext * /*ctx*/) override { }
