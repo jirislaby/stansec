@@ -29,6 +29,14 @@
 /** C 2011 grammar built from the C11 Spec */
 grammar C;
 
+@parser::members {
+	std::set<std::string> typedefs;
+	bool inTypedef, takeTypedef;
+
+	void addTypeName(const antlr4::Token *tok);
+	bool isTypeName(const antlr4::Token *tok);
+}
+
 
 primaryExpression
     :   Identifier
@@ -183,7 +191,7 @@ constantExpression
     ;
 
 declaration
-    :   declarationSpecifiers initDeclaratorList ';'
+    :   declarationSpecifiers { takeTypedef = inTypedef; } initDeclaratorList ';' { inTypedef = takeTypedef = false; }
 	| 	declarationSpecifiers ';'
     |   staticAssertDeclaration
     ;
@@ -216,7 +224,7 @@ initDeclarator
     ;
 
 storageClassSpecifier
-    :   '__extension__'? 'typedef'
+    :   '__extension__'? 'typedef' { inTypedef = true; }
     |   'extern'
     |   'static'
     |   '_Thread_local'
@@ -336,7 +344,7 @@ declarator
     ;
 
 directDeclarator
-    :   Identifier
+    :   Identifier { addTypeName($Identifier); }
     |   '(' declarator ')'
     |   directDeclarator '[' typeQualifierList? assignmentExpression? ']'
     |   directDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
@@ -430,7 +438,7 @@ directAbstractDeclarator
     ;
 
 typedefName
-    :   Identifier
+    :   { isTypeName(getCurrentToken()) }? Identifier
     ;
 
 initializer
@@ -585,6 +593,9 @@ asmStringLiteral // GNU
 ;
 
 compilationUnit
+@init {
+	inTypedef = takeTypedef = false;
+}
     :   translationUnit? EOF
     ;
 

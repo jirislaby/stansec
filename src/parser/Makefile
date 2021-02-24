@@ -3,7 +3,7 @@ PROJ=C
 GEN=BaseListener.cpp BaseListener.h BaseVisitor.cpp BaseVisitor.h Lexer.cpp Lexer.h Listener.cpp Listener.h Parser.cpp Parser.h Visitor.cpp Visitor.h
 GEN_FILES=$(patsubst %,generated/$(PROJ)%,$(GEN))
 
-SRCS=$(filter %.cpp,$(GEN_FILES))
+SRCS=$(filter %.cpp,$(GEN_FILES)) typedef_glue.cpp
 OBJS=$(patsubst %.cpp,%.o,$(SRCS))
 CXXFLAGS=-I/usr/include/antlr4-runtime -Igenerated -Wno-attributes -Wall -g -Og -fPIC -mfentry -MD
 # -ggdb -flto
@@ -19,7 +19,7 @@ all: $(PROJ) FORCE
 generated/%BaseListener.cpp generated/%BaseListener.h generated/%BaseVisitor.cpp generated/%BaseVisitor.h generated/%Lexer.cpp generated/%Lexer.h generated/%Listener.cpp generated/%Listener.h generated/%Parser.cpp generated/%Parser.h generated/%Visitor.cpp generated/%Visitor.h: %.g4 $(ANTLR)
 	java -jar $(ANTLR) -visitor -Dlanguage=Cpp -o generated $<
 
-main.cpp: $(filter %.h,$(GEN_FILES))
+main.cpp typedef_glue.cpp: $(filter %.h,$(GEN_FILES))
 
 libparser.so: $(OBJS)
 	$(CXX) $(LDFLAGS) -shared -o $@ $^ $(LDLIBS)
