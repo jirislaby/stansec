@@ -167,6 +167,8 @@ public:
 
     virtual antlrcpp::Any visitBlockItem(CParser::BlockItemContext *context) = 0;
 
+    virtual antlrcpp::Any visitLabelDeclaration(CParser::LabelDeclarationContext *context) = 0;
+
     virtual antlrcpp::Any visitExpressionStatement(CParser::ExpressionStatementContext *context) = 0;
 
     virtual antlrcpp::Any visitSelectionStatement(CParser::SelectionStatementContext *context) = 0;

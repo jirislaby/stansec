@@ -14,27 +14,29 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
     T__7 = 8, T__8 = 9, T__9 = 10, T__10 = 11, T__11 = 12, T__12 = 13, T__13 = 14, 
-    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, Auto = 20, 
-    Break = 21, Case = 22, Char = 23, Const = 24, Continue = 25, Default = 26, 
-    Do = 27, Double = 28, Else = 29, Enum = 30, Extern = 31, Float = 32, 
-    For = 33, Goto = 34, If = 35, Inline = 36, Int = 37, Long = 38, Register = 39, 
-    Restrict = 40, Return = 41, Short = 42, Signed = 43, Sizeof = 44, Static = 45, 
-    Struct = 46, Switch = 47, Typedef = 48, Typeof = 49, Union = 50, Unsigned = 51, 
-    Void = 52, Volatile = 53, While = 54, Alignas = 55, Alignof = 56, Atomic = 57, 
-    Bool = 58, Complex = 59, Generic = 60, Imaginary = 61, Noreturn = 62, 
-    StaticAssert = 63, ThreadLocal = 64, LeftParen = 65, RightParen = 66, 
-    LeftBracket = 67, RightBracket = 68, LeftBrace = 69, RightBrace = 70, 
-    Less = 71, LessEqual = 72, Greater = 73, GreaterEqual = 74, LeftShift = 75, 
-    RightShift = 76, Plus = 77, PlusPlus = 78, Minus = 79, MinusMinus = 80, 
-    Star = 81, Div = 82, Mod = 83, And = 84, Or = 85, AndAnd = 86, OrOr = 87, 
-    Caret = 88, Not = 89, Tilde = 90, Question = 91, Colon = 92, Semi = 93, 
-    Comma = 94, Assign = 95, StarAssign = 96, DivAssign = 97, ModAssign = 98, 
-    PlusAssign = 99, MinusAssign = 100, LeftShiftAssign = 101, RightShiftAssign = 102, 
-    AndAssign = 103, XorAssign = 104, OrAssign = 105, Equal = 106, NotEqual = 107, 
-    Arrow = 108, Dot = 109, Ellipsis = 110, Identifier = 111, Constant = 112, 
-    DigitSequence = 113, StringLiteral = 114, ComplexDefine = 115, IncludeDirective = 116, 
-    LineAfterPreprocessing = 117, LineDirective = 118, PragmaDirective = 119, 
-    Whitespace = 120, Newline = 121, BlockComment = 122, LineComment = 123
+    T__14 = 15, T__15 = 16, T__16 = 17, T__17 = 18, T__18 = 19, T__19 = 20, 
+    T__20 = 21, T__21 = 22, T__22 = 23, T__23 = 24, T__24 = 25, T__25 = 26, 
+    Auto = 27, Break = 28, Case = 29, Char = 30, Const = 31, Continue = 32, 
+    Default = 33, Do = 34, Double = 35, Else = 36, Enum = 37, Extern = 38, 
+    Float = 39, For = 40, Goto = 41, If = 42, Inline = 43, Int = 44, Long = 45, 
+    Register = 46, Restrict = 47, Return = 48, Short = 49, Signed = 50, 
+    Sizeof = 51, Static = 52, Struct = 53, Switch = 54, Typedef = 55, Typeof = 56, 
+    Union = 57, Unsigned = 58, Void = 59, Volatile = 60, While = 61, Alignas = 62, 
+    Alignof = 63, Atomic = 64, Bool = 65, Complex = 66, Generic = 67, Imaginary = 68, 
+    Noreturn = 69, StaticAssert = 70, ThreadLocal = 71, LeftParen = 72, 
+    RightParen = 73, LeftBracket = 74, RightBracket = 75, LeftBrace = 76, 
+    RightBrace = 77, Less = 78, LessEqual = 79, Greater = 80, GreaterEqual = 81, 
+    LeftShift = 82, RightShift = 83, Plus = 84, PlusPlus = 85, Minus = 86, 
+    MinusMinus = 87, Star = 88, Div = 89, Mod = 90, And = 91, Or = 92, AndAnd = 93, 
+    OrOr = 94, Caret = 95, Not = 96, Tilde = 97, Question = 98, Colon = 99, 
+    Semi = 100, Comma = 101, Assign = 102, StarAssign = 103, DivAssign = 104, 
+    ModAssign = 105, PlusAssign = 106, MinusAssign = 107, LeftShiftAssign = 108, 
+    RightShiftAssign = 109, AndAssign = 110, XorAssign = 111, OrAssign = 112, 
+    Equal = 113, NotEqual = 114, Arrow = 115, Dot = 116, Ellipsis = 117, 
+    Identifier = 118, Constant = 119, DigitSequence = 120, StringLiteral = 121, 
+    ComplexDefine = 122, IncludeDirective = 123, LineAfterPreprocessing = 124, 
+    LineDirective = 125, PragmaDirective = 126, Whitespace = 127, Newline = 128, 
+    BlockComment = 129, LineComment = 130
   };
 
   enum {
@@ -62,14 +64,14 @@ public:
     RuleTypedefName = 63, RuleInitializer = 64, RuleInitializerList = 65, 
     RuleDesignation = 66, RuleDesignatorList = 67, RuleDesignator = 68, 
     RuleStaticAssertDeclaration = 69, RuleStatement = 70, RuleLabeledStatement = 71, 
-    RuleCompoundStatement = 72, RuleBlockItem = 73, RuleExpressionStatement = 74, 
-    RuleSelectionStatement = 75, RuleIterationStatement = 76, RuleForCondition = 77, 
-    RuleForDeclaration = 78, RuleForExpression = 79, RuleJumpStatement = 80, 
-    RuleAsmStatement = 81, RuleAsmQualifier = 82, RuleAsmArgument = 83, 
-    RuleAsmOperands = 84, RuleAsmOperand = 85, RuleAsmClobbers = 86, RuleAsmLabels = 87, 
-    RuleAsmDefinition = 88, RuleSimpleAsmExpr = 89, RuleAsmStringLiteral = 90, 
-    RuleCompilationUnit = 91, RuleExternalDeclaration = 92, RuleFunctionDefinition = 93, 
-    RuleDeclarationList = 94
+    RuleCompoundStatement = 72, RuleBlockItem = 73, RuleLabelDeclaration = 74, 
+    RuleExpressionStatement = 75, RuleSelectionStatement = 76, RuleIterationStatement = 77, 
+    RuleForCondition = 78, RuleForDeclaration = 79, RuleForExpression = 80, 
+    RuleJumpStatement = 81, RuleAsmStatement = 82, RuleAsmQualifier = 83, 
+    RuleAsmArgument = 84, RuleAsmOperands = 85, RuleAsmOperand = 86, RuleAsmClobbers = 87, 
+    RuleAsmLabels = 88, RuleAsmDefinition = 89, RuleSimpleAsmExpr = 90, 
+    RuleAsmStringLiteral = 91, RuleCompilationUnit = 92, RuleExternalDeclaration = 93, 
+    RuleFunctionDefinition = 94, RuleDeclarationList = 95
   };
 
   explicit CParser(antlr4::TokenStream *input);
@@ -163,6 +165,7 @@ public:
   class LabeledStatementContext;
   class CompoundStatementContext;
   class BlockItemContext;
+  class LabelDeclarationContext;
   class ExpressionStatementContext;
   class SelectionStatementContext;
   class IterationStatementContext;
@@ -276,8 +279,8 @@ public:
     TypeNameContext *typeName();
     antlr4::tree::TerminalNode *RightParen();
     antlr4::tree::TerminalNode *LeftBrace();
-    InitializerListContext *initializerList();
     antlr4::tree::TerminalNode *RightBrace();
+    InitializerListContext *initializerList();
     antlr4::tree::TerminalNode *Comma();
     PostfixExpressionContext *postfixExpression();
     antlr4::tree::TerminalNode *LeftBracket();
@@ -588,9 +591,9 @@ public:
     virtual size_t getRuleIndex() const override;
     LogicalOrExpressionContext *logicalOrExpression();
     antlr4::tree::TerminalNode *Question();
-    ExpressionContext *expression();
     antlr4::tree::TerminalNode *Colon();
     ConditionalExpressionContext *conditionalExpression();
+    ExpressionContext *expression();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1098,6 +1101,7 @@ public:
     virtual size_t getRuleIndex() const override;
     DirectDeclaratorContext *directDeclarator();
     PointerContext *pointer();
+    GccAttributeSpecifierContext *gccAttributeSpecifier();
     std::vector<GccDeclaratorExtensionContext *> gccDeclaratorExtension();
     GccDeclaratorExtensionContext* gccDeclaratorExtension(size_t i);
 
@@ -1424,8 +1428,8 @@ public:
     virtual size_t getRuleIndex() const override;
     AssignmentExpressionContext *assignmentExpression();
     antlr4::tree::TerminalNode *LeftBrace();
-    InitializerListContext *initializerList();
     antlr4::tree::TerminalNode *RightBrace();
+    InitializerListContext *initializerList();
     antlr4::tree::TerminalNode *Comma();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1579,6 +1583,8 @@ public:
     antlr4::tree::TerminalNode *RightBrace();
     std::vector<BlockItemContext *> blockItem();
     BlockItemContext* blockItem(size_t i);
+    std::vector<LabelDeclarationContext *> labelDeclaration();
+    LabelDeclarationContext* labelDeclaration(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -1604,6 +1610,22 @@ public:
   };
 
   BlockItemContext* blockItem();
+
+  class  LabelDeclarationContext : public antlr4::ParserRuleContext {
+  public:
+    LabelDeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    IdentifierListContext *identifierList();
+    antlr4::tree::TerminalNode *Semi();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  LabelDeclarationContext* labelDeclaration();
 
   class  ExpressionStatementContext : public antlr4::ParserRuleContext {
   public:

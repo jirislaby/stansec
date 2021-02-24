@@ -311,6 +311,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitLabelDeclaration(CParser::LabelDeclarationContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitExpressionStatement(CParser::ExpressionStatementContext *ctx) override {
     return visitChildren(ctx);
   }

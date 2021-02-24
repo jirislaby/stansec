@@ -238,6 +238,9 @@ public:
   virtual void enterBlockItem(CParser::BlockItemContext * /*ctx*/) override { }
   virtual void exitBlockItem(CParser::BlockItemContext * /*ctx*/) override { }
 
+  virtual void enterLabelDeclaration(CParser::LabelDeclarationContext * /*ctx*/) override { }
+  virtual void exitLabelDeclaration(CParser::LabelDeclarationContext * /*ctx*/) override { }
+
   virtual void enterExpressionStatement(CParser::ExpressionStatementContext * /*ctx*/) override { }
   virtual void exitExpressionStatement(CParser::ExpressionStatementContext * /*ctx*/) override { }
 
