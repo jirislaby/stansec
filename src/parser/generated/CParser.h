@@ -85,8 +85,15 @@ public:
 
 
   	std::set<std::string> typedefs;
-  	bool inTypedef, takeTypedef;
+  	/*
+  	 * we take identifiers as typedefs only if @inTypedef and @typedefMutex
+  	 * is 0. I.e. the topmost identifier, not nested ones.
+  	 */
+  	bool inTypedef;
+  	int typedefMutex;
 
+  	void typedefLock();
+  	void typedefUnlock(bool stop = false);
   	void addTypeName(const antlr4::Token *tok);
   	bool isTypeName(const antlr4::Token *tok);
 
