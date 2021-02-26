@@ -27,6 +27,7 @@ HEADERS = \
 
 SOURCES = \
     codestructures/CFGPart.cpp \
+    typedef_glue.cpp \
     parser.cpp \
     CFGListener.cpp \
     codestructures/CFG.cpp \

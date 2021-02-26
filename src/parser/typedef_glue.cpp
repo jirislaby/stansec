@@ -1,8 +1,33 @@
 #include "generated/CParser.h"
 
+#undef DEBUG_LOCK
 #undef DEBUG_ISTYPENAME
 #define DEBUG_ADDTYPENAME
 #undef DUMP_TYPES
+
+void CParser::typedefLock()
+{
+	if (inTypedef) {
+#ifdef DEBUG_LOCK
+		auto ctx = getContext();
+		std::cout << __func__ << " mutex=" << typedefMutex << " for '" << ctx->getText() << "'\n";
+#endif
+		typedefMutex++;
+	}
+}
+
+void CParser::typedefUnlock(bool stop)
+{
+	if (inTypedef) {
+#ifdef DEBUG_LOCK
+		auto ctx = getContext();
+		std::cout << __func__ << " mutex=" << typedefMutex << " for '" << ctx->getText() << "'\n";
+#endif
+		typedefMutex--;
+	}
+	if (stop)
+		inTypedef = false;
+}
 
 bool CParser::isTypeName(const antlr4::Token *tok)
 {
@@ -18,7 +43,7 @@ bool CParser::isTypeName(const antlr4::Token *tok)
 
 void CParser::addTypeName(const antlr4::Token *tok)
 {
-	if (!takeTypedef)
+	if (typedefMutex != 0)
 		return;
 
 	const auto text = tok->getText();

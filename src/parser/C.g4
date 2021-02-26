@@ -31,8 +31,15 @@ grammar C;
 
 @parser::members {
 	std::set<std::string> typedefs;
-	bool inTypedef, takeTypedef;
+	/*
+	 * we take identifiers as typedefs only if @inTypedef and @typedefMutex
+	 * is 0. I.e. the topmost identifier, not nested ones.
+	 */
+	bool inTypedef;
+	int typedefMutex;
 
+	void typedefLock();
+	void typedefUnlock(bool stop = false);
 	void addTypeName(const antlr4::Token *tok);
 	bool isTypeName(const antlr4::Token *tok);
 
@@ -191,7 +198,7 @@ constantExpression
     ;
 
 declaration
-    :   declarationSpecifiers { takeTypedef = inTypedef; } initDeclaratorList ';' { inTypedef = takeTypedef = false; }
+    :   declarationSpecifiers { typedefLock(); } initDeclaratorList ';' { typedefUnlock(true); }
 	| 	declarationSpecifiers ';'
     |   staticAssertDeclaration
     ;
@@ -346,8 +353,8 @@ directDeclarator
     |   directDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
     |   directDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
     |   directDeclarator '[' typeQualifierList? '*' ']'
-    |   directDeclarator '(' parameterTypeList ')'
-    |   directDeclarator '(' identifierList? ')'
+    |   directDeclarator '(' { typedefLock(); } parameterTypeList { typedefUnlock(); } ')'
+    |   directDeclarator '(' { typedefLock(); } identifierList? { typedefUnlock(); } ')'
     |   Identifier ':' DigitSequence  // bit field
     |   '(' typeSpecifier? pointer directDeclarator ')' // function pointer like: (__cdecl *f)
     ;
@@ -590,7 +597,8 @@ asmStringLiteral // GNU
 
 compilationUnit
 @init {
-	inTypedef = takeTypedef = false;
+	inTypedef = false;
+	typedefMutex = -1;
 }
 @after {
 	dumpTypes();
