@@ -393,11 +393,11 @@ public:
   public:
     CastExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    UnaryExpressionContext *unaryExpression();
     antlr4::tree::TerminalNode *LeftParen();
     TypeNameContext *typeName();
     antlr4::tree::TerminalNode *RightParen();
     CastExpressionContext *castExpression();
-    UnaryExpressionContext *unaryExpression();
     antlr4::tree::TerminalNode *DigitSequence();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -828,9 +828,9 @@ public:
     StructOrUnionSpecifierContext *structOrUnionSpecifier();
     EnumSpecifierContext *enumSpecifier();
     TypedefNameContext *typedefName();
-    TypeNameContext *typeName();
-    antlr4::tree::TerminalNode *Typeof();
     ConstantExpressionContext *constantExpression();
+    antlr4::tree::TerminalNode *Typeof();
+    TypeNameContext *typeName();
     TypeSpecifierContext *typeSpecifier();
     PointerContext *pointer();
 

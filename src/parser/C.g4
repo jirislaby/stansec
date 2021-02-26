@@ -103,9 +103,9 @@ unaryOperator
     ;
 
 castExpression
-    :   '(' typeName ')' castExpression
+    :   unaryExpression
+    |   '(' typeName ')' castExpression
     |   '__extension__' '(' typeName ')' castExpression
-    |   unaryExpression
     |   DigitSequence // for
     ;
 
@@ -253,8 +253,8 @@ typeSpecifier
     |   structOrUnionSpecifier
     |   enumSpecifier
     |   typedefName
-    |   ('__typeof__' | 'typeof') '(' typeName ')' // GCC extension
     |   ('__typeof__' | 'typeof') '(' constantExpression ')' // GCC extension
+    |   ('__typeof__' | 'typeof') '(' typeName ')' // GCC extension
     |   typeSpecifier pointer
     ;
 
