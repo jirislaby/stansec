@@ -17,6 +17,7 @@ public:
     void exitFunctionDefinition(CParser::FunctionDefinitionContext *) override;
     void enterEveryRule(antlr4::ParserRuleContext *) override;
 
+    void exitLabeledStatement(CParser::LabeledStatementContext *) override;
     void exitCompoundStatement(CParser::CompoundStatementContext *) override;
     void exitBlockItem(CParser::BlockItemContext *) override;
 

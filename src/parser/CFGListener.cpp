@@ -53,6 +53,11 @@ void CFGListener::enterEveryRule(antlr4::ParserRuleContext *ctx)
     //qDebug() << __func__ << QString::fromStdString(ctx->start->getText());
 }
 
+void CFGListener::exitLabeledStatement(CParser::LabeledStatementContext *ctx)
+{
+    cfgs.put(ctx, cfgs.removeFrom(ctx->statement()));
+}
+
 void CFGListener::exitCompoundStatement(CParser::CompoundStatementContext *ctx)
 {
     CFGPart *cfg;
@@ -99,14 +104,14 @@ CFGNode *CFGListener::buildAssert(antlr4::ParserRuleContext *ctx, bool branch)
 
 void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx)
 {
-    if (ctx->If()) {
-        auto joinN = new CFGJoinNode(ctx->getSourceInterval());
-        auto e = ctx->expression();
-        auto eCFG = cfgs.removeFrom(e);
-        auto endECFG = eCFG->getEndNode();
+    auto joinN = new CFGJoinNode(ctx->getSourceInterval());
+    auto e = ctx->expression();
+    auto eCFG = cfgs.removeFrom(e);
+    auto endECFG = eCFG->getEndNode();
+    auto s1C = cfgs.removeFrom(ctx->statement(0));
 
+    if (ctx->If()) {
         /* true */
-        auto s1C = cfgs.removeFrom(ctx->statement(0));
         auto assTrue = buildAssert(e, true);
         endECFG->addEdge(assTrue, "true");
         assTrue->addEdge(s1C->getStartNode());
@@ -123,11 +128,16 @@ void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx
             delete s2C;
         } else
             assFalse->addEdge(joinN);
-
-        eCFG->setEndNode(joinN);
-        cfgs.put(ctx, eCFG);
-        return;
+    } else {
+        /* TODO switch properly */
+        qDebug() << s1C->toDot();
+        endECFG->addEdge(s1C->getStartNode());
+        s1C->getEndNode()->addEdge(joinN);
+        delete s1C;
     }
+
+    eCFG->setEndNode(joinN);
+    cfgs.put(ctx, eCFG);
 }
 
 void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx)
