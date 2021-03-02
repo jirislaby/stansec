@@ -7,7 +7,7 @@
 #include "CFGNode.h"
 
 CFGListener::CFGListener(antlr4::CommonTokenStream &tokens) :
-    currentCFG(nullptr), tokens(tokens)
+    tokens(tokens)
 {
 }
 
@@ -93,8 +93,10 @@ void CFGListener::exitStatement(CParser::StatementContext *ctx)
 
 void CFGListener::exitExpressionStatement(CParser::ExpressionStatementContext *ctx)
 {
-    if (auto e = ctx->expression())
-        cfgs.put(ctx, cfgs.removeFrom(e));
+	if (auto e = ctx->expression())
+		cfgs.put(ctx, cfgs.removeFrom(e));
+	else
+		cfgs.put(ctx, new CFGPart(tokens));
 }
 
 CFGNode *CFGListener::buildAssert(antlr4::ParserRuleContext *ctx, bool branch)
@@ -129,11 +131,11 @@ void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx
         } else
             assFalse->addEdge(joinN);
     } else {
-        /* TODO switch properly */
-        qDebug() << s1C->toDot();
-        endECFG->addEdge(s1C->getStartNode());
-        s1C->getEndNode()->addEdge(joinN);
-        delete s1C;
+	/* TODO switch properly */
+	qDebug() << s1C->toDot();
+	endECFG->addEdge(s1C->getStartNode());
+	s1C->getEndNode()->addEdge(joinN);
+	delete s1C;
     }
 
     eCFG->setEndNode(joinN);
@@ -157,14 +159,19 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
         auto incr = cfgs.removeFrom(ctx->forCondition()->forExpression(1));
         auto stmt = cfgs.removeFrom(ctx->statement());
 
-        cfg->append(cond->getStartNode());
-        cond->getEndNode()->addEdge(stmt->getStartNode(), "true");
-        cond->getEndNode()->addEdge(joinN, "false");
+	if (cond) {
+		cond->getEndNode()->addEdge(stmt->getStartNode(), "true");
+		cond->getEndNode()->addEdge(joinN, "false");
+	} else
+		cond = stmt;
+	cfg->append(cond->getStartNode());
 
-        stmt->append(incr);
-        stmt->append(cond);
+	if (incr)
+		stmt->append(incr);
+	stmt->append(cond);
 
-        delete stmt;
+	if (stmt != cond)
+		delete stmt;
     } else if (ctx->Do()) {
         cfg = cfgs.removeFrom(ctx->statement());
         cfg->append(cfgs.removeFrom(ctx->expression()));
@@ -188,15 +195,10 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
     cfgs.put(ctx, cfg);
 }
 
-void CFGListener::enterForDeclaration(CParser::ForDeclarationContext *)
-{
-    currentCFG = new CFGPart(tokens);
-}
-
 void CFGListener::exitForDeclaration(CParser::ForDeclarationContext *ctx)
 {
-    cfgs.put(ctx, currentCFG);
-    currentCFG = nullptr;
+	auto idl = cfgs.removeFrom(ctx->initDeclaratorList());
+	cfgs.put(ctx, idl);
 }
 
 void CFGListener::exitForExpression(CParser::ForExpressionContext *ctx)
@@ -247,39 +249,31 @@ void CFGListener::exitExpression(CParser::ExpressionContext *ctx)
     //qDebug().noquote() << cfg->toDot();
 }
 
-void CFGListener::enterDeclaration(CParser::DeclarationContext *ctx)
-{
-    Q_UNUSED(ctx);
-
-    currentCFG = new CFGPart(tokens);
-}
-
 void CFGListener::exitDeclaration(CParser::DeclarationContext *ctx)
 {
-    cfgs.put(ctx, currentCFG);
-    currentCFG = nullptr;
-
-    //qDebug() << __func__ << ctx->getText().c_str();
+	auto idl = ctx->initDeclaratorList();
+	auto cfg = idl ? cfgs.removeFrom(idl) : new CFGPart(tokens);
+	cfgs.put(ctx, cfg);
 }
 
 void CFGListener::exitInitDeclaratorList(CParser::InitDeclaratorListContext *ctx)
 {
-    Q_UNUSED(ctx);
-#if 0
-    auto cfg = cfgs.removeFrom(ctx->initDeclarator());
+	CFGPart *cfg = nullptr;
 
-    if (auto idl = ctx->initDeclaratorList()) {
-        auto idlCfg = cfgs.removeFrom(idl);
-        if (cfg && idlCfg) {
-            idlCfg->append(cfg);
-            cfg = idlCfg;
-        } else if (idlCfg)
-            cfg = idlCfg;
-    }
+	for (auto id: ctx->initDeclarator()) {
+		auto idlCfg = cfgs.removeFrom(id);
+		if (idlCfg) {
+			if (!cfg)
+				cfg = idlCfg;
+			else
+				cfg->append(idlCfg);
+		}
+	}
 
-    if (cfg)
-        cfgs.put(ctx, cfg);
-#endif
+	if (!cfg)
+		cfg = new CFGPart(tokens);
+
+	cfgs.put(ctx, cfg);
 }
 
 void CFGListener::exitInitDeclarator(CParser::InitDeclaratorContext *ctx)
@@ -287,10 +281,9 @@ void CFGListener::exitInitDeclarator(CParser::InitDeclaratorContext *ctx)
     if (!ctx->initializer())
         return;
 
-    /*auto cfg = new CFGPart(tokens);
-    cfgs.put(ctx, cfg);*/
-
-    currentCFG->append(new CFGNode(ctx->getSourceInterval()));
+    auto cfg = new CFGPart(tokens);
+    cfg->append(new CFGNode(ctx->getSourceInterval()));
+    cfgs.put(ctx, cfg);
 }
 
 #if 0
