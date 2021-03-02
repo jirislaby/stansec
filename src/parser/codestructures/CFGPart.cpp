@@ -78,7 +78,7 @@ QString CFGPart::toDot()
             sb.append(" [label=\"").
                 append(QString::number(n->getNumber())).
                 append(": ").
-                append(n->getCode(this)).
+		append(n->getCode(this).replace('\\', "\\\\").replace('"', "\\\"")).
                 append("\"];");
 #endif
         sb.append('\n');
