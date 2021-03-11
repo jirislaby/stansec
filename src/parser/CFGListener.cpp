@@ -19,32 +19,33 @@ CFGListener::~CFGListener()
 
 void CFGListener::enterFunctionDefinition(CParser::FunctionDefinitionContext *ctx)
 {
-    Q_UNUSED(ctx);
+	Q_UNUSED(ctx);
+	functionStack.push(Function());
 }
 
 void CFGListener::exitFunctionDefinition(CParser::FunctionDefinitionContext *ctx)
 {
-    QString name(ctx->declarator()->directDeclarator()->directDeclarator()->Identifier()->getText().c_str());
-    qDebug() << __func__ << name;
+	QString name(ctx->declarator()->directDeclarator()->directDeclarator()->Identifier()->getText().c_str());
+	qDebug() << __func__ << name;
 
-    auto cfg = CFG::createFromCFGPart(cfgs.removeFrom(ctx->compoundStatement()), nullptr);
-    map.insert(name, cfg);
-#if 0
-    $g.setSymbols($Function::symbols);
-    CFGNode endNode = new CFGNode(xmlFactory.createElement("exit").
-                      addAttribute("bl", Integer.toString(
-                               $compoundStatement.start.getChild(0).
-                               getLine())));
-    $g.setEndNode(endNode);
-    for (CFGBreakNode n: $Function::rets)
-        n.addBreakEdge(endNode);
-    $Function::lastStatement.addEdge(endNode);
-    for (Pair<String, CFGBreakNode> gotoPair: $Function::gotos) {
-        CFGNode labelNode =
-                $Function::labels.get(gotoPair.getFirst());
-        gotoPair.getSecond().addBreakEdge(labelNode);
-    }
-#endif
+	antlr4::misc::Interval intval(ctx->getSourceInterval().b,
+				      ctx->getSourceInterval().b);
+	auto endNode = new CFGExitNode(intval, name);
+
+	auto cfgPart = cfgs.removeFrom(ctx->compoundStatement());
+	cfgPart->append(endNode);
+
+	auto top = functionStack.pop();
+	for (auto p: top.gotos) {
+		auto labelNode = top.labels.find(p.first).value();
+		p.second->addBreakEdge(labelNode);
+	}
+
+	for (auto ret: top.rets)
+		ret->addBreakEdge(endNode);
+
+	auto cfg = CFG::createFromCFGPart(cfgPart, nullptr);
+	map.insert(name, cfg);
 }
 
 void CFGListener::enterEveryRule(antlr4::ParserRuleContext *ctx)
@@ -55,7 +56,22 @@ void CFGListener::enterEveryRule(antlr4::ParserRuleContext *ctx)
 
 void CFGListener::exitLabeledStatement(CParser::LabeledStatementContext *ctx)
 {
-    cfgs.put(ctx, cfgs.removeFrom(ctx->statement()));
+	auto stmtCFG = cfgs.removeFrom(ctx->statement());
+	auto stmtCFGStart = stmtCFG->getStartNode();
+
+	if (ctx->Case() || ctx->Default()) {
+		auto label = QString(ctx->Default() ? "default" :
+				 ctx->constantExpression(0)->getText().c_str());
+		if (auto ce1 = ctx->constantExpression(1))
+			label.append("...").append(ce1->getText().c_str());
+		auto p = QPair<QString, CFGNode *>(label, stmtCFGStart);
+		iterSwitchStack.top().cases.push_back(p);
+	} else {
+		auto id = QString(ctx->Identifier()->getText().c_str());
+		functionStack.top().labels.insert(id, stmtCFGStart);
+	}
+
+	cfgs.put(ctx, stmtCFG);
 }
 
 void CFGListener::exitCompoundStatement(CParser::CompoundStatementContext *ctx)
@@ -95,13 +111,22 @@ void CFGListener::exitExpressionStatement(CParser::ExpressionStatementContext *c
 {
 	if (auto e = ctx->expression())
 		cfgs.put(ctx, cfgs.removeFrom(e));
-	else
-		cfgs.put(ctx, new CFGPart(tokens));
+	else {
+		auto cfg = new CFGPart(tokens);
+		cfg->append(new CFGNode(ctx->getSourceInterval()));
+		cfgs.put(ctx, cfg);
+	}
 }
 
 CFGNode *CFGListener::buildAssert(antlr4::ParserRuleContext *ctx, bool branch)
 {
     return new CFGAssertNode(ctx->getSourceInterval(), !branch);
+}
+
+void CFGListener::enterSelectionStatement(CParser::SelectionStatementContext *ctx)
+{
+	if (ctx->Switch())
+		iterSwitchStack.push(IterSwitch(true));
 }
 
 void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx)
@@ -131,21 +156,36 @@ void CFGListener::exitSelectionStatement(CParser::SelectionStatementContext *ctx
         } else
             assFalse->addEdge(joinN);
     } else {
-	/* TODO switch properly */
-	qDebug() << s1C->toDot();
-	endECFG->addEdge(s1C->getStartNode());
+	auto top = iterSwitchStack.pop();
+	assert(top.isSwitch);
+
+	for (auto c: top.cases) {
+		// TODO assert
+		endECFG->addEdge(c.second, c.first);
+	}
+
 	s1C->getEndNode()->addEdge(joinN);
 	delete s1C;
+
+
+	for (auto b: top.breaks)
+		b->addBreakEdge(joinN);
     }
 
     eCFG->setEndNode(joinN);
     cfgs.put(ctx, eCFG);
 }
 
+void CFGListener::enterIterationStatement(CParser::IterationStatementContext *)
+{
+	iterSwitchStack.push(IterSwitch(false));
+}
+
 void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx)
 {
     CFGPart *cfg;
     auto joinN = new CFGJoinNode(ctx->getSourceInterval());
+    CFGNode *contN;
 
     if (ctx->For()) {
         if (auto init = ctx->forCondition()->forDeclaration())
@@ -164,6 +204,7 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
 		cond->getEndNode()->addEdge(joinN, "false");
 	} else
 		cond = stmt;
+	contN = cond->getStartNode();
 	cfg->append(cond->getStartNode());
 
 	if (incr)
@@ -177,7 +218,8 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
         cfg->append(cfgs.removeFrom(ctx->expression()));
 
         auto cond = cfg->getEndNode();
-        cond->addEdge(cfg->getStartNode(), "true");
+	contN = cfg->getStartNode();
+	cond->addEdge(contN, "true");
         cond->addEdge(joinN, "false");
 
     } else {
@@ -187,12 +229,20 @@ void CFGListener::exitIterationStatement(CParser::IterationStatementContext *ctx
         cfg->getEndNode()->addEdge(stmt->getStartNode(), "true");
         cfg->getEndNode()->addEdge(joinN, "false");
 
-        stmt->getEndNode()->addEdge(cfg->getStartNode());
+	contN = cfg->getStartNode();
+	stmt->getEndNode()->addEdge(contN);
 
         delete stmt;
     }
     cfg->setEndNode(joinN);
     cfgs.put(ctx, cfg);
+
+    auto top = iterSwitchStack.pop();
+    assert(!top.isSwitch);
+    for (auto b: top.breaks)
+	    b->addBreakEdge(joinN);
+    for (auto c: top.conts)
+	    c->addBreakEdge(contN);
 }
 
 void CFGListener::exitForDeclaration(CParser::ForDeclarationContext *ctx)
@@ -216,11 +266,35 @@ void CFGListener::exitForExpression(CParser::ForExpressionContext *ctx)
 
 void CFGListener::exitJumpStatement(CParser::JumpStatementContext *ctx)
 {
-    auto cfg = new CFGPart(tokens);
-    cfgs.put(ctx, cfg);
-    /* drop semicolon */
-    auto i = ctx->getSourceInterval();
-    cfg->append(new CFGNode(antlr4::misc::Interval(i.a, i.b - 1)));
+	auto cfg = new CFGPart(tokens);
+	cfgs.put(ctx, cfg);
+
+	/* drop semicolon */
+	auto i = ctx->getSourceInterval();
+	auto bn = new CFGBreakNode(antlr4::misc::Interval(i.a, i.b - 1));
+	cfg->append(bn);
+
+	if (ctx->Goto()) {
+		if (auto id = ctx->Identifier()) {
+			auto p = QPair<QString, CFGBreakNode *>(id->getText().c_str(), bn);
+			functionStack.top().gotos.push_back(p);
+		} else
+			abort(); // TODO
+	} else if (ctx->Continue()) {
+		/*
+		 * conts (opposing to breaks) are not there for switch, find
+		 * deeper in the stack
+		 */
+		for (auto s = iterSwitchStack.rbegin(); s != iterSwitchStack.rend(); ++s)
+			if (!s->isSwitch) {
+				s->conts.push_back(bn);
+				break;
+			}
+	} else if (ctx->Break()) {
+		iterSwitchStack.top().breaks.push_back(bn);
+	} else if (ctx->Return()) {
+		functionStack.top().rets.push_back(bn);
+	}
 }
 
 void CFGListener::exitAsmStatement(CParser::AsmStatementContext *ctx)

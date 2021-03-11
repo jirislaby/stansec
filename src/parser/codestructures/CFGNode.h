@@ -118,6 +118,18 @@ public:
     QString getCode(const CFGPart *) const override { return "JOIN"; }
 };
 
+class CFGExitNode : public CFGNode {
+public:
+    CFGExitNode(const antlr4::misc::Interval &intvl, const QString &function) :
+	    CFGNode(intvl), function(function) {}
+
+    QString getCode(const CFGPart *) const override {
+	    return "EXIT (" + function + ')';
+    }
+private:
+    const QString function;
+};
+
 class CFGBreakNode : public CFGNode {
 public:
 	CFGBreakNode(const antlr4::misc::Interval &intvl) : CFGNode(intvl) {};
