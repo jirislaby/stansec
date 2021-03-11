@@ -71,10 +71,10 @@ public:
      */
     EdgeLabel *getEdgeLabel(unsigned int edge) const { return edgeLabels[edge]; }
 
-    void addEdge(CFGNode *to);
+    virtual void addEdge(CFGNode *to);
     void addEdge(CFGNode *to, const QString &label);
     void addEdge(CFGNode *to, unsigned int edgeIndex, const QString &label);
-    void addOptEdge(CFGNode *to);
+    virtual void addOptEdge(CFGNode *to);
     void replaceEdge(CFGNode *oldTo, CFGNode *newTo);
     void replaceOptEdge(CFGNode *oldTo, CFGNode *newTo);
 
@@ -116,6 +116,21 @@ public:
     CFGJoinNode(const antlr4::misc::Interval &intvl) : CFGNode(intvl) {};
 
     QString getCode(const CFGPart *) const override { return "JOIN"; }
+};
+
+class CFGBreakNode : public CFGNode {
+public:
+	CFGBreakNode(const antlr4::misc::Interval &intvl) : CFGNode(intvl) {};
+
+	void addEdge(CFGNode *) override { /* nothing */ }
+
+	void addOptEdge(CFGNode *) override {
+		throw std::runtime_error("can't add opt edge from a break node");
+	}
+
+	void addBreakEdge(CFGNode *to) {
+		CFGNode::addEdge(to);
+	}
 };
 
 class CFGAssertNode : public CFGNode {
