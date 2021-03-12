@@ -2,7 +2,7 @@
 
 #undef DEBUG_LOCK
 #undef DEBUG_ISTYPENAME
-#define DEBUG_ADDTYPENAME
+#undef DEBUG_ADDTYPENAME
 #undef DUMP_TYPES
 
 void CParser::typedefLock()
