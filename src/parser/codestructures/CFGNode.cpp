@@ -59,6 +59,28 @@ QString CFGNode::getCode(const CFGPart *cfg) const
     //return QString(cfg->getTokens().getText(intvl).c_str());
 }
 
+unsigned int CFGNode::getColumnStart(const CFGPart *cfg) const
+{
+	return cfg->getTokens().get(intvl.a)->getCharPositionInLine();
+}
+
+unsigned int CFGNode::getLineStart(const CFGPart *cfg) const
+{
+	return cfg->getTokens().get(intvl.a)->getLine();
+}
+
+unsigned int CFGNode::getColumnEnd(const CFGPart *cfg) const
+{
+	auto tok = cfg->getTokens().get(intvl.b);
+
+	return tok->getCharPositionInLine() + tok->getText().length();
+}
+
+unsigned int CFGNode::getLineEnd(const CFGPart *cfg) const
+{
+	return cfg->getTokens().get(intvl.b)->getLine();
+}
+
 /**
  * Adds an edge between two nodes
  * @param to which node to add the edge to

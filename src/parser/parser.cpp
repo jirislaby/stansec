@@ -32,9 +32,10 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
         QFile file(name + ".dot");
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream out(&file);
-            out << cfg->toDot();
+	    out << cfg->toDot(100);
             file.close();
-            QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << file.fileName());
+	    if (name == "main")
+		    QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << file.fileName());
         }
     }
 

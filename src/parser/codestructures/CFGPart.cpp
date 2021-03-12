@@ -49,7 +49,7 @@ void CFGPart::append(CFGNode *n) {
  *
  * @return dot representation stored in a string
  */
-QString CFGPart::toDot()
+QString CFGPart::toDot(int shrink)
 {
     auto allNodes = getAllNodesOpt();
     QString sb("digraph CFG {");
@@ -77,8 +77,23 @@ QString CFGPart::toDot()
 #else
             sb.append(" [label=\"").
                 append(QString::number(n->getNumber())).
-                append(": ").
-		append(n->getCode(this).replace('\\', "\\\\").replace('"', "\\\"")).
+		append(" (").append(QString::number(n->getLineStart(this))).
+			    append(':').
+			    append(QString::number(n->getColumnStart(this))).
+			    append('-').
+			    append(QString::number(n->getLineEnd(this))).
+			    append(':').
+			    append(QString::number(n->getColumnEnd(this))).
+
+			    append(')').
+		append(": ");
+	    auto code = n->getCode(this);
+	    if (shrink > 3 && code.length() > shrink) {
+		    code.resize(shrink - 3);
+		    code.append("...");
+	    }
+	    code.replace('\\', "\\\\").replace('"', "\\\"");
+	    sb.append(code).
                 append("\"];");
 #endif
         sb.append('\n');

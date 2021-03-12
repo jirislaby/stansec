@@ -32,7 +32,7 @@ public:
     QSet<CFGNode *> getAllNodes(bool optimized = false);
     QSet<CFGNode *> getAllNodesOpt() { return getAllNodes(true); }
 
-    QString toDot();
+    QString toDot(int shrink = 0);
 
 protected:
     //QMap<unsigned int, CFGNode *> nodes;

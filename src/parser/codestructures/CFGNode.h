@@ -57,8 +57,10 @@ public:
     virtual QString getCode(const CFGPart *cfg) const;
     unsigned int getNumber() const { return number; }
 
-    unsigned int getColumn() const { return column; }
-    unsigned int getLine() const { return line; }
+    unsigned int getColumnStart(const CFGPart *cfg) const;
+    unsigned int getLineStart(const CFGPart *cfg) const;
+    unsigned int getColumnEnd(const CFGPart *cfg) const;
+    unsigned int getLineEnd(const CFGPart *cfg) const;
 
     bool isVisible() const { return visible; }
     void setVisible(bool value) { visible = value; }
@@ -105,8 +107,6 @@ private:
     //QString nodeType = null;
     QList<Operand *> operands;
     //QFile file;
-    unsigned int line;
-    unsigned int column;
     bool visible;
 
 };
