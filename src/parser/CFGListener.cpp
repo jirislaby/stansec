@@ -48,12 +48,6 @@ void CFGListener::exitFunctionDefinition(CParser::FunctionDefinitionContext *ctx
 	map.insert(name, cfg);
 }
 
-void CFGListener::enterEveryRule(antlr4::ParserRuleContext *ctx)
-{
-    Q_UNUSED(ctx);
-    //qDebug() << __func__ << QString::fromStdString(ctx->start->getText());
-}
-
 void CFGListener::exitLabeledStatement(CParser::LabeledStatementContext *ctx)
 {
 	auto stmtCFG = cfgs.removeFrom(ctx->statement());
