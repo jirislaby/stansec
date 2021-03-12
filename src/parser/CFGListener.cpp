@@ -92,8 +92,6 @@ void CFGListener::exitBlockItem(CParser::BlockItemContext *ctx)
 {
     auto cfg = cfgs.removeFrom(ctx->getRuleContext<antlr4::ParserRuleContext>(0));
     cfgs.put(ctx, cfg);
-    qDebug() << __func__ << ctx->getText().c_str() << "->";
-    qDebug().noquote() << cfg->toDot();
 }
 
 void CFGListener::exitStatement(CParser::StatementContext *ctx)
@@ -313,8 +311,6 @@ void CFGListener::exitExpression(CParser::ExpressionContext *ctx)
     cfgs.put(ctx, cfg);
 
     cfg->append(cfgs.removeFrom(ctx->assignmentExpression()));
-    //qDebug() << __func__ << ctx->getText().c_str() << "->";
-    //qDebug().noquote() << cfg->toDot();
 }
 
 void CFGListener::exitDeclaration(CParser::DeclarationContext *ctx)
@@ -379,5 +375,6 @@ void CFGListener::exitInitializer(CParser::InitializerContext *ctx)
 
 void CFGListener::exitGccAttribute(CParser::GccAttributeContext *ctx)
 {
-    qDebug() << "XXX ATTR:" << ctx->getText().c_str();
+	Q_UNUSED(ctx);
+	//qDebug() << "XXX ATTR:" << ctx->getText().c_str();
 }
