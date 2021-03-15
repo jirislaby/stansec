@@ -5,7 +5,7 @@
 #include "CFGNode.h"
 #include "CFGPart.h"
 
-CFGPart::CFGPart(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
+CFGPart::CFGPart(antlr4::CommonTokenStream *tokens, CFGNode *startNode,
                  CFGNode *endNode)
     : tokens(tokens), startNode(startNode), endNode(endNode)
 {

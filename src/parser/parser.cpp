@@ -19,7 +19,7 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
     antlr4::CommonTokenStream tokens(&lexer);
     CParser parser(&tokens);
     auto tree = parser.compilationUnit();
-    CFGListener cfgListener(tokens);
+    CFGListener cfgListener(&tokens);
     antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
 
     auto dot = cfgListener.getDot("main");

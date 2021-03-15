@@ -6,7 +6,7 @@
 #include "CFG.h"
 #include "CFGNode.h"
 
-CFGListener::CFGListener(antlr4::CommonTokenStream &tokens) :
+CFGListener::CFGListener(antlr4::CommonTokenStream *tokens) :
     tokens(tokens)
 {
 }

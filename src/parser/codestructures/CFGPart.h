@@ -13,7 +13,7 @@ class CFGNode;
  */
 class CFGPart {
 public:
-    CFGPart(antlr4::CommonTokenStream &tokens, CFGNode *startNode = nullptr,
+    CFGPart(antlr4::CommonTokenStream *tokens, CFGNode *startNode = nullptr,
                  CFGNode *endNode = nullptr);
 
     CFGNode *getStartNode() const { return startNode; }
@@ -27,7 +27,7 @@ public:
     void append(CFGPart *g);
     void append(CFGNode *n);
 
-    antlr4::CommonTokenStream &getTokens() const { return tokens; }
+    antlr4::CommonTokenStream *getTokens() const { return tokens; }
 
     QSet<CFGNode *> getAllNodes(bool optimized = false);
     QSet<CFGNode *> getAllNodesOpt() { return getAllNodes(true); }
@@ -37,7 +37,7 @@ public:
 protected:
     //QMap<unsigned int, CFGNode *> nodes;
 
-    antlr4::CommonTokenStream &tokens;
+    antlr4::CommonTokenStream *tokens;
     CFGNode *startNode;
     CFGNode *endNode;
 

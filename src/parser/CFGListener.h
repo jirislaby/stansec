@@ -13,7 +13,7 @@
 class CFGListener : public CBaseListener {
 
 public:
-    CFGListener(antlr4::CommonTokenStream &tokens);
+    CFGListener(antlr4::CommonTokenStream *tokens);
     ~CFGListener();
 
     void enterFunctionDefinition(CParser::FunctionDefinitionContext *) override;
@@ -80,7 +80,7 @@ private:
     QStack<Function> functionStack;
     QStack<IterSwitch> iterSwitchStack;
 
-    antlr4::CommonTokenStream &tokens;
+    antlr4::CommonTokenStream *tokens;
 
     static CFGNode *buildAssert(antlr4::ParserRuleContext *ctx, bool neg);
 };

@@ -40,7 +40,7 @@ QString CFGNode::getCode(const CFGPart *cfg) const
     static const QChar noSpace[] = { ';', '(', ')' };
     QString ret;
 
-    for (auto tok: cfg->getTokens().getTokens(intvl.a, intvl.b)) {
+    for (auto tok: cfg->getTokens()->getTokens(intvl.a, intvl.b)) {
         QString tokStr(tok->getText().c_str());
         if (!ret.isEmpty()) {
             bool addSpace = true;
@@ -61,24 +61,24 @@ QString CFGNode::getCode(const CFGPart *cfg) const
 
 unsigned int CFGNode::getColumnStart(const CFGPart *cfg) const
 {
-	return cfg->getTokens().get(intvl.a)->getCharPositionInLine();
+	return cfg->getTokens()->get(intvl.a)->getCharPositionInLine();
 }
 
 unsigned int CFGNode::getLineStart(const CFGPart *cfg) const
 {
-	return cfg->getTokens().get(intvl.a)->getLine();
+	return cfg->getTokens()->get(intvl.a)->getLine();
 }
 
 unsigned int CFGNode::getColumnEnd(const CFGPart *cfg) const
 {
-	auto tok = cfg->getTokens().get(intvl.b);
+	auto tok = cfg->getTokens()->get(intvl.b);
 
 	return tok->getCharPositionInLine() + tok->getText().length();
 }
 
 unsigned int CFGNode::getLineEnd(const CFGPart *cfg) const
 {
-	return cfg->getTokens().get(intvl.b)->getLine();
+	return cfg->getTokens()->get(intvl.b)->getLine();
 }
 
 /**

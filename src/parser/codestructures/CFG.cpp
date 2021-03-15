@@ -5,7 +5,7 @@
 
 #include <QString>
 
-CFG::CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
+CFG::CFG(antlr4::CommonTokenStream *tokens, CFGNode *startNode,
 		CFGNode *endNode, QString &functionName) :
     CFGPart(tokens, startNode, endNode), functionName(functionName)
 {

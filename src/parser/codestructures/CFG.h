@@ -12,7 +12,7 @@ class CFGNode;
 
 class CFG : public CFGPart {
 public:
-    CFG(antlr4::CommonTokenStream &tokens, CFGNode *startNode,
+    CFG(antlr4::CommonTokenStream *tokens, CFGNode *startNode,
 		    CFGNode *endNode, QString &functionName);
     ~CFG();
 
