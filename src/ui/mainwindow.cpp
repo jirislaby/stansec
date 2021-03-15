@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "sourcecodeedit.h"
 
 #include "../parser/parser.h"
 
@@ -31,7 +32,7 @@ void MainWindow::about()
     QMessageBox::about(this, "Stansec",
                        "<b>Stansec</b><br/>"
                        "Version 1<br/><br/>"
-                       "Copyright © 2020 <b>Jiri Slaby</b><br/>"
+		       "Copyright © 2020-2021 <b>Jiri Slaby</b><br/>"
                        "Licensed under GPLv2<br/>"
                        "Web: <a href=\"http://consultctl.eu\">http://consultctl.eu</a><br/>"
                        "E-mail: <a href=\"mailto:jirislaby@gmail.com\">jirislaby@gmail.com</a>");
@@ -65,7 +66,8 @@ void MainWindow::open(const QString &fileName)
     auto codec = QTextCodec::codecForName("UTF-8");
     const auto data = codec->toUnicode(f.readAll());
     f.close();
-    auto text = new QTextEdit();
+    auto text = new SourceCodeEdit();
+
     text->setReadOnly(true);
     text->setPlainText(data);
     ui->tabSources->addTab(text, fileName);

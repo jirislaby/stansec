@@ -12,10 +12,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    ../ui/mainwindow.cpp
+    ../ui/mainwindow.cpp \
+    ../ui/sourcecodeedit.cpp
 
 HEADERS += \
-    ../ui/mainwindow.h
+    ../ui/mainwindow.h \
+    ../ui/sourcecodeedit.h
 
 FORMS += \
     ../ui/mainwindow.ui
