@@ -73,7 +73,8 @@ unsigned int CFGNode::getColumnEnd(const CFGPart *cfg) const
 {
 	auto tok = cfg->getTokens()->get(intvl.b);
 
-	return tok->getCharPositionInLine() + tok->getText().length();
+	return tok->getCharPositionInLine() +
+			tok->getStopIndex() - tok->getStartIndex();
 }
 
 unsigned int CFGNode::getLineEnd(const CFGPart *cfg) const
