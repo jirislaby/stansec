@@ -1,4 +1,5 @@
 #include "sourcecodeedit.h"
+#include "../parser/parser.h"
 
 #include <QEvent>
 #include <QHelpEvent>
@@ -6,7 +7,7 @@
 #include <QTextCursor>
 #include <QToolTip>
 
-SourceCodeEdit::SourceCodeEdit()
+SourceCodeEdit::SourceCodeEdit() : parser(nullptr)
 {
 
 }
@@ -35,10 +36,17 @@ bool SourceCodeEdit::event(QEvent *event)
 	if (event->type() == QEvent::ToolTip) {
 		auto helpEvent = static_cast<QHelpEvent *>(event);
 		auto pos = helpEvent->pos();
-		auto posText = this->cursorForPosition(pos);
-		QToolTip::showText(helpEvent->globalPos(),
-				   QString::number(getLine(posText)) + ':' +
-				   QString::number(posText.columnNumber()));
+		auto posText = cursorForPosition(pos);
+		auto line = getLine(posText);
+		auto tip = QString::number(line).append(':').
+				append(QString::number(posText.columnNumber()));
+
+		if (parser) {
+			auto dot = parser->getDot(line);
+			tip.append("<br/>\n").append(dot);
+		}
+
+		QToolTip::showText(helpEvent->globalPos(), tip);
 
 		return true;
 	}

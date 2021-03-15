@@ -24,7 +24,10 @@ MainWindow::MainWindow(const QStringList &sources, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	for (auto p : parsers)
+		delete p;
+
+	delete ui;
 }
 
 void MainWindow::about()
@@ -75,13 +78,18 @@ void MainWindow::open(const QString &fileName)
 
 void MainWindow::on_pbRun_clicked()
 {
-    auto cur = dynamic_cast<QTextEdit *>(ui->tabSources->currentWidget());
-    if (!cur) {
-        QMessageBox::warning(this, "Error", "Open a file first!");
-        return;
-    }
+	auto cur = dynamic_cast<SourceCodeEdit *>(ui->tabSources->currentWidget());
+	if (!cur) {
+		QMessageBox::warning(this, "Error", "Open a file first!");
+		return;
+	}
 
-    Parser parser;
-    parser.parse(cur->toPlainText().toStdString());
-    //std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
+	if (parsers.contains(cur))
+		return;
+
+	auto parser = new Parser();
+	parser->parse(cur->toPlainText().toStdString());
+	parsers.insert(cur, parser);
+	cur->setParser(parser);
+	//std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
 }
