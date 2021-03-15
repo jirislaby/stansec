@@ -7,7 +7,8 @@
 
 CFG::CFG(antlr4::CommonTokenStream *tokens, CFGNode *startNode,
 		CFGNode *endNode, QString &functionName) :
-    CFGPart(tokens, startNode, endNode), functionName(functionName)
+	CFGPart(tokens, startNode, endNode), line(), column(),
+	functionName(functionName)
 {
 }
 
@@ -42,6 +43,18 @@ CFG *CFG::createFromCFGPart(CFGPart *cfgPart, QString &name)
 	delete cfgPart;
 
 	return cfg;
+}
+
+void CFG::setBoundaries(antlr4::misc::Interval intval)
+{
+	auto start = tokens->get(intval.a);
+	auto end = tokens->get(intval.b);
+
+	line[0] = start->getLine();
+	line[1] = end->getLine();
+	column[0] = start->getCharPositionInLine();
+	column[1] = end->getCharPositionInLine() +
+			end->getStopIndex() - end->getStartIndex();
 }
 
 #if 0

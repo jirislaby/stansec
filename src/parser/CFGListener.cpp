@@ -57,6 +57,9 @@ void CFGListener::exitFunctionDefinition(CParser::FunctionDefinitionContext *ctx
 		ret->addBreakEdge(endNode);
 
 	auto cfg = CFG::createFromCFGPart(cfgPart, name);
+
+	cfg->setBoundaries(ctx->getSourceInterval());
+
 	map.insert(name, cfg);
 }
 

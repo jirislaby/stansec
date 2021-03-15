@@ -7,7 +7,7 @@
 
 CFGPart::CFGPart(antlr4::CommonTokenStream *tokens, CFGNode *startNode,
                  CFGNode *endNode)
-    : tokens(tokens), startNode(startNode), endNode(endNode)
+	: tokens(tokens), startNode(startNode), endNode(endNode)
 {
 }
 
