@@ -14,6 +14,7 @@ class CFGListener : public CBaseListener {
 
 public:
     CFGListener(QMap<QString, CFG *> &map, antlr4::CommonTokenStream *tokens);
+    ~CFGListener();
 
     void enterFunctionDefinition(CParser::FunctionDefinitionContext *) override;
     void exitFunctionDefinition(CParser::FunctionDefinitionContext *) override;
@@ -47,7 +48,15 @@ public:
 
 private:
     QMap<QString, CFG *> &map;
-    antlr4::tree::ParseTreeProperty<CFGPart *> cfgs;
+
+    class ParseTreeProperty : public antlr4::tree::ParseTreeProperty<CFGPart *> {
+    public:
+	    std::map<antlr4::tree::ParseTree *, CFGPart *>::const_iterator
+		    begin() const { return _annotations.cbegin(); }
+	    std::map<antlr4::tree::ParseTree *, CFGPart *>::const_iterator
+		    end() const { return _annotations.cend(); }
+    };
+    ParseTreeProperty cfgs;
 
     struct Function {
 	    QVector<CFGBreakNode *> rets;

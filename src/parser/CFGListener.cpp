@@ -12,6 +12,23 @@ CFGListener::CFGListener(QMap<QString, CFG *> &map,
 {
 }
 
+CFGListener::~CFGListener()
+{
+	for (auto c: cfgs) {
+		auto tree = c.first;
+		auto cfg = c.second;
+		auto tok = tokens->get(tree->getSourceInterval().a);
+
+		qWarning() << "leak of" << tree->getText().c_str() << "at" <<
+			      tok->getLine() << ':' << tok->getCharPositionInLine() <<
+			      "p=" << cfg;
+
+		for (auto n : cfg->getAllNodes())
+			delete n;
+		delete cfg;
+	}
+}
+
 void CFGListener::enterFunctionDefinition(CParser::FunctionDefinitionContext *ctx)
 {
 	Q_UNUSED(ctx);
