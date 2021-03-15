@@ -19,7 +19,7 @@ public:
     QString getRetVar() const { return retvar; }
     void setRetVar(QString &value) { retvar = value; }
 
-    static CFG *createFromCFGPart(CFGPart *cfgPart, void *functionDefinition);
+    static CFG *createFromCFGPart(CFGPart *cfgPart, QString &name);
 
 protected:
     QString getFunctionName() const { return functionName; }

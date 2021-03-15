@@ -24,30 +24,22 @@ CFG::~CFG()
  * @param functionDefinition XML representation of a function definition
  * @return CFG created from CFGPart
  */
-CFG *CFG::createFromCFGPart(CFGPart *cfgPart, void */*functionDefinition*/)
+CFG *CFG::createFromCFGPart(CFGPart *cfgPart, QString &name)
 {
 #if 0
-	List<Element> linear = XMLLinearizeASTElement.functionDeclaration(functionDefinition);
-	assert linear.size() > 0;
-	assert linear.get(0).getName().equals("id");
-
-	String functionName = linear.get(0).getText();
-
 	List<String> params = new ArrayList<String>();
 	for (int i = 1; i < linear.size(); ++i) {
 		assert linear.get(i).getName().equals("id");
 		params.add(linear.get(i).getText());
 	}
-#else
-    QString functionName("N/A");
 #endif
-    auto cfg = new CFG(cfgPart->getTokens(), cfgPart->getStartNode(),
-                       cfgPart->getEndNode(), functionName);
+	auto cfg = new CFG(cfgPart->getTokens(), cfgPart->getStartNode(),
+			   cfgPart->getEndNode(), name);
 
 	//cfg.setParams(params);
-    //cfg->functionDefinition = functionDefinition;
+	//cfg->functionDefinition = functionDefinition;
 
-    delete cfgPart;
+	delete cfgPart;
 
 	return cfg;
 }
