@@ -13,19 +13,39 @@
 #include "CParser.h"
 #include "parser.h"
 
-std::string getParseTree(antlr4::ANTLRInputStream &input)
+Parser::Parser()
 {
-    CLexer lexer(&input);
-    antlr4::CommonTokenStream tokens(&lexer);
-    CParser parser(&tokens);
-    auto tree = parser.compilationUnit();
-    CFGListener cfgListener(&tokens);
-    antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
+}
 
-    auto dot = cfgListener.getDot("main");
-    qDebug().noquote() << dot;
+Parser::~Parser()
+{
+	for (auto cfg: map)
+		delete cfg;
+}
 
-    for (auto i = cfgListener.cfgBegin(); i != cfgListener.cfgEnd(); ++i) {
+void Parser::parse(const std::string &in)
+{
+	input.reset(new antlr4::ANTLRInputStream(in));
+	lexer.reset(new CLexer(input.get()));
+	tokens.reset(new antlr4::CommonTokenStream(lexer.get()));
+	parser.reset(new CParser(tokens.get()));
+	auto tree = parser->compilationUnit();
+	CFGListener cfgListener(map, tokens.get());
+	antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
+
+	qDebug().noquote() << getDot("main");
+}
+
+QString Parser::getDot(const QString &fun) const
+{
+	if (!map.contains(fun))
+		return QString();
+	return map[fun]->toDot();
+}
+
+void Parser::dumpDots() const
+{
+    for (auto i = cfgBegin(); i != cfgEnd(); ++i) {
         auto name = i.key();
         auto cfg = i.value();
 
@@ -38,12 +58,12 @@ std::string getParseTree(antlr4::ANTLRInputStream &input)
 		    QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << file.fileName());
         }
     }
-
-    return ""; //tree->toStringTree(&parser, true);
 }
 
-std::string getParseTree(const std::string &in)
+std::string Parser::getParseTree(const std::string &in)
 {
-    antlr4::ANTLRInputStream input(in);
-    return getParseTree(input);
+	if (!parser)
+		parse(in);
+
+	return parser->compilationUnit()->toStringTree(parser.get(), true);
 }

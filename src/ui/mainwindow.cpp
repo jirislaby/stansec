@@ -81,6 +81,7 @@ void MainWindow::on_pbRun_clicked()
         return;
     }
 
-    getParseTree(cur->toPlainText().toStdString());
+    Parser parser;
+    parser.parse(cur->toPlainText().toStdString());
     //std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
 }

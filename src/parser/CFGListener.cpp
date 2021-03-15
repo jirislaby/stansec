@@ -6,15 +6,10 @@
 #include "CFG.h"
 #include "CFGNode.h"
 
-CFGListener::CFGListener(antlr4::CommonTokenStream *tokens) :
-    tokens(tokens)
+CFGListener::CFGListener(QMap<QString, CFG *> &map,
+			 antlr4::CommonTokenStream *tokens) :
+	map(map), tokens(tokens)
 {
-}
-
-CFGListener::~CFGListener()
-{
-    for (auto cfg: map)
-        delete cfg;
 }
 
 void CFGListener::enterFunctionDefinition(CParser::FunctionDefinitionContext *ctx)

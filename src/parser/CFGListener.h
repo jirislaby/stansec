@@ -13,8 +13,7 @@
 class CFGListener : public CBaseListener {
 
 public:
-    CFGListener(antlr4::CommonTokenStream *tokens);
-    ~CFGListener();
+    CFGListener(QMap<QString, CFG *> &map, antlr4::CommonTokenStream *tokens);
 
     void enterFunctionDefinition(CParser::FunctionDefinitionContext *) override;
     void exitFunctionDefinition(CParser::FunctionDefinitionContext *) override;
@@ -46,18 +45,9 @@ public:
 
     void exitGccAttribute(CParser::GccAttributeContext *) override;
 
-    QMap<QString, CFG *>::const_iterator cfgBegin() const { return map.begin(); }
-    QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
-
-    QString getDot(const QString &fun) {
-        if (!map.contains(fun))
-            return QString();
-        return map[fun]->toDot();
-    }
-
 private:
+    QMap<QString, CFG *> &map;
     antlr4::tree::ParseTreeProperty<CFGPart *> cfgs;
-    QMap<QString, CFG *> map;
 
     struct Function {
 	    QVector<CFGBreakNode *> rets;
