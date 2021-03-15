@@ -27,7 +27,10 @@ public:
 	QMap<QString, CFG *>::const_iterator cfgBegin() const { return map.begin(); }
 	QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
 
-	QString getDot(const QString &fun) const;
+	CFG *getFunction(unsigned int line) const;
+
+	QString getDot(unsigned int line, int shrink = 0) const;
+	QString getDot(const QString &fun, int shrink = 0) const;
 	void dumpDots() const;
 
 private:

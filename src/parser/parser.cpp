@@ -36,11 +36,28 @@ void Parser::parse(const std::string &in)
 	qDebug().noquote() << getDot("main");
 }
 
-QString Parser::getDot(const QString &fun) const
+CFG *Parser::getFunction(unsigned int line) const
+{
+	for (auto c : map)
+		if (c->getLineStart() <= line && line <= c->getLineEnd())
+			return c;
+
+	return nullptr;
+}
+
+QString Parser::getDot(unsigned int line, int shrink) const
+{
+	if (auto f = getFunction(line))
+		return f->toDot(shrink);
+
+	return QString();
+}
+
+QString Parser::getDot(const QString &fun, int shrink) const
 {
 	if (!map.contains(fun))
 		return QString();
-	return map[fun]->toDot();
+	return map[fun]->toDot(shrink);
 }
 
 void Parser::dumpDots() const
