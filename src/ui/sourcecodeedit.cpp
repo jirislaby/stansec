@@ -3,6 +3,7 @@
 
 #include <QEvent>
 #include <QHelpEvent>
+#include <QProcess>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QToolTip>
@@ -43,7 +44,18 @@ bool SourceCodeEdit::event(QEvent *event)
 
 		if (parser) {
 			auto dot = parser->getDot(line);
-			tip.append("<br/>\n").append(dot);
+
+			QProcess dotProc(this);
+			dotProc.start("dot", QStringList() << "-Tpng");
+			dotProc.write(dot.toLatin1());
+			dotProc.closeWriteChannel();
+			dotProc.waitForFinished();
+
+			auto png = dotProc.readAllStandardOutput();
+			tip.append("<br/>\n").
+					append("<img src='data:image/png;base64, ").
+					append(png.toBase64()).
+					append("' width='600' />");
 		}
 
 		QToolTip::showText(helpEvent->globalPos(), tip);
