@@ -1,17 +1,84 @@
-#include <cstdio>
 #include <iostream>
-#include <string>
 
-#include <antlr4-runtime.h>
+#include <clang/Frontend/CompilerInstance.h>
+#include <clang/Frontend/FrontendAction.h>
+#include <clang/StaticAnalyzer/Core/Checker.h>
+#include <clang/StaticAnalyzer/Core/CheckerManager.h>
+#include <clang/StaticAnalyzer/Core/PathSensitive/CheckerContext.h>
+#include <clang/StaticAnalyzer/Frontend/AnalysisConsumer.h>
+#include <clang/StaticAnalyzer/Frontend/CheckerRegistry.h>
+#include <clang/Tooling/Tooling.h>
 
-#include <QDebug>
-#include <QFile>
-#include <QProcess>
-
-#include "CFGListener.h"
-#include "CLexer.h"
-#include "CParser.h"
 #include "parser.h"
+
+using namespace clang;
+using namespace ento;
+
+namespace {
+
+class ParserChecker : public Checker<check::ASTCodeBody, check::EndOfTranslationUnit> {
+public:
+	void checkEndOfTranslationUnit(const TranslationUnitDecl *TU,
+				       AnalysisManager &,
+				       BugReporter &) const {
+		llvm::errs() << __func__ << ":\n";
+		TU->dump();
+	}
+
+	void checkASTCodeBody(const Decl *D, AnalysisManager& mgr,
+			BugReporter &) const {
+		llvm::errs() << __func__ << ":\n";
+
+		if (auto ND = dynamic_cast<const NamedDecl *>(D)) {
+			llvm::errs() << "decl is NAMED as '" << ND->getName() << "'\n";
+		}
+
+		if (CFG *cfg = mgr.getCFG(D)) {
+			llvm::errs() << "dumping a CFG:\n";
+			cfg->dump(mgr.getLangOpts(), true);
+		} else {
+			llvm::errs() << "NOT a CFG:\n";
+			D->dump();
+		}
+	}
+};
+
+class ParserAction : public ASTFrontendAction {
+	std::string Diags;
+	llvm::raw_string_ostream DiagsOutput;
+
+	class DiagConsumer : public PathDiagnosticConsumer {
+		llvm::raw_ostream &Output;
+
+	public:
+		DiagConsumer(llvm::raw_ostream &Output) : Output(Output) {}
+
+		void FlushDiagnosticsImpl(std::vector<const PathDiagnostic *> &Diags,
+					  FilesMade *filesMade) override {
+			for (const auto *PD : Diags)
+				Output << PD->getCheckerName() << ":" << PD->getShortDescription() << '\n';
+		}
+
+		StringRef getName() const override { return "Parser"; }
+	};
+
+public:
+	ParserAction() : DiagsOutput(Diags) {}
+
+	std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &Compiler,
+						       StringRef File) override {
+	    std::unique_ptr<AnalysisASTConsumer> AnalysisConsumer =
+		    CreateAnalysisConsumer(Compiler);
+	    AnalysisConsumer->AddDiagnosticConsumer(new DiagConsumer(DiagsOutput));
+	    Compiler.getAnalyzerOpts()->CheckersAndPackages = {{"stanse.Parser", true}};
+	    AnalysisConsumer->AddCheckerRegistrationFn([](CheckerRegistry &Registry) {
+		Registry.addChecker<ParserChecker>("stanse.Parser", "Parser for stanseC", "");
+	    });
+	    return std::move(AnalysisConsumer);
+	}
+};
+
+}
 
 Parser::Parser()
 {
@@ -19,68 +86,23 @@ Parser::Parser()
 
 Parser::~Parser()
 {
-	for (auto cfg: map)
-		delete cfg;
 }
 
-void Parser::parse(const std::string &in)
+void Parser::parse(const std::string &code)
 {
-	input.reset(new antlr4::ANTLRInputStream(in));
-	lexer.reset(new CLexer(input.get()));
-	tokens.reset(new antlr4::CommonTokenStream(lexer.get()));
-	parser.reset(new CParser(tokens.get()));
-	auto tree = parser->compilationUnit();
-	CFGListener cfgListener(map, tokens.get());
-	antlr4::tree::ParseTreeWalker::DEFAULT.walk(&cfgListener, tree);
-
-	qDebug().noquote() << getDot("main");
-}
-
-CFG *Parser::getFunction(unsigned int line) const
-{
-	for (auto c : map)
-		if (c->getLineStart() <= line && line <= c->getLineEnd())
-			return c;
-
-	return nullptr;
+	tooling::runToolOnCode(std::make_unique<ParserAction>(), code, "input.c");
 }
 
 QString Parser::getDot(unsigned int line, int shrink) const
 {
-	if (auto f = getFunction(line))
-		return f->toDot(shrink);
-
 	return QString();
 }
 
-QString Parser::getDot(const QString &fun, int shrink) const
+void runParserOnFile(const std::string &file)
 {
-	if (!map.contains(fun))
-		return QString();
-	return map[fun]->toDot(shrink);
-}
-
-void Parser::dumpDots() const
-{
-    for (auto i = cfgBegin(); i != cfgEnd(); ++i) {
-        auto name = i.key();
-        auto cfg = i.value();
-
-        QFile file(name + ".dot");
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-	    out << cfg->toDot(100);
-            file.close();
-	    if (name == "main")
-		    QProcess::execute("dot", QStringList() << "-Tpdf" << "-O" << file.fileName());
-        }
-    }
-}
-
-std::string Parser::getParseTree(const std::string &in)
-{
-	if (!parser)
-		parse(in);
-
-	return parser->compilationUnit()->toStringTree(parser.get(), true);
+	llvm::errs() << "running on " << file << "\n";
+	tooling::runToolOnCodeWithArgs(std::make_unique<ParserAction>(),
+				       "unused",
+				       llvm::vfs::getRealFileSystem(),
+				       std::vector<std::string>(), file);
 }

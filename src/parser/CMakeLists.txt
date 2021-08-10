@@ -1,23 +1,24 @@
-add_compile_options(-Wno-attributes -Wno-unused-parameter)
-include_directories(generated codestructures)
-
-include_directories(/usr/include/antlr4-runtime/)
-
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
+find_package(LLVM REQUIRED CONFIG)
+
+add_definitions(${LLVM_DEFINITIONS})
+include_directories(${LLVM_INCLUDE_DIRS})
+
+find_package(Clang REQUIRED)
+
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+
+if (TARGET LLVMSupport)
+	llvm_map_components_to_libnames(llvm_libs support core)
+else()
+	set(llvm_libs LLVM)
+endif()
+message(STATUS "Mapped LLVM libs: ${llvm_libs}")
+
 add_library(parser STATIC
-    codestructures/CFGPart.cpp
-    typedef_glue.cpp
     parser.cpp
-    CFGListener.cpp
-    codestructures/CFG.cpp
-    codestructures/CFGNode.cpp
-    generated/CBaseListener.cpp
-    generated/CBaseVisitor.cpp
-    generated/CLexer.cpp
-    generated/CListener.cpp
-    generated/CParser.cpp
-    generated/CVisitor.cpp
     )
 
-target_link_libraries(parser antlr4-runtime Qt5::Core)
+target_link_libraries(parser libclang clang-cpp ${llvm_libs} Qt5::Core)
