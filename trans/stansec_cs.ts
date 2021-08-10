@@ -125,12 +125,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="48"/>
+        <location filename="../src/ui/mainwindow.cpp" line="52"/>
         <source>Open C File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="48"/>
+        <location filename="../src/ui/mainwindow.cpp" line="52"/>
         <source>C Sources (*.c)</source>
         <translation type="unfinished"></translation>
     </message>
