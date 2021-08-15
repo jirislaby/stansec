@@ -15,6 +15,7 @@
 #include "mainwindow.h"
 
 #include "../checker/CheckerErrorReceiver.h"
+#include "../checker/automatonchecker/AutomatonCheckerCreator.h"
 #include "../checker/reachabilitychecker/ReachabilityCheckerCreator.h"
 #include "../parser/parser.h"
 
@@ -62,9 +63,11 @@ int Stansec::startTUI()
 
 		QFile xmlFile("auto.xml");
 		QList<QFile *> args({ &xmlFile });
+		checker::AutomatonCheckerCreator autom(args);
 
 		parser::Parser parser(&monitor, errReceiver);
 		parser.addChecker(&reach);
+		parser.addChecker(&autom);
 		parser.parseAndCheck(data.toStdString());
 	}
 
