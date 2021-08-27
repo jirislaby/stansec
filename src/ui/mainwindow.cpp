@@ -87,7 +87,7 @@ void MainWindow::on_pbRun_clicked()
 	if (parsers.contains(cur))
 		return;
 
-	auto parser = new Parser();
+	auto parser = new parser::Parser();
 	parser->parse(cur->toPlainText().toStdString());
 	parsers.insert(cur, parser);
 	cur->setParser(parser);

@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class Parser;
+namespace parser { class Parser; }
 
 class MainWindow : public QMainWindow
 {
@@ -27,7 +27,7 @@ private slots:
     void on_pbRun_clicked();
 
 private:
-    QMap<QWidget *, Parser *> parsers;
+    QMap<QWidget *, parser::Parser *> parsers;
     void open(const QString &fileName);
 
     Ui::MainWindow *ui;

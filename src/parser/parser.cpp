@@ -13,6 +13,7 @@
 
 using namespace clang;
 using namespace ento;
+using namespace parser;
 
 namespace {
 

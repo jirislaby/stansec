@@ -3,18 +3,18 @@
 
 #include <QTextEdit>
 
-class Parser;
+namespace parser { class Parser; }
 
 class SourceCodeEdit : public QTextEdit
 {
 public:
 	SourceCodeEdit();
 
-	void setParser(Parser *parser) { this->parser = parser; }
+	void setParser(parser::Parser *parser) { this->parser = parser; }
 
 	bool event(QEvent *event) override;
 private:
-	Parser *parser;
+	parser::Parser *parser;
 	static int getLine(QTextCursor cursor);
 };
 

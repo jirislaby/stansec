@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QString>
 
+namespace parser {
+
 class Parser {
 public:
 	Parser();
@@ -28,5 +30,7 @@ public:
 private:
 	//QMap<QString, CFG *> map;
 };
+
+}
 
 #endif // PARSER_H
