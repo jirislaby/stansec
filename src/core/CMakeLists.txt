@@ -13,7 +13,9 @@ add_executable(stansec
     main.cpp
     ../ui/mainwindow.ui
     ../ui/mainwindow.cpp
+    ../ui/mainwindow.h
     ../ui/sourcecodeedit.cpp
+    ../ui/sourcecodeedit.h
     ${QM_FILES}
     )
 

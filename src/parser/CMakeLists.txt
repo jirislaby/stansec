@@ -19,6 +19,7 @@ message(STATUS "Mapped LLVM libs: ${llvm_libs}")
 
 add_library(parser STATIC
     parser.cpp
+    parser.h
     )
 
 target_link_libraries(parser libclang clang-cpp ${llvm_libs} Qt5::Core)
