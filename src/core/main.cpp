@@ -1,8 +1,11 @@
+#include "CmdLineManager.h"
 #include "mainwindow.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QTranslator>
+
+using namespace core;
 
 int main(int argc, char *argv[])
 {
@@ -14,15 +17,9 @@ int main(int argc, char *argv[])
                         a.applicationDirPath() + "/trans"))
         a.installTranslator(&translator);
 
-    QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addPositionalArgument(a.translate("main", "sources"),
-                                 a.translate("main", "Sources to check"),
-                                 a.translate("main", "[sources...]"));
-    parser.process(a);
+    CmdLineManager cmdLine(a);
 
-    MainWindow w(parser.positionalArguments());
+    MainWindow w(cmdLine.positionalArguments());
     w.show();
     return a.exec();
 }

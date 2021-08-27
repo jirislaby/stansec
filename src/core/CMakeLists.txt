@@ -10,13 +10,15 @@ qt5_create_translation(QM_FILES
 	../../trans/stansec_cs.ts)
 
 add_executable(stansec
-    main.cpp
-    ../ui/mainwindow.ui
-    ../ui/mainwindow.cpp
-    ../ui/mainwindow.h
-    ../ui/sourcecodeedit.cpp
-    ../ui/sourcecodeedit.h
-    ${QM_FILES}
+	CmdLineManager.cpp
+	CmdLineManager.h
+	main.cpp
+	../ui/mainwindow.ui
+	../ui/mainwindow.cpp
+	../ui/mainwindow.h
+	../ui/sourcecodeedit.cpp
+	../ui/sourcecodeedit.h
+	${QM_FILES}
     )
 
 target_link_libraries(stansec parser Qt5::Core Qt5::Gui Qt5::Widgets)
