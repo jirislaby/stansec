@@ -13,6 +13,8 @@ add_executable(stansec
 	CmdLineManager.cpp
 	CmdLineManager.h
 	main.cpp
+	stansec.cpp
+	stansec.h
 	../ui/mainwindow.ui
 	../ui/mainwindow.cpp
 	../ui/mainwindow.h

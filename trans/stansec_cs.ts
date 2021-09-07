@@ -209,4 +209,22 @@
         <translation>[zdroje...]</translation>
     </message>
 </context>
+<context>
+    <name>core::Stansec</name>
+    <message>
+        <location filename="../src/core/stansec.cpp" line="34"/>
+        <source>Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/stansec.cpp" line="39"/>
+        <source>Cannot open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/stansec.cpp" line="41"/>
+        <source>due to error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

@@ -1,4 +1,5 @@
 #include "CmdLineManager.h"
+#include "stansec.h"
 #include "mainwindow.h"
 
 #include <QApplication>
@@ -18,8 +19,7 @@ int main(int argc, char *argv[])
         a.installTranslator(&translator);
 
     CmdLineManager cmdLine(a);
+    Stansec stansec(a, cmdLine);
 
-    MainWindow w(cmdLine.positionalArguments());
-    w.show();
-    return a.exec();
+    return stansec.startUI();
 }
