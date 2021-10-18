@@ -5,6 +5,8 @@
 
 namespace parser { class Parser; }
 
+namespace Ui {
+
 class SourceCodeEdit : public QTextEdit
 {
 public:
@@ -17,5 +19,7 @@ private:
 	parser::Parser *parser;
 	static int getLine(QTextCursor cursor);
 };
+
+}
 
 #endif // SOURCECODEEDIT_H

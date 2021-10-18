@@ -8,6 +8,8 @@
 #include <QTextCursor>
 #include <QToolTip>
 
+using namespace Ui;
+
 SourceCodeEdit::SourceCodeEdit() : parser(nullptr)
 {
 

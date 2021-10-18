@@ -69,7 +69,7 @@ void MainWindow::open(const QString &fileName)
     auto codec = QTextCodec::codecForName("UTF-8");
     const auto data = codec->toUnicode(f.readAll());
     f.close();
-    auto text = new SourceCodeEdit();
+    auto text = new Ui::SourceCodeEdit();
 
     text->setReadOnly(true);
     text->setPlainText(data);
@@ -78,7 +78,7 @@ void MainWindow::open(const QString &fileName)
 
 void MainWindow::on_pbRun_clicked()
 {
-	auto cur = dynamic_cast<SourceCodeEdit *>(ui->tabSources->currentWidget());
+	auto cur = dynamic_cast<Ui::SourceCodeEdit *>(ui->tabSources->currentWidget());
 	if (!cur) {
 		QMessageBox::warning(this, "Error", "Open a file first!");
 		return;
