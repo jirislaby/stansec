@@ -5,6 +5,8 @@
 #include <QMap>
 #include <QStringList>
 
+#include "treeerrormodel.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -31,5 +33,6 @@ private:
     void open(const QString &fileName);
 
     Ui::MainWindow *ui;
+    Ui::TreeErrorModel treeErrorModel;
 };
 #endif // MAINWINDOW_H

@@ -22,6 +22,8 @@ add_executable(stansec
 	../ui/mainwindow.h
 	../ui/sourcecodeedit.cpp
 	../ui/sourcecodeedit.h
+	../ui/treeerrormodel.cpp
+	../ui/treeerrormodel.h
 	${QM_FILES}
     )
 

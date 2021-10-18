@@ -13,11 +13,14 @@
 #include <QStringList>
 #include <QTextCodec>
 
+#include "treeerrormodel.h"
+
 MainWindow::MainWindow(const QStringList &sources, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->treeError->setModel(&treeErrorModel);
     for (auto file: sources)
         open(file);
 }
