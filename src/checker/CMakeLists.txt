@@ -14,6 +14,10 @@ add_library(checker STATIC
 	CheckerProgressMonitor.h
 	CheckingResult.h
 	CheckingSuccess.h
+
+	reachabilitychecker/ReachabilityChecker.cpp
+	reachabilitychecker/ReachabilityCheckerCreator.h
+	reachabilitychecker/ReachabilityChecker.h
     )
 
 target_link_libraries(checker codestructures utils Qt5::Core)
