@@ -34,6 +34,7 @@ int SourceCodeEdit::getLine(QTextCursor cursor)
 
 bool SourceCodeEdit::event(QEvent *event)
 {
+#if 0
 	if (event->type() == QEvent::ToolTip) {
 		auto helpEvent = static_cast<QHelpEvent *>(event);
 		auto pos = helpEvent->pos();
@@ -62,6 +63,6 @@ bool SourceCodeEdit::event(QEvent *event)
 
 		return true;
 	}
-
+#endif
 	return QWidget::event(event);
 }
