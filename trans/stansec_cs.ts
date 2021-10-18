@@ -125,12 +125,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="55"/>
+        <location filename="../src/ui/mainwindow.cpp" line="60"/>
         <source>Open C File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="55"/>
+        <location filename="../src/ui/mainwindow.cpp" line="60"/>
         <source>C Sources (*.c)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -212,17 +212,17 @@
 <context>
     <name>core::Stansec</name>
     <message>
-        <location filename="../src/core/stansec.cpp" line="34"/>
+        <location filename="../src/core/stansec.cpp" line="36"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="39"/>
+        <location filename="../src/core/stansec.cpp" line="41"/>
         <source>Cannot open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="41"/>
+        <location filename="../src/core/stansec.cpp" line="43"/>
         <source>due to error</source>
         <translation type="unfinished"></translation>
     </message>

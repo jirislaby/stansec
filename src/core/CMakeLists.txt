@@ -27,7 +27,7 @@ add_executable(stansec
 	${QM_FILES}
     )
 
-target_link_libraries(stansec parser Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(stansec checker parser Qt5::Core Qt5::Gui Qt5::Widgets)
 
 install(TARGETS stansec
 	RUNTIME DESTINATION bin)

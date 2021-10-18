@@ -14,6 +14,8 @@
 #include "stansec.h"
 #include "mainwindow.h"
 
+#include "../checker/CheckerErrorReceiver.h"
+#include "../checker/reachabilitychecker/ReachabilityCheckerCreator.h"
 #include "../parser/parser.h"
 
 using namespace core;
@@ -45,8 +47,25 @@ int Stansec::startTUI()
 		const auto data = codec->toUnicode(f.readAll());
 		f.close();
 
-		parser::Parser parser;
-		parser.parse(data.toStdString());
+		checker::QInfoCheckerProgressMonitor monitor;
+		checker::CheckerErrorReceiver errReceiver([](const checker::CheckerError &err) {
+		    qWarning() << "================";
+		    qWarning() << "ERROR:" << err.getShortDesc() << "from" <<
+				  err.getCheckerName();
+		    qWarning() << err.getFullDesc() << "with importance" <<
+				  err.getImportance();
+		    for (const auto &trace : err.getTraces())
+			    trace.dump();
+		    qWarning() << "================";
+		});
+		checker::ReachabilityCheckerCreator reach;
+
+		QFile xmlFile("auto.xml");
+		QList<QFile *> args({ &xmlFile });
+
+		parser::Parser parser(&monitor, errReceiver);
+		parser.addChecker(&reach);
+		parser.parseAndCheck(data.toStdString());
 	}
 
 	return 0;

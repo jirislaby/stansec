@@ -24,4 +24,4 @@ add_library(parser STATIC
     parser.h
     )
 
-target_link_libraries(parser libclang clang-cpp ${llvm_libs} Qt5::Core)
+target_link_libraries(parser checker libclang clang-cpp ${llvm_libs} Qt5::Core)

@@ -1,5 +1,13 @@
+/*
+ * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ *
+ * Licensed under GPLv2.
+ */
+
 #include <iostream>
 
+#include <clang/Analysis/CallGraph.h>
+#include <clang/AST/Attr.h>
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Frontend/FrontendAction.h>
 #include <clang/StaticAnalyzer/Core/Checker.h>
@@ -9,45 +17,99 @@
 #include <clang/StaticAnalyzer/Frontend/CheckerRegistry.h>
 #include <clang/Tooling/Tooling.h>
 
+#include "../codestructures/LazyInternalStructuresIntra.h"
+
 #include "parser.h"
 
 using namespace clang;
 using namespace ento;
 using namespace parser;
 
-namespace {
+namespace parser {
 
 class ParserChecker : public Checker<check::ASTCodeBody, check::EndOfTranslationUnit> {
 public:
+	ParserChecker() {}
+
 	void checkEndOfTranslationUnit(const TranslationUnitDecl *TU,
-				       AnalysisManager &,
+				       AnalysisManager &mgr,
 				       BugReporter &) const {
 		llvm::errs() << __func__ << ":\n";
-		TU->dump();
+
+		auto chkMgr = mgr.getCheckerManager();
+		auto p = parserMap[&chkMgr->getAnalyzerOptions()];
+
+		CallGraph CG;
+		CG.addToCallGraph(const_cast<TranslationUnitDecl *>(TU));
+		codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
+
+		p->check(LIS, TU);
+
+		//TU->dump();
+		auto &srcMgr = mgr.getSourceManager();
+		for (const auto &d : TU->decls())
+		    if (auto fd = dynamic_cast<const FunctionDecl *>(d)) {
+			if (!fd->isThisDeclarationADefinition())
+			    continue;
+			if (auto nd = dynamic_cast<const NamedDecl *>(d)) {
+#if 0
+			    const auto &src = d->getSourceRange();
+			    const auto &start = srcMgr.getPresumedLoc(src.getBegin());
+			    const auto &end = srcMgr.getPresumedLoc(src.getEnd());
+			    llvm::errs() << "named: " << nd->getName() << " (" <<
+					    start.getLine() << ':' << start.getColumn() <<
+					    "-" << end.getLine() << ':' << end.getColumn() <<
+					    ")\n";
+#endif
+			} else
+			    d->dumpColor();
+		    } /*else
+			d->dumpColor();*/
 	}
 
 	void checkASTCodeBody(const Decl *D, AnalysisManager& mgr,
 			BugReporter &) const {
+#if 0
 		llvm::errs() << __func__ << ":\n";
+		class CB {
+		public:
+			CB(const ASTContext &ctx) : ctx(ctx) { }
+			void operator()(const Stmt *s) {
+			    llvm::errs() << "CB stmt=";
+			    s->dumpPretty(ctx);
+			    llvm::errs() << '\n';
+			}
+		private:
+			const ASTContext &ctx;
+		};
+
 
 		if (auto ND = dynamic_cast<const NamedDecl *>(D)) {
 			llvm::errs() << "decl is NAMED as '" << ND->getName() << "'\n";
-		}
 
-		if (CFG *cfg = mgr.getCFG(D)) {
-			llvm::errs() << "dumping a CFG:\n";
-			cfg->dump(mgr.getLangOpts(), true);
-		} else {
-			llvm::errs() << "NOT a CFG:\n";
-			D->dump();
+			if (auto cfg = mgr.getCFG(D)) {
+			    CB cb(D->getASTContext());
+			    llvm::errs() << "dumping a CFG:\n";
+			    //cfg->dump(mgr.getLangOpts(), true);
+			    llvm::errs() << "dumping stmts:\n";
+			    cfg->VisitBlockStmts(cb);
+			    //parser->addCFG(QString::fromStdString(ND->getName().str()), cfg);
+			} else {
+			    llvm::errs() << "NOT a CFG:\n";
+			    D->dump();
+			}
 		}
+#endif
 	}
+
+	typedef QMap<const clang::AnalyzerOptions *, Parser *> ParserMap;
+	static ParserMap parserMap;
 };
 
-class ParserAction : public ASTFrontendAction {
-	std::string Diags;
-	llvm::raw_string_ostream DiagsOutput;
+ParserChecker::ParserMap ParserChecker::parserMap;
 
+class ParserAction : public ASTFrontendAction {
+private:
 	class DiagConsumer : public PathDiagnosticConsumer {
 		llvm::raw_ostream &Output;
 
@@ -64,24 +126,40 @@ class ParserAction : public ASTFrontendAction {
 	};
 
 public:
-	ParserAction() : DiagsOutput(Diags) {}
+	ParserAction(Parser *parser) : parser(parser), DiagsOutput(Diags) {}
 
 	std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &Compiler,
 						       StringRef File) override {
 	    std::unique_ptr<AnalysisASTConsumer> AnalysisConsumer =
 		    CreateAnalysisConsumer(Compiler);
 	    AnalysisConsumer->AddDiagnosticConsumer(new DiagConsumer(DiagsOutput));
+	    Compiler.getDiagnostics().setIgnoreAllWarnings(true);
 	    Compiler.getAnalyzerOpts()->CheckersAndPackages = {{"stanse.Parser", true}};
-	    AnalysisConsumer->AddCheckerRegistrationFn([](CheckerRegistry &Registry) {
-		Registry.addChecker<ParserChecker>("stanse.Parser", "Parser for stanseC", "");
+	    ParserChecker::parserMap[Compiler.getAnalyzerOpts().get()] = parser;
+	    //auto p = parser;
+	    auto reg = [](CheckerManager &mgr) {
+		    auto ch = mgr.registerChecker<ParserChecker>();
+		};
+	    auto shouldReg = [](const CheckerManager &) -> bool { return true; };
+	    AnalysisConsumer->AddCheckerRegistrationFn([reg, shouldReg](CheckerRegistry &Registry) {
+		Registry.addChecker(reg, shouldReg,
+		    "stanse.Parser", "Parser for stanseC", "", false);
 	    });
 	    return std::move(AnalysisConsumer);
 	}
+
+private:
+	Parser *parser;
+	std::string Diags;
+	llvm::raw_string_ostream DiagsOutput;
+
 };
 
 }
 
-Parser::Parser()
+Parser::Parser(checker::CheckerProgressMonitor *monitor,
+	       checker::CheckerErrorReceiver &errReceiver) : monitor(monitor),
+	errReceiver(errReceiver)
 {
 }
 
@@ -89,16 +167,30 @@ Parser::~Parser()
 {
 }
 
-void Parser::parse(const std::string &code)
+void Parser::parseAndCheck(const std::string &code)
 {
-	tooling::runToolOnCode(std::make_unique<ParserAction>(), code, "input.c");
+	tooling::runToolOnCode(std::make_unique<ParserAction>(this), code, "input.c");
 }
 
+void Parser::check(const codestructs::LazyInternalStructures &LIS, const TranslationUnitDecl *TU)
+{
+	for (auto chC: checkers)
+		chC->createIntraprocedural(TU)->check(LIS, errReceiver,
+						      *monitor);
+}
+
+#if 0
+void Parser::addCFG(QString name, const clang::CFG *cfg)
+{
+	cfgMap.insert(name, cfg);
+}
+#endif
 QString Parser::getDot(unsigned int line, int shrink) const
 {
 	return QString();
 }
 
+#if 0
 void runParserOnFile(const std::string &file)
 {
 	llvm::errs() << "running on " << file << "\n";
@@ -107,3 +199,4 @@ void runParserOnFile(const std::string &file)
 				       llvm::vfs::getRealFileSystem(),
 				       std::vector<std::string>(), file);
 }
+#endif

@@ -3,11 +3,16 @@
 #include "sourcecodeedit.h"
 
 #include "../parser/parser.h"
+#include "../codestructures/LazyInternalStructuresIntra.h"
+#include "../checker/reachabilitychecker/ReachabilityCheckerCreator.h"
+#include "../checker/CheckerProgressMonitor.h"
 
 #include <iostream>
 #include <fstream>
 
+#include <QFile>
 #include <QFileDialog>
+#include <QList>
 #include <QMessageBox>
 #include <QString>
 #include <QStringList>
@@ -90,8 +95,16 @@ void MainWindow::on_pbRun_clicked()
 	if (parsers.contains(cur))
 		return;
 
-	auto parser = new parser::Parser();
-	parser->parse(cur->toPlainText().toStdString());
+	checker::QInfoCheckerProgressMonitor monitor;
+	checker::CheckerErrorReceiver errReceiver([this](const checker::CheckerError &err) {
+		treeErrorModel.addError(err);
+	}, []() {
+	});
+	checker::ReachabilityCheckerCreator reach;
+
+	auto parser = new parser::Parser(&monitor, errReceiver);
+	parser->addChecker(&reach);
+	parser->parseAndCheck(cur->toPlainText().toStdString());
 	parsers.insert(cur, parser);
 	cur->setParser(parser);
 	//std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;

@@ -1,25 +1,38 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-//#include <memory>
+/*
+ * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ *
+ * Licensed under GPLv2.
+ */
+
 #include <string>
 
 #include <QMap>
 #include <QString>
+#include <QVector>
+
+#include "../checker/CheckerCreator.h"
+#include "../checker/CheckerErrorReceiver.h"
+#include "../checker/CheckerProgressMonitor.h"
+
+namespace clang {
+class TranslationUnitDecl;
+}
 
 namespace parser {
 
 class Parser {
 public:
-	Parser();
+	Parser() = delete;
+	Parser(checker::CheckerProgressMonitor *monitor,
+	       checker::CheckerErrorReceiver &errReceiver);
 	~Parser();
 
-	void parse(const std::string &in);
-
-	//std::string getParseTree(const std::string &in);
-
-	//QMap<QString, CFG *>::const_iterator cfgBegin() const { return map.begin(); }
-	//QMap<QString, CFG *>::const_iterator cfgEnd() const { return map.end(); }
+	void parseAndCheck(const std::string &in);
+	void check(const codestructs::LazyInternalStructures &LIS,
+		   const clang::TranslationUnitDecl *TU);
 
 	//CFG *getFunction(unsigned int line) const;
 
@@ -27,8 +40,14 @@ public:
 	QString getDot(const QString &fun, int shrink = 0) const;
 	void dumpDots() const;
 
+	void addChecker(checker::CheckerCreator *checker) {
+		checkers.append(checker);
+	}
+
 private:
-	//QMap<QString, CFG *> map;
+	QVector<checker::CheckerCreator *> checkers;
+	checker::CheckerProgressMonitor *monitor;
+	checker::CheckerErrorReceiver &errReceiver;
 };
 
 }
