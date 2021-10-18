@@ -9,6 +9,8 @@ qt5_create_translation(QM_FILES
 	../ui
 	../../trans/stansec_cs.ts)
 
+add_compile_definitions(QT_NO_FOREACH)
+
 add_executable(stansec
 	CmdLineManager.cpp
 	CmdLineManager.h

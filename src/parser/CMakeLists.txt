@@ -1,5 +1,7 @@
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
+add_compile_definitions(QT_NO_FOREACH)
+
 find_package(LLVM REQUIRED CONFIG)
 
 add_definitions(${LLVM_DEFINITIONS})
