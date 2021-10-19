@@ -38,6 +38,7 @@ XMLPattern::matchesNode(const CFGNode &node,
 	return QPair::make(false, null);
 #else
 	assert(0);
+	abort();
 #endif
 }
 
@@ -94,6 +95,7 @@ XMLPattern::matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
     return QPair.make(true, varsAssignment);
 #else
     assert(0);
+    abort();
 #endif
 }
 #endif
@@ -110,6 +112,7 @@ XMLPattern::matchesXMLElement(const QDomElement &XMLelement) const {
 		varsAssignment);
 #else
 	assert(0);
+	abort();
 #endif
 }
 
@@ -246,5 +249,6 @@ QPair<bool, QVector<QString>> XMLPattern::splitAttrSymbols(QString attrString)
 			  .split("\\}\\{"));
 #else
 	assert(0);
+	abort();
 #endif
 }

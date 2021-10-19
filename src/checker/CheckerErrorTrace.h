@@ -58,6 +58,7 @@ public:
             if (!location.isContextLocation())
                 return location;
 	assert(0);
+	abort();
     }
 
     CheckerErrorTraceLocation getErrorLocation() {
