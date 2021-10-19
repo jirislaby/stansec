@@ -19,7 +19,12 @@ public:
     AliasResolver() { }
 
     void addAliasMapping(const AliasMap &newAliases) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	aliases.insert(newAliases);
+#else
+	for (auto it = newAliases.begin(); it != newAliases.end(); ++it)
+		aliases.insert(it.key(), it.value());
+#endif
     }
 
     bool match(const QString &pattern, const QString &name) const {
