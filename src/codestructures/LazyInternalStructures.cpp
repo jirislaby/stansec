@@ -19,7 +19,7 @@ QList<clang::CFG *> codestructs::LazyInternalStructures::getCFGs() const
 	if (auto fd = dynamic_cast<const clang::FunctionDecl *>(d)) {
 	    if (!fd->isThisDeclarationADefinition())
 		continue;
-	    if (auto nd = dynamic_cast<const clang::NamedDecl *>(d)) {
+	    if (dynamic_cast<const clang::NamedDecl *>(d)) {
 		    result.append(mgr.getCFG(d));
 	    }
 	}

@@ -14,7 +14,7 @@ using namespace checker;
 
 QString CheckerError::toString() const
 {
-    const auto &errorLocation = getErrorLocation();
+    //const auto &errorLocation = getErrorLocation();
     QString res("[");
     res.append(QString::number(getImportance())).append("] ");
 #if 0

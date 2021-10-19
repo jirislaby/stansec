@@ -46,12 +46,12 @@ public:
 		p->check(LIS, TU);
 
 		//TU->dump();
-		auto &srcMgr = mgr.getSourceManager();
+		//auto &srcMgr = mgr.getSourceManager();
 		for (const auto &d : TU->decls())
 		    if (auto fd = dynamic_cast<const FunctionDecl *>(d)) {
 			if (!fd->isThisDeclarationADefinition())
 			    continue;
-			if (auto nd = dynamic_cast<const NamedDecl *>(d)) {
+			if (/*auto nd =*/ dynamic_cast<const NamedDecl *>(d)) {
 #if 0
 			    const auto &src = d->getSourceRange();
 			    const auto &start = srcMgr.getPresumedLoc(src.getBegin());
@@ -138,7 +138,7 @@ public:
 	    ParserChecker::parserMap[Compiler.getAnalyzerOpts().get()] = parser;
 	    //auto p = parser;
 	    auto reg = [](CheckerManager &mgr) {
-		    auto ch = mgr.registerChecker<ParserChecker>();
+		    mgr.registerChecker<ParserChecker>();
 		};
 	    auto shouldReg = [](const CheckerManager &) -> bool { return true; };
 	    AnalysisConsumer->AddCheckerRegistrationFn([reg, shouldReg](CheckerRegistry &Registry) {
