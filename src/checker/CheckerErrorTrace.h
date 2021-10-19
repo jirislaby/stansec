@@ -54,7 +54,7 @@ public:
     //Element xmlDump() const;
 
     CheckerErrorTraceLocation getCauseLocation() {
-	for (const auto location : getLocations())
+	for (const auto &location : getLocations())
             if (!location.isContextLocation())
                 return location;
 	assert(0);

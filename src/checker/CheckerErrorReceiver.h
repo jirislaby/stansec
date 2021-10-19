@@ -26,7 +26,7 @@ public:
 	receive(receive), onEnd(onEnd) {}
 
     virtual void receiveAll(const QList<CheckerError> &errors) {
-	for (const auto error : errors)
+	for (const auto &error : errors)
 	    receive(error);
     }
 

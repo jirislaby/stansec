@@ -229,7 +229,7 @@ bool XMLPattern::satisfyVarConstraints(const QString &elemName,
 bool XMLPattern::retvalWhenItemInSet(const bool &retval, const QString &item,
 				     const QVector<QString> &set)
 {
-    for (const auto setItem : set)
+    for (const auto &setItem : set)
 	if (setItem == item)
 	    return retval;
 
