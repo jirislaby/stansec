@@ -148,10 +148,11 @@ public:
 private:
 
     void setStartFunctions() {
-	assert(false);
 #if 0
 	if (startFunctions.empty())
 	    startFunctions = StartFunctionsSetBuilder::run(getCallGraph());
+#else
+	assert(false); abort();
 #endif
     }
 
@@ -160,6 +161,8 @@ private:
 	if (callGraph == null)
             callGraph = CallGraphBuilder.run(getCFGHandles(),getNavigator(),
                                              getNodeToCFGdictionary());
+#else
+	assert(false); abort();
 #endif
     }
 
@@ -168,6 +171,8 @@ private:
 	if (argumentPassingManager == null)
             argumentPassingManager = new ArgumentPassingManager(getNavigator(),
                                                       getNodeToCFGdictionary());
+#else
+	assert(false); abort();
 #endif
     }
 
@@ -176,6 +181,8 @@ private:
 	if (returnValuePassingManager == null)
             returnValuePassingManager =
                 new ReturnValuePassingManager(getNavigator());
+#else
+	assert(false); abort();
 #endif
     }
 
@@ -186,6 +193,8 @@ private:
 	if (nodeToCFGdictionary == null)
             nodeToCFGdictionary = Collections.unmodifiableMap(
                                      NodeToCFGdictionaryBuilder.run(getCFGHandles()));
+#else
+	assert(false); abort();
 #endif
     }
 
@@ -193,6 +202,8 @@ private:
 #if 0
 	if (elementToCFGdictionary == null)
             elementToCFGdictionary = new ElementCFGdictionary(getCFGHandles());
+#else
+	assert(false); abort();
 #endif
     }
 
