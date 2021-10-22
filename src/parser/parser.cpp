@@ -39,8 +39,6 @@ public:
 		auto chkMgr = mgr.getCheckerManager();
 		auto p = parserMap[&chkMgr->getAnalyzerOptions()];
 
-		CallGraph CG;
-		CG.addToCallGraph(const_cast<TranslationUnitDecl *>(TU));
 		codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
 
 		p->check(LIS, TU);

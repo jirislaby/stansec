@@ -12,6 +12,7 @@ add_library(codestructures STATIC
 	LazyInternalStructuresIntra.h
 	PassingSolver.cpp
 	PassingSolver.h
+	builders/StartFunctionsSetBuilder.cpp
 	builders/StartFunctionsSetBuilder.h
 	builders/XMLLinearizeASTElement.cpp
 	builders/XMLLinearizeASTElement.h

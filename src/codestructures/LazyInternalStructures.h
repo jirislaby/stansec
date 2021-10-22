@@ -20,6 +20,7 @@
 //#include "NodeToCFGdictionaryBuilder.h"
 
 namespace clang {
+class CallGraph;
 class CFG;
 class TranslationUnitDecl;
 namespace ento { class AnalysisManager; }
@@ -31,7 +32,7 @@ class LazyInternalStructures {
 public:
     LazyInternalStructures(clang::ento::AnalysisManager &mgr,
 			   const clang::TranslationUnitDecl *TU) : mgr(mgr),
-	    TU(TU) {
+	    TU(TU), callGraph(nullptr) {
 #if 0
 	for (auto unit : units) {
 	    if (unit.getAliases() != null)
@@ -39,7 +40,6 @@ public:
 	}
 
 	startFunctions = null;
-        callGraph = null;
         navigator = null;
         argumentPassingManager = null;
         returnValuePassingManager = null;
@@ -47,6 +47,7 @@ public:
         elementToCFGdictionary = null;
 #endif
     }
+    ~LazyInternalStructures();
 
     clang::ento::AnalysisManager &getAnalysisManager() const { return mgr; }
 
@@ -58,13 +59,11 @@ public:
         return units;
     }
 #endif
-#if 0
-    QSet<CFGHandle> getStartFunctions() {
+    QSet<clang::CFG *> getStartFunctions() const {
 	if (startFunctions.empty())
-	    setStartFunctions();
+	    const_cast<LazyInternalStructures *>(this)->setStartFunctions();
 	return startFunctions;
     }
-#endif
 #if 0
     QSet<const CFG *> getFunctionsOfName(const QString name) {
 	QSet<const CFG *> result;
@@ -81,15 +80,11 @@ public:
 	return *mains.begin();
     }
 #endif
-
-#if 0
-    utils::DirectedGraph<CFGHandle> getCallGraph() {
-	//if (callGraph == null)
-            setCallGraph();
-        return callGraph;
+    clang::CallGraph *getCallGraph() const {
+	if (callGraph == nullptr)
+	    const_cast<LazyInternalStructures *>(this)->setCallGraph();
+	return callGraph;
     }
-#endif
-
 #if 0
     ArgumentPassingManager getArgumentPassingManager() {
         if (argumentPassingManager == null)
@@ -148,23 +143,11 @@ public:
 private:
 
     void setStartFunctions() {
-#if 0
 	if (startFunctions.empty())
-	    startFunctions = StartFunctionsSetBuilder::run(getCallGraph());
-#else
-	assert(false); abort();
-#endif
+	    startFunctions = StartFunctionsSetBuilder::run(*this, *getCallGraph());
     }
 
-    void setCallGraph() {
-#if 0
-	if (callGraph == null)
-            callGraph = CallGraphBuilder.run(getCFGHandles(),getNavigator(),
-                                             getNodeToCFGdictionary());
-#else
-	assert(false); abort();
-#endif
-    }
+    void setCallGraph();
 
     void setArgumentPassingManager() {
 #if 0
@@ -212,8 +195,8 @@ private:
     const QList<clang::CFG *> cfgs;
     const utils::AliasResolver aliasResolver;
 
-    //QSet<CFGHandle> startFunctions;
-    //utils::DirectedGraph<CFGHandle> callGraph;
+    QSet<clang::CFG *> startFunctions;
+    clang::CallGraph *callGraph;
     //ArgumentPassingManager argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;
     //QMap<CFGNode,CFGHandle> nodeToCFGdictionary;
