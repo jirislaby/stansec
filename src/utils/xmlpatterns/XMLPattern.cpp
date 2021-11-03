@@ -5,6 +5,8 @@
  * Licensed under GPLv2.
  */
 
+#include <clang/AST/Stmt.h>
+
 #include <QDebug>
 #include <QDomElement>
 #include <QMap>
@@ -23,10 +25,8 @@ XMLPattern::XMLPattern(const QDomElement XMLelement) :
 {
 }
 
-#if 0
-QPair<bool, XMLPatternVariablesAssignment>
-XMLPattern::matchesNode(const CFGNode &node,
-			const AliasResolver &aliasResolver)
+QPair<bool, XMLPatternVariablesAssignment> XMLPattern::matchesNode(const clang::Stmt *node,
+								   const AliasResolver &aliasResolver)
 {
 #if 0
     QDomElement xmlPivot = getPatternXMLelement();
@@ -35,13 +35,19 @@ XMLPattern::matchesNode(const CFGNode &node,
     } else if (node.getElement() != nullptr)
 	return matchesXMLElement(node.getElement());
     else
-	return QPair::make(false, null);
+	return qMakePair(false, nullptr);
 #else
+	auto el = getPatternXMLelement();
+	qDebug() << "unimplemented" << __PRETTY_FUNCTION__ << "comparing" <<
+		    el.tagName() << el.text() << "to";
+	node->dump();
+	return qMakePair(false, XMLPatternVariablesAssignment());
 	assert(0);
 	abort();
 #endif
 }
 
+#if 0
 QPair<bool, XMLPatternVariablesAssignment>
 XMLPattern::matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
 			const AliasResolver &aliasResolver) const

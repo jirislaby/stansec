@@ -19,6 +19,10 @@
 //#include "XMLAlgo.h"
 #include "XMLPatternVariablesAssignment.h"
 
+namespace clang {
+class Stmt;
+}
+
 namespace utils {
 
 class AliasResolver;
@@ -53,11 +57,11 @@ public:
     bool isConstructive() const {
         return constructive;
     }
-#if 0
+
     QPair<bool, XMLPatternVariablesAssignment>
-    matchesNode(const CFGNode &node,
+    matchesNode(const clang::Stmt *node,
 		const AliasResolver &aliasResolver);
-#endif
+
     QPair<bool, XMLPatternVariablesAssignment>
     matchesXMLElement(const QDomElement &XMLelement) const;
 
@@ -95,7 +99,7 @@ private:
 
     static QPair<bool, QVector<QString>> splitAttrSymbols(QString attrString);
 
-    const QDomElement patternXMLelement;
+    QDomElement patternXMLelement;
     QString name;
     //const QMap<QString, QRegularExpression> compiledRegexes;
     bool constructive;
