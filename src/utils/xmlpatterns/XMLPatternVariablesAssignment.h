@@ -18,7 +18,7 @@
 
 namespace utils {
 
-/*final*/ class XMLPatternVariablesAssignment {
+class XMLPatternVariablesAssignment final {
 
 public:
     XMLPatternVariablesAssignment() { }

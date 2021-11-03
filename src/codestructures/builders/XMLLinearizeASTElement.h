@@ -17,7 +17,7 @@ class QDomElement;
 
 namespace codestructs {
 
-/*final*/ class XMLLinearizeASTElement {
+class XMLLinearizeASTElement final {
 public:
 
     static QVector<QDomElement> functionCall(const QDomElement &elem);
