@@ -28,11 +28,13 @@ namespace ento { class AnalysisManager; }
 
 namespace codestructs {
 
+class CFGsNavigator;
+
 class LazyInternalStructures {
 public:
     LazyInternalStructures(clang::ento::AnalysisManager &mgr,
 			   const clang::TranslationUnitDecl *TU) : mgr(mgr),
-	    TU(TU), callGraph(nullptr) {
+	    TU(TU), callGraph(nullptr), navigator(nullptr) {
 #if 0
 	for (auto unit : units) {
 	    if (unit.getAliases() != null)
@@ -40,7 +42,6 @@ public:
 	}
 
 	startFunctions = null;
-        navigator = null;
         argumentPassingManager = null;
         returnValuePassingManager = null;
         nodeToCFGdictionary = null;
@@ -97,13 +98,13 @@ public:
             setReturnValuePassingManager();
         return returnValuePassingManager;
     }
-
-    CFGsNavigator getNavigator() {
-        if (navigator == null)
-            setNavigator();
-        return navigator;
-    }
 #endif
+    CFGsNavigator &getNavigator() const {
+	if (navigator == nullptr)
+	    const_cast<LazyInternalStructures *>(this)->setNavigator();
+	return *navigator;
+    }
+
 #if 0
     QMap<CFGNode,CFGHandle> getNodeToCFGdictionary() {
 #if 0
@@ -203,7 +204,7 @@ private:
     //ElementCFGdictionary elementToCFGdictionary;
 
 //protected:
-    //CFGsNavigator navigator;
+    CFGsNavigator *navigator;
 };
 
 }

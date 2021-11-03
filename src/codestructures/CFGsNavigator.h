@@ -10,21 +10,24 @@
 
 #include <QSet>
 
+namespace clang {
+class Stmt;
+}
+
 namespace codestructs {
 
 class CFGsNavigator {
 public:
 	virtual ~CFGsNavigator() = 0;
-#if 0
-	bool isCallNode(const CFGNode node) const;
-	bool isStartNode(const CFGNode node) const;
-	bool isEndNode(const CFGNode node) const;
-	CFGNode getCalleeStart(const CFGNode node) const;
-	CFGNode getCalleeEnd(const CFGNode node) const;
-	QSet<CFGNode> getCallersFromStart(const CFGNode node) const;
-	QSet<CFGNode> getCallersFromEnd(const CFGNode node) const;
-	QSet<CFGNode> callSites() const;
-#endif
+
+	bool isCallNode(const clang::Stmt *node) const;
+	bool isStartNode(const clang::Stmt *node) const;
+	bool isEndNode(const clang::Stmt *node) const;
+	clang::Stmt *getCalleeStart(const clang::Stmt *node) const;
+	clang::Stmt *getCalleeEnd(const clang::Stmt *node) const;
+	QSet<clang::Stmt *> getCallersFromStart(const clang::Stmt *node) const;
+	QSet<clang::Stmt *> getCallersFromEnd(const clang::Stmt *node) const;
+	QSet<clang::Stmt *> callSites() const;
 };
 
 }
