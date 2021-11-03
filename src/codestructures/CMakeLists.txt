@@ -16,6 +16,9 @@ add_library(codestructures STATIC
 	builders/StartFunctionsSetBuilder.h
 	builders/XMLLinearizeASTElement.cpp
 	builders/XMLLinearizeASTElement.h
+	traversal/CFGVisitor.h
+	traversal/CFGTraversal.cpp
+	traversal/CFGTraversal.h
 	)
 
 target_link_libraries(codestructures utils Qt5::Core Qt5::Xml)
