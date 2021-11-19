@@ -32,6 +32,10 @@ private:
 	    return visit(node/*, element*/);
 	}
 #endif
+	/* for clang::CFG::VisitBlockStmts */
+	void operator()(clang::Stmt *stmt) {
+	    visit(stmt);
+	}
 };
 
 }
