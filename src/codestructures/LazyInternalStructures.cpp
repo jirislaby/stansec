@@ -18,18 +18,19 @@ codestructs::LazyInternalStructures::~LazyInternalStructures()
 	delete callGraph;
 }
 
-QList<clang::CFG *> codestructs::LazyInternalStructures::getCFGs() const
+QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGs() const
 {
-    QList<clang::CFG *> result;
-    for (const auto &d : TU->decls())
-	if (auto fd = dynamic_cast<const clang::FunctionDecl *>(d)) {
-	    if (!fd->isThisDeclarationADefinition())
-		continue;
-	    if (dynamic_cast<const clang::NamedDecl *>(d)) {
-		    result.append(mgr.getCFG(d));
+	QList<codestructs::CFGHandle> result;
+
+	for (const auto &d : TU->decls())
+	    if (auto fd = dynamic_cast<const clang::FunctionDecl *>(d)) {
+		if (!fd->isThisDeclarationADefinition())
+		    continue;
+		if (dynamic_cast<const clang::NamedDecl *>(d)) {
+		    result.append(codestructs::CFGHandle(mgr.getCFG(d), fd));
+		}
 	    }
-	}
-    return result;
+	return result;
 }
 
 void codestructs::LazyInternalStructures::setCallGraph()

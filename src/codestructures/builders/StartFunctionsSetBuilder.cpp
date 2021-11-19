@@ -4,8 +4,9 @@
  *
  * Licensed under GPLv2.
  */
-
 #include <llvm/ADT/PostOrderIterator.h>
+
+#include <clang/AST/Decl.h>
 #include <clang/Analysis/CallGraph.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
@@ -15,23 +16,27 @@
 
 using namespace codestructs;
 
-QSet<clang::CFG *> StartFunctionsSetBuilder::run(const LazyInternalStructures &internals,
-						 const clang::CallGraph &callGraph)
+QSet<CFGHandle> StartFunctionsSetBuilder::run(const LazyInternalStructures &internals,
+					      const clang::CallGraph &callGraph)
 {
     auto &mgr = internals.getAnalysisManager();
     auto root = callGraph.getRoot();
 
-    QSet<clang::CFG *> result;
+    QSet<CFGHandle> result;
+
     llvm::ReversePostOrderTraversal<const clang::CallGraph *> RPOT(&callGraph);
     for (auto I = RPOT.begin(), E = RPOT.end(); I != E; ++I) {
 	auto N = *I;
 	for (auto calleeRec : N->callees()) {
 	    auto callee = calleeRec.Callee;
-	    auto CFG = mgr.getCFG(callee->getDecl());
+	    const auto calleeFDecl = dynamic_cast<const clang::FunctionDecl *>(callee->getDecl());
+	    assert(calleeFDecl);
+	    auto CFG = mgr.getCFG(calleeFDecl);
+	    CFGHandle handle(CFG, calleeFDecl);
 	    if (N == root)
-		result.insert(CFG);
+		result.insert(handle);
 	    else
-		assert(result.remove(CFG));
+		assert(result.remove(handle));
 	}
     }
 

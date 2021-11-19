@@ -10,9 +10,10 @@
 
 #include <QSet>
 
+#include "../CFGHandle.h"
+
 namespace clang {
 class CallGraph;
-class CFG;
 }
 
 namespace codestructs {
@@ -21,8 +22,8 @@ class LazyInternalStructures;
 
 class StartFunctionsSetBuilder {
 public:
-    static QSet<clang::CFG *> run(const LazyInternalStructures &internals,
-				  const clang::CallGraph &callGraph);
+    static QSet<CFGHandle> run(const LazyInternalStructures &internals,
+			       const clang::CallGraph &callGraph);
 
 private:
     StartFunctionsSetBuilder() = delete;

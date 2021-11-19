@@ -19,6 +19,8 @@
 #include "builders/StartFunctionsSetBuilder.h"
 //#include "NodeToCFGdictionaryBuilder.h"
 
+#include "CFGHandle.h"
+
 namespace clang {
 class CallGraph;
 class CFG;
@@ -60,7 +62,7 @@ public:
         return units;
     }
 #endif
-    QSet<clang::CFG *> getStartFunctions() const {
+    const QSet<codestructs::CFGHandle> getStartFunctions() const {
 	if (startFunctions.empty())
 	    const_cast<LazyInternalStructures *>(this)->setStartFunctions();
 	return startFunctions;
@@ -115,7 +117,7 @@ public:
     }
 #endif
 
-    QList<clang::CFG *> getCFGs() const;
+    QList<codestructs::CFGHandle> getCFGs() const;
 #if 0
     ElementCFGdictionary getElementToCFGdictionary() {
         if (elementToCFGdictionary == null)
@@ -193,10 +195,10 @@ private:
 
     clang::ento::AnalysisManager &mgr;
     const clang::TranslationUnitDecl *TU;
-    const QList<clang::CFG *> cfgs;
+    const QList<codestructs::CFGHandle> cfgs;
     const utils::AliasResolver aliasResolver;
 
-    QSet<clang::CFG *> startFunctions;
+    QSet<codestructs::CFGHandle> startFunctions;
     clang::CallGraph *callGraph;
     //ArgumentPassingManager argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;

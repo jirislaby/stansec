@@ -5,6 +5,8 @@ add_compile_definitions(QT_NO_FOREACH)
 add_library(codestructures STATIC
 	ArgumentPassingManager.cpp
 	ArgumentPassingManager.h
+	CFGHandle.cpp
+	CFGHandle.h
 	CFGsNavigator.h
 	LazyInternalStructures.cpp
 	LazyInternalStructures.h
