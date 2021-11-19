@@ -38,8 +38,8 @@ public:
     void merge(XMLPatternVariablesAssignment other);
 
     //@Deprecated
-    QMap<QString, QDomElement> getVarsMap() const {
-	return /*Collections.unmodifiableMap(*/varToElement;
+    const QMap<QString, QDomElement> getVarsMap() const {
+	return varToElement;
     }
 
 private:
