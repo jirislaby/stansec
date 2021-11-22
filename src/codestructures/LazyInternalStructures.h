@@ -17,7 +17,7 @@
 #include "../utils/AliasResolver.h"
 
 #include "builders/StartFunctionsSetBuilder.h"
-//#include "NodeToCFGdictionaryBuilder.h"
+#include "builders/NodeToCFGdictionaryBuilder.h"
 
 #include "CFGHandle.h"
 
@@ -108,7 +108,7 @@ public:
 	return *navigator;
     }
 
-    QMap<const clang::Stmt *, CFGHandle *> getNodeToCFGdictionary() const {
+    NodeToCFGdictionaryBuilder::NodeToCFGDictionary getNodeToCFGdictionary() const {
 	if (nodeToCFGdictionary.empty())
 	    const_cast<LazyInternalStructures *>(this)->setNodeToCFGdictionary();
 	return nodeToCFGdictionary;
@@ -159,7 +159,7 @@ private:
     clang::CallGraph *callGraph;
     codestructs::ArgumentPassingManager *argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;
-    QMap<const clang::Stmt *, CFGHandle *> nodeToCFGdictionary;
+    NodeToCFGdictionaryBuilder::NodeToCFGDictionary nodeToCFGdictionary;
     //ElementCFGdictionary elementToCFGdictionary;
 
 protected:

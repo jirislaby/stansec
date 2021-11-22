@@ -18,7 +18,7 @@
 using namespace codestructs;
 
 void ArgumentPassingManager::build(const CFGsNavigator &navigator,
-						const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict)
+				   const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict)
 {
     for (const auto caller : navigator.callSites()) {
 	const auto start = navigator.getCalleeStart(caller);

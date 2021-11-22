@@ -11,6 +11,8 @@
 #include <clang/Analysis/CallGraph.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
+#include "builders/NodeToCFGdictionaryBuilder.h"
+
 #include "ArgumentPassingManager.h"
 #include "LazyInternalStructures.h"
 
@@ -65,11 +67,7 @@ void codestructs::LazyInternalStructures::setReturnValuePassingManager() {
 
 void codestructs::LazyInternalStructures::setNodeToCFGdictionary() {
 	assert(nodeToCFGdictionary.empty());
-#if 0
-	nodeToCFGdictionary = NodeToCFGdictionaryBuilder::run(getCFGHandles());
-#else
-	assert(false); abort();
-#endif
+	NodeToCFGdictionaryBuilder::run(getCFGHandles(), nodeToCFGdictionary);
 }
 
 void codestructs::LazyInternalStructures::setElementToCFGdictionary() {

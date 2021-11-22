@@ -13,6 +13,8 @@
 #include <QPair>
 #include <QString>
 
+#include "builders/NodeToCFGdictionaryBuilder.h"
+
 #include "PassingSolver.h"
 
 namespace clang {
@@ -29,7 +31,7 @@ public:
     ArgumentPassingManager() = delete;
 
     ArgumentPassingManager(const CFGsNavigator &navigator,
-			   const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict) {
+			   const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict) {
 	build(navigator, nodeToCFGdict);
     }
 
@@ -47,7 +49,7 @@ private:
     using Mapping = QMap<QPair<const clang::Stmt *, const clang::Stmt *>, CallSiteToCalleeMap>;
 
     void build(const CFGsNavigator &navigator,
-	       const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict);
+	       const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict);
 
     void buildPassingsForCallSite(const clang::Stmt &caller,
 				  const CFGHandle &callee);
