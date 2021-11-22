@@ -30,13 +30,15 @@ namespace ento { class AnalysisManager; }
 
 namespace codestructs {
 
+class ArgumentPassingManager;
 class CFGsNavigator;
 
 class LazyInternalStructures {
 public:
     LazyInternalStructures(clang::ento::AnalysisManager &mgr,
 			   const clang::TranslationUnitDecl *TU) : mgr(mgr),
-	    TU(TU), callGraph(nullptr), navigator(nullptr) {
+	    TU(TU), callGraph(nullptr), argumentPassingManager(nullptr),
+	    navigator(nullptr) {
 #if 0
 	for (auto unit : units) {
 	    if (unit.getAliases() != null)
@@ -44,7 +46,6 @@ public:
 	}
 
 	startFunctions = null;
-        argumentPassingManager = null;
         returnValuePassingManager = null;
         nodeToCFGdictionary = null;
         elementToCFGdictionary = null;
@@ -88,13 +89,13 @@ public:
 	    const_cast<LazyInternalStructures *>(this)->setCallGraph();
 	return callGraph;
     }
-#if 0
-    ArgumentPassingManager getArgumentPassingManager() {
-        if (argumentPassingManager == null)
-            setArgumentPassingManager();
-        return argumentPassingManager;
-    }
 
+    codestructs::ArgumentPassingManager &getArgumentPassingManager() const {
+	if (argumentPassingManager == nullptr)
+	    const_cast<LazyInternalStructures *>(this)->setArgumentPassingManager();
+	return *argumentPassingManager;
+    }
+#if 0
     ReturnValuePassingManager getReturnValuePassingManager() {
         if (returnValuePassingManager == null)
             setReturnValuePassingManager();
@@ -107,15 +108,11 @@ public:
 	return *navigator;
     }
 
-#if 0
-    QMap<CFGNode,CFGHandle> getNodeToCFGdictionary() {
-#if 0
-        if (nodeToCFGdictionary == null)
-            setNodeToCFGdictionary();
-#endif
+    QMap<const clang::Stmt *, CFGHandle *> getNodeToCFGdictionary() const {
+	if (nodeToCFGdictionary.empty())
+	    const_cast<LazyInternalStructures *>(this)->setNodeToCFGdictionary();
 	return nodeToCFGdictionary;
     }
-#endif
 
     QList<codestructs::CFGHandle> getCFGHandles() const;
 #if 0
@@ -145,53 +142,13 @@ public:
 
 private:
 
-    void setStartFunctions() {
-	if (startFunctions.empty())
-	    startFunctions = StartFunctionsSetBuilder::run(*this, *getCallGraph());
-    }
-
+    void setStartFunctions();
     void setCallGraph();
-
-    void setArgumentPassingManager() {
-#if 0
-	if (argumentPassingManager == null)
-            argumentPassingManager = new ArgumentPassingManager(getNavigator(),
-                                                      getNodeToCFGdictionary());
-#else
-	assert(false); abort();
-#endif
-    }
-
-    void setReturnValuePassingManager() {
-#if 0
-	if (returnValuePassingManager == null)
-            returnValuePassingManager =
-                new ReturnValuePassingManager(getNavigator());
-#else
-	assert(false); abort();
-#endif
-    }
-
+    void setArgumentPassingManager();
+    void setReturnValuePassingManager();
     virtual void setNavigator() = 0;
-
-    void setNodeToCFGdictionary() {
-#if 0
-	if (nodeToCFGdictionary == null)
-            nodeToCFGdictionary = Collections.unmodifiableMap(
-                                     NodeToCFGdictionaryBuilder.run(getCFGHandles()));
-#else
-	assert(false); abort();
-#endif
-    }
-
-    void setElementToCFGdictionary() {
-#if 0
-	if (elementToCFGdictionary == null)
-            elementToCFGdictionary = new ElementCFGdictionary(getCFGHandles());
-#else
-	assert(false); abort();
-#endif
-    }
+    void setNodeToCFGdictionary();
+    void setElementToCFGdictionary();
 
     clang::ento::AnalysisManager &mgr;
     const clang::TranslationUnitDecl *TU;
@@ -200,9 +157,9 @@ private:
 
     QSet<codestructs::CFGHandle> startFunctions;
     clang::CallGraph *callGraph;
-    //ArgumentPassingManager argumentPassingManager;
+    codestructs::ArgumentPassingManager *argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;
-    //QMap<CFGNode,CFGHandle> nodeToCFGdictionary;
+    QMap<const clang::Stmt *, CFGHandle *> nodeToCFGdictionary;
     //ElementCFGdictionary elementToCFGdictionary;
 
 protected:

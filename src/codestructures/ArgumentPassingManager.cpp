@@ -13,30 +13,37 @@
 #include "builders/XMLLinearizeASTElement.h"
 
 #include "ArgumentPassingManager.h"
+#include "CFGsNavigator.h"
 
-#if 0
+using namespace codestructs;
+
 void ArgumentPassingManager::build(const CFGsNavigator &navigator,
-				   const QMap<CFGNode,CFGHandle> &nodeToCFGdict) {
+						const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict)
+{
     for (const auto caller : navigator.callSites()) {
 	const auto start = navigator.getCalleeStart(caller);
-	buildPassingsForCallSite(caller, nodeToCFGdict[start]);
+	buildPassingsForCallSite(*caller, *nodeToCFGdict[start]);
     }
 }
 
-    private void
-    buildPassingsForCallSite(const CFGNode caller,
-                             const CFGHandle callee) {
-        const QList<QPair<QString,QString>> map =
-            buildMappingFromCallSiteToCallee(caller, callee);
-        getMapping().put(QPair.make(caller, callee.getStartNode()),map);
-        getMapping().put(QPair.make(caller, callee.getEndNode()), map);
+void ArgumentPassingManager::buildPassingsForCallSite(const clang::Stmt &caller,
+								   const CFGHandle &callee)
+{
+#if 0
+	auto map = buildMappingFromCallSiteToCallee(caller, callee);
+	getMapping().put(QPair.make(caller, callee.getStartNode()),map);
+	getMapping().put(QPair.make(caller, callee.getEndNode()), map);
 
-        const QList<QPair<QString,QString>> mapTransposed =
-            transposeCallSiteMapping(map);
-        getMapping().put(QPair.make(callee.getStartNode(), caller),mapTransposed);
-        getMapping().put(QPair.make(callee.getEndNode(), caller),mapTransposed);
-    }
+	const QList<QPair<QString,QString>> mapTransposed =
+		transposeCallSiteMapping(map);
+	getMapping().put(QPair.make(callee.getStartNode(), caller),mapTransposed);
+	getMapping().put(QPair.make(callee.getEndNode(), caller),mapTransposed);
+#else
+	assert(0); abort();
+#endif
+}
 
+#if 0
     private static QList<QPair<QString,QString>>
     buildMappingFromCallSiteToCallee(const CFGNode caller,
                                      const CFGHandle callee) {
@@ -75,12 +82,4 @@ void ArgumentPassingManager::build(const CFGsNavigator &navigator,
         return result;
     }
 
-    private QMap<QPair<CFGNode,CFGNode>,QList<QPair<QString, QString>>>
-    getMapping() {
-        return mapping;
-    }
-
-    private const QMap<QPair<CFGNode,CFGNode>,
-                          QList<QPair<QString,QString>>> mapping;
-}
 #endif

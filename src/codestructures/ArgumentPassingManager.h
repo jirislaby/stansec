@@ -13,55 +13,56 @@
 #include <QPair>
 #include <QString>
 
-#include "CFGsNavigator.h"
 #include "PassingSolver.h"
+
+namespace clang {
+class Stmt;
+}
 
 namespace codestructs {
 
+class CFGHandle;
+class CFGsNavigator;
+
 class ArgumentPassingManager {
-
 public:
-    typedef QList<QPair<QString, QString>> CallSiteToCalleeMap;
-
     ArgumentPassingManager() = delete;
-#if 0
+
     ArgumentPassingManager(const CFGsNavigator &navigator,
-			   const QMap<CFGNode, CFGHandle> &nodeToCFGdict) {
+			   const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict) {
 	build(navigator, nodeToCFGdict);
     }
 
-    bool isIdentityPass(const CFGNode &from, const CFGNode &to) {
-	assert(false);
-	return false; //getMapping()[QPair(from,to)] == nullptr;
+    bool isIdentityPass(const clang::Stmt *from, const clang::Stmt *to) {
+	return !getMapping().contains(qMakePair(from,to));
     }
 
-    QString pass(const CFGNode &from, const QString &argument,
-		 const CFGNode &to) {
-	return PassingSolver::pass(argument, getMapping()[QPair(from, to)]);
+    QString pass(const clang::Stmt *from, const QString &argument,
+		 const clang::Stmt *to) {
+	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
     }
-#endif
 
 private:
-#if 0
-    void build(const CFGsNavigator &navigator,
-	       const QMap<CFGNode, CFGHandle> &nodeToCFGdict);
+    using CallSiteToCalleeMap = QList<QPair<QString, QString> >;
+    using Mapping = QMap<QPair<const clang::Stmt *, const clang::Stmt *>, CallSiteToCalleeMap>;
 
-    void buildPassingsForCallSite(const CFGNode &caller,
+    void build(const CFGsNavigator &navigator,
+	       const QMap<const clang::Stmt *, CFGHandle *> &nodeToCFGdict);
+
+    void buildPassingsForCallSite(const clang::Stmt &caller,
 				  const CFGHandle &callee);
 
-    static QList<QPair<QString, QString>>
-    buildMappingFromCallSiteToCallee(const CFGNode caller,
-				     const CFGHandle callee);
-#endif
+    static CallSiteToCalleeMap
+    buildMappingFromCallSiteToCallee(const clang::Stmt &caller,
+				     const CFGHandle &callee);
+
     static CallSiteToCalleeMap
     transposeCallSiteMapping(const CallSiteToCalleeMap &map);
-#if 0
-    QMap<QPair<CFGNode,CFGNode>, CallSiteToCalleeMap> getMapping() const {
-	return mapping;
-    }
 
-    const QMap<QPair<CFGNode, CFGNode>, CallSiteToCalleeMap> mapping;
-#endif
+    Mapping getMapping() const { return mapping; }
+    Mapping &getMapping() { return mapping; }
+
+    Mapping mapping;
 };
 
 }
