@@ -43,7 +43,7 @@ CheckingResult ReachabilityChecker::check(const LazyInternalStructures &internal
     CheckingResult result = CheckingSuccess();
     monitor.write("Starting Reachability Checker");
 
-    for (auto &cfgh: internals.getCFGs()) {
+    for (auto &cfgh: internals.getCFGHandles()) {
 	auto cfg = cfgh.CFG();
 	auto start = &cfg->getEntry();
 	auto end = &cfg->getExit();

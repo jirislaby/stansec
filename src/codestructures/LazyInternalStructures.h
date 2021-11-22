@@ -117,7 +117,7 @@ public:
     }
 #endif
 
-    QList<codestructs::CFGHandle> getCFGs() const;
+    QList<codestructs::CFGHandle> getCFGHandles() const;
 #if 0
     ElementCFGdictionary getElementToCFGdictionary() {
         if (elementToCFGdictionary == null)

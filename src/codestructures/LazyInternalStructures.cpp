@@ -18,7 +18,7 @@ codestructs::LazyInternalStructures::~LazyInternalStructures()
 	delete callGraph;
 }
 
-QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGs() const
+QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles() const
 {
 	QList<codestructs::CFGHandle> result;
 
