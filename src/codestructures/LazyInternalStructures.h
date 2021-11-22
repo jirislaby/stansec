@@ -205,7 +205,7 @@ private:
     //QMap<CFGNode,CFGHandle> nodeToCFGdictionary;
     //ElementCFGdictionary elementToCFGdictionary;
 
-//protected:
+protected:
     CFGsNavigator *navigator;
 };
 

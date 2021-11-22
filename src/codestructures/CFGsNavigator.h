@@ -18,8 +18,6 @@ namespace codestructs {
 
 class CFGsNavigator {
 public:
-	virtual ~CFGsNavigator() = 0;
-
 	virtual bool isCallNode(const clang::Stmt *node) const = 0;
 	virtual bool isStartNode(const clang::Stmt *node) const = 0;
 	virtual bool isEndNode(const clang::Stmt *node) const = 0;
