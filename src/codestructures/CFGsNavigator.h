@@ -20,14 +20,14 @@ class CFGsNavigator {
 public:
 	virtual ~CFGsNavigator() = 0;
 
-	bool isCallNode(const clang::Stmt *node) const;
-	bool isStartNode(const clang::Stmt *node) const;
-	bool isEndNode(const clang::Stmt *node) const;
-	clang::Stmt *getCalleeStart(const clang::Stmt *node) const;
-	clang::Stmt *getCalleeEnd(const clang::Stmt *node) const;
-	QSet<clang::Stmt *> getCallersFromStart(const clang::Stmt *node) const;
-	QSet<clang::Stmt *> getCallersFromEnd(const clang::Stmt *node) const;
-	QSet<clang::Stmt *> callSites() const;
+	virtual bool isCallNode(const clang::Stmt *node) const = 0;
+	virtual bool isStartNode(const clang::Stmt *node) const = 0;
+	virtual bool isEndNode(const clang::Stmt *node) const = 0;
+	virtual const clang::Stmt *getCalleeStart(const clang::Stmt *node) const = 0;
+	virtual const clang::Stmt *getCalleeEnd(const clang::Stmt *node) const = 0;
+	virtual QSet<const clang::Stmt *> getCallersFromStart(const clang::Stmt *node) const = 0;
+	virtual QSet<const clang::Stmt *> getCallersFromEnd(const clang::Stmt *node) const = 0;
+	virtual QSet<const clang::Stmt *> callSites() const = 0;
 };
 
 }

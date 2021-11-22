@@ -17,20 +17,20 @@
 
 using namespace codestructs;
 
-QList<clang::Stmt *> ForwardCFGNodeFollowers::get(const clang::Stmt *node) const
+QList<const clang::Stmt *> ForwardCFGNodeFollowers::get(const clang::Stmt *node) const
 {
 	assert(0); abort();
 	//return node.getSuccessors();
 }
 
-QList<clang::Stmt *> BackwardCFGNodeFollowers::get(const clang::Stmt *node) const
+QList<const clang::Stmt *> BackwardCFGNodeFollowers::get(const clang::Stmt *node) const
 {
 	assert(0); abort();
 	//return node.getPredecessors();
 }
 
 
-QList<clang::Stmt *> ForwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node)
+QList<const clang::Stmt *> ForwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node)
 {
 	assert(0); abort();
     //return node.getSuccessors();
@@ -38,7 +38,7 @@ QList<clang::Stmt *> ForwardCFGNodeFollowersInterprocedural::get(const clang::St
 
 
 
-QList<clang::Stmt *> BackwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node)
+QList<const clang::Stmt *> BackwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node)
 {
 	assert(0); abort();
 	//return node.getPredecessors();
@@ -47,10 +47,10 @@ QList<clang::Stmt *> BackwardCFGNodeFollowersInterprocedural::get(const clang::S
 void CFGTraversal::traverseCFG(const clang::CFG *cfg,
 			       clang::Stmt *startNode,
 			       const CFGNodeFollowers &nodeFollowers,
-			       CFGTraversationContainer<clang::Stmt *> &nodesToVisit,
+			       CFGTraversationContainer<const clang::Stmt *> &nodesToVisit,
 			       CFGVisitor &visitor)
 {
-    QSet<clang::Stmt *> visitedNodes;
+    QSet<const clang::Stmt *> visitedNodes;
     nodesToVisit.insert(startNode);
     do {
 	auto currentNode = nodesToVisit.remove();
