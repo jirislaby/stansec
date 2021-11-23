@@ -1,6 +1,12 @@
 #ifndef TREEERRORMODEL_H
 #define TREEERRORMODEL_H
 
+/*
+ * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ *
+ * Licensed under GPLv2.
+ */
+
 #include <QAbstractItemModel>
 #include <QList>
 

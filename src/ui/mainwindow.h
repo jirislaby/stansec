@@ -1,6 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+/*
+ * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ *
+ * Licensed under GPLv2.
+ */
+
 #include <QMainWindow>
 #include <QMap>
 #include <QStringList>

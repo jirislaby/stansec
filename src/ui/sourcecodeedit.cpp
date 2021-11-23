@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ *
+ * Licensed under GPLv2.
+ */
+
 #include "sourcecodeedit.h"
 #include "../parser/parser.h"
 
