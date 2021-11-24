@@ -25,8 +25,9 @@ XMLPattern::XMLPattern(const QDomElement XMLelement) :
 {
 }
 
-QPair<bool, XMLPatternVariablesAssignment> XMLPattern::matchesNode(const clang::Stmt *node,
-								   const AliasResolver &aliasResolver)
+llvm::Optional<XMLPatternVariablesAssignment>
+XMLPattern::matchesNode(const clang::Stmt *node,
+			const AliasResolver &aliasResolver)
 {
 #if 0
     QDomElement xmlPivot = getPatternXMLelement();
@@ -35,20 +36,20 @@ QPair<bool, XMLPatternVariablesAssignment> XMLPattern::matchesNode(const clang::
     } else if (node.getElement() != nullptr)
 	return matchesXMLElement(node.getElement());
     else
-	return qMakePair(false, nullptr);
+	return llvm::Optional<XMLPatternVariablesAssignment>();
 #else
 	auto el = getPatternXMLelement();
 	qDebug() << "unimplemented" << __PRETTY_FUNCTION__ << "comparing" <<
 		    el.tagName() << el.text() << "to";
 	node->dump();
-	return qMakePair(false, XMLPatternVariablesAssignment());
+	return llvm::Optional<XMLPatternVariablesAssignment>();
 	assert(0);
 	abort();
 #endif
 }
 
 #if 0
-QPair<bool, XMLPatternVariablesAssignment>
+llvm::Optional<XMLPatternVariablesAssignment>
 XMLPattern::matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
 			const AliasResolver &aliasResolver) const
 {
@@ -106,7 +107,7 @@ XMLPattern::matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
 }
 #endif
 
-QPair<bool, XMLPatternVariablesAssignment>
+llvm::Optional<XMLPatternVariablesAssignment>
 XMLPattern::matchesXMLElement(const QDomElement &XMLelement) const {
 #if 0
     assert XMLelement != null;

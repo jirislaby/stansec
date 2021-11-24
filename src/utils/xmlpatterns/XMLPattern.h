@@ -7,6 +7,8 @@
  * Licensed under GPLv2.
  */
 
+#include <llvm/ADT/Optional.h>
+
 #include <QTextStream>
 
 #include <QDomElement>
@@ -58,12 +60,10 @@ public:
         return constructive;
     }
 
-    QPair<bool, XMLPatternVariablesAssignment>
-    matchesNode(const clang::Stmt *node,
+    llvm::Optional<XMLPatternVariablesAssignment> matchesNode(const clang::Stmt *node,
 		const AliasResolver &aliasResolver);
 
-    QPair<bool, XMLPatternVariablesAssignment>
-    matchesXMLElement(const QDomElement &XMLelement) const;
+    llvm::Optional<XMLPatternVariablesAssignment> matchesXMLElement(const QDomElement &XMLelement) const;
 
     QDomElement getPatternXMLelement() const {
 	return patternXMLelement.firstChild().toElement();
@@ -71,7 +71,7 @@ public:
 
 private:
 #if 0
-    QPair<bool,XMLPatternVariablesAssignment>
+    llvm::Optional<XMLPatternVariablesAssignment>
     matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
 		const AliasResolver &aliasResolver) const;
 #endif
@@ -97,7 +97,7 @@ private:
 				    const QString &item,
 				    const QVector<QString> &set);
 
-    static QPair<bool, QVector<QString>> splitAttrSymbols(QString attrString);
+    static QPair<bool, QVector<QString> > splitAttrSymbols(QString attrString);
 
     QDomElement patternXMLelement;
     QString name;
