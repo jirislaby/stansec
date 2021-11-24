@@ -8,6 +8,8 @@
 #include <QMap>
 #include <QString>
 
+#include "../../codestructures/PassingSolver.h"
+
 #include "XMLPatternVariablesAssignment.h"
 
 using namespace utils;
@@ -29,25 +31,4 @@ using namespace utils;
 
         return true;
     }
-
-QMap<QString, QString> XMLPatternVariablesAssignment::makeArgumentMap() {
-    QMap<QString, QString> res;
-#if 0
-    for (QString key : varToElement.keys())
-	res.insert(key, PassingSolver.makeArgument(varToElement.get(key)));
-    for (QString key : varToNode.keySet())
-	res.insert(key, PassingSolver.makeArgument(varToNode.get(key)));
 #endif
-    return res;
-}
-#endif
-
-void XMLPatternVariablesAssignment::merge(XMLPatternVariablesAssignment other) {
-    for (auto key : other.varToElement.keys())
-	varToElement.insert(key, other.varToElement[key]);
-    assert(false);
-#if 0
-    for (auto key : other.varToNode.keys())
-	varToNode.insert(key, other.varToNode[key]);
-#endif
-}

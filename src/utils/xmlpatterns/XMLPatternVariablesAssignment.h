@@ -8,23 +8,29 @@
  * Licensed under GPLv2.
  */
 
+#include <QDebug>
 #include <QDomElement>
 #include <QMap>
 #include <QString>
 
-//#include "../CFGNode.h"
-//#include "Operand.h"
-//#include "PassingSolver.h"
+namespace clang {
+class Expr;
+}
 
 namespace utils {
 
 class XMLPatternVariablesAssignment final {
-
 public:
-    XMLPatternVariablesAssignment() { }
+    using VarToNode = QMap<QString, const clang::Expr *>;
 
-    QDomElement put(const QString &varName, const QDomElement &XMLelement) {
-	return varToElement.insert(varName, XMLelement).value();
+    XMLPatternVariablesAssignment() { }
+#ifdef OLD
+    void put(const QString &varName, const QDomElement &XMLelement) {
+	varToElement.insert(varName, XMLelement);
+    }
+#endif
+    void put(const QString &varName, const clang::Expr *op) {
+	varToNode.insert(varName, op);
     }
 #if 0
     CFGNode::Operand put(const QString varName, const CFGNode::Operand op) {
@@ -33,19 +39,31 @@ public:
 #endif
     //bool isEqualWith(const XMLPatternVariablesAssignment other);
 
-    //QMap<QString, QString> makeArgumentMap();
+    void merge(const XMLPatternVariablesAssignment &other) {
+#if OLD
+	varToElement.insert(other.varToElement);
+#endif
+	varToNode.insert(other.varToNode);
+    }
 
-    void merge(XMLPatternVariablesAssignment other);
-
-    //@Deprecated
+#ifdef OLD
+    QT_DEPRECATED
     const QMap<QString, QDomElement> getVarsMap() const {
 	return varToElement;
     }
+#endif
+    const VarToNode &getVarsNodeMap() const { return varToNode; }
 
 private:
-    QMap<QString, QDomElement> varToElement;
-    //QMap<QString, CFGNode::Operand> varToNode;
+    //QMap<QString, QDomElement> varToElement;
+    VarToNode varToNode;
 };
+
+inline QDebug operator<<(QDebug d, const XMLPatternVariablesAssignment &xml)
+{
+	d << xml.getVarsNodeMap();
+	return d;
+}
 
 }
 

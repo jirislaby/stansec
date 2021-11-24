@@ -6,16 +6,16 @@
  */
 
 #include <clang/AST/Stmt.h>
+#include <clang/AST/Expr.h>
 
 #include <QDebug>
 #include <QDomElement>
-#include <QMap>
 #include <QPair>
 #include <QString>
 
-#include "XMLPattern.h"
-
 #include "../AliasResolver.h"
+
+#include "XMLPattern.h"
 
 using namespace utils;
 
@@ -29,90 +29,132 @@ llvm::Optional<XMLPatternVariablesAssignment>
 XMLPattern::matchesNode(const clang::Stmt *node,
 			const AliasResolver &aliasResolver)
 {
-#if 0
     QDomElement xmlPivot = getPatternXMLelement();
-    if (xmlPivot.getName() == "node") {
-	return matchesNode(node, getPatternXMLelement(), aliasResolver);
-    } else if (node.getElement() != nullptr)
+    if (xmlPivot.tagName() == "node")
+	return matchesNode(node, xmlPivot, aliasResolver);
+#if 0
+    else if (node.getElement() != nullptr)
 	return matchesXMLElement(node.getElement());
+#endif
     else
 	return llvm::Optional<XMLPatternVariablesAssignment>();
-#else
-	auto el = getPatternXMLelement();
-	qDebug() << "unimplemented" << __PRETTY_FUNCTION__ << "comparing" <<
-		    el.tagName() << el.text() << "to";
-	node->dump();
-	return llvm::Optional<XMLPatternVariablesAssignment>();
-	assert(0);
-	abort();
-#endif
 }
 
-#if 0
 llvm::Optional<XMLPatternVariablesAssignment>
-XMLPattern::matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
+XMLPattern::matchesNode(const clang::Stmt *node, const QDomElement &xmlPivot,
 			const AliasResolver &aliasResolver) const
 {
-#if 0
-    if (node.getNodeType() == null
-	    || !node.getNodeType().equals(xmlPivot.attributeValue("type")))
-	return Pair.make(false, null);
-
-    XMLPatternVariablesAssignment varsAssignment = new XMLPatternVariablesAssignment();
-
-    Iterator<QDomElement> i = xmlPivot.elementIterator();
-    Iterator<CFGNode.Operand> j = node.getOperands().iterator();
-    while (i.hasNext() && j.hasNext()) {
-	QDomElement elem = i.next();
-
-	if (elem.getName().equals("any"))
-	    return Pair.make(true, varsAssignment);
-
-	CFGNode.Operand op = j.next();
-
-	if (elem.getName().equals("ignore"))
-	    continue;
-
-	if (elem.getName().equals("var")) {
-	    varsAssignment.put(elem.attribute("name").getValue(), op);
-	    continue;
+	const auto type = xmlPivot.attribute("type");
+	if (type == "call") {
+		if (auto call = llvm::dyn_cast<clang::CallExpr>(node)) {
+			return matchesNode(call, xmlPivot, aliasResolver);
+		}
 	}
 
-	if (op.type == CFGNode.OperandType.nodeval) {
-	    if (!elem.getName().equals("node"))
-		return Pair.make(false, null);
+	return llvm::Optional<XMLPatternVariablesAssignment>();
+}
 
-	    Pair<Boolean, XMLPatternVariablesAssignment> nested
-		    = matchesNode((CFGNode)op.id, elem, aliasResolver);
-	    if (!nested.getFirst())
-		return nested;
-	    varsAssignment.merge(nested.getSecond());
-	} else {
-	    if (!op.type.toString().equals(elem.getName()))
-		return Pair.make(false, null);
+QDebug operator<<(QDebug d, const QDomElement &dom)
+{
+	QString s;
+	QTextStream ts(&s);
+	dom.save(ts, 2);
+	d.noquote() << s;
+	return d;
+}
 
-	    if (!aliasResolver.match(elem.getText(), op.id.toString()))
-		return Pair.make(false, null);
-	}
+llvm::Optional<XMLPatternVariablesAssignment>
+XMLPattern::matchesNode(const clang::CallExpr *node, const QDomElement &xmlPivot,
+			const AliasResolver &aliasResolver) const
+{
+    //node->dumpColor();
+    //qDebug() << __func__ << "comparing ^^^ to\n" << xmlPivot;
+
+    auto funElement = xmlPivot.firstChildElement("function");
+    if (funElement.isNull()) {
+	    qWarning() << "no function element in pattern at" << xmlPivot.lineNumber();
+	    return llvm::Optional<XMLPatternVariablesAssignment>();
     }
 
-    if (i.hasNext() || j.hasNext())
-	return Pair.make(false, null);
+    auto callee = llvm::dyn_cast<clang::FunctionDecl>(node->getCalleeDecl());
+    assert(callee);
+    auto calleeName = QString::fromStdString(callee->getName().str());
 
-    return QPair.make(true, varsAssignment);
+    //qDebug() << __func__ << "comparing name" << calleeName << "to" << funElement.text();
+    if (calleeName != funElement.text())
+	    return llvm::Optional<XMLPatternVariablesAssignment>();
+
+    XMLPatternVariablesAssignment varsAssignment;
+
+    auto xmlParams = xmlPivot.firstChildElement("params");
+    if (xmlParams.isNull()) {
+	    qWarning() << "no function params in pattern at" << xmlPivot.lineNumber();
+	    return llvm::Optional<XMLPatternVariablesAssignment>();
+    }
+
+
+    auto i = xmlParams.firstChild();
+    auto j = node->arg_begin();
+    auto j_end = node->arg_end();
+    while (!i.isNull() && j != j_end) {
+	auto elem = i.toElement();
+	i = i.nextSibling();
+	assert(!elem.isNull());
+	auto tagName = elem.tagName();
+
+	if (tagName == "any")
+		return varsAssignment;
+
+	auto op = *j++;
+
+	if (tagName == "ignore")
+	    continue;
+
+	if (tagName == "var") {
+	    varsAssignment.put(elem.attribute("name"), op);
+	    continue;
+	}
+	//op->dumpColor();
+	//qDebug() << "comparing operand ^^^ to\n" << elem;
+
+#if 0
+	if (op.type == CFGNode.OperandType.nodeval) {
+	    if (tagName != "node")
+		return llvm::Optional<XMLPatternVariablesAssignment>();
+
+	    auto nested = matchesNode((CFGNode)op.id, elem, aliasResolver);
+	    if (!nested)
+		return nested;
+	    varsAssignment.merge(*nested);
+	} else {
+	    if (op.type.toString() != tagName)
+		return llvm::Optional<XMLPatternVariablesAssignment>();
+
+	    if (!aliasResolver.match(elem.getText(), op.id.toString()))
+		return llvm::Optional<XMLPatternVariablesAssignment>();
+	}
 #else
-    assert(0);
-    abort();
+	assert(0); abort();
 #endif
+    }
+
+    /*qDebug() << "i" << i.isNull() << "j" << (j == j_end);
+    if (!i.isNull())
+	    qDebug() << "i tag" << i.toElement().tagName();*/
+
+    if (!i.isNull() || j != j_end)
+	return llvm::Optional<XMLPatternVariablesAssignment>();
+
+    //qDebug() << "varsAssignment" << varsAssignment;
+
+    return varsAssignment;
 }
-#endif
 
 llvm::Optional<XMLPatternVariablesAssignment>
 XMLPattern::matchesXMLElement(const QDomElement &XMLelement) const {
 #if 0
-    assert XMLelement != null;
-    const XMLPatternVariablesAssignment varsAssignment =
-	    new XMLPatternVariablesAssignment();
+    //assert XMLelement != null;
+    const XMLPatternVariablesAssignment varsAssignment;
     return new Pair<Boolean,XMLPatternVariablesAssignment>(
 		matchingElements(getPatternXMLelement(),XMLelement,
 				 varsAssignment),

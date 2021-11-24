@@ -12,7 +12,7 @@
 #include <QTextStream>
 
 #include <QDomElement>
-#include <QMap>
+//#include <QMap>
 #include <QPair>
 //#include <QRegularExpression>
 #include <QString>
@@ -22,6 +22,7 @@
 #include "XMLPatternVariablesAssignment.h"
 
 namespace clang {
+class CallExpr;
 class Stmt;
 }
 
@@ -70,11 +71,13 @@ public:
     }
 
 private:
-#if 0
     llvm::Optional<XMLPatternVariablesAssignment>
-    matchesNode(const CFGNode &node, const QDomElement &xmlPivot,
+    matchesNode(const clang::Stmt *node, const QDomElement &xmlPivot,
 		const AliasResolver &aliasResolver) const;
-#endif
+    llvm::Optional<XMLPatternVariablesAssignment>
+    matchesNode(const clang::CallExpr *node, const QDomElement &xmlPivot,
+		const AliasResolver &aliasResolver) const;
+
     static bool matchingElements(const QDomElement &XMLpivot,
 				 const QDomElement &XMLelement,
 				 const XMLPatternVariablesAssignment &varsAssignment);
