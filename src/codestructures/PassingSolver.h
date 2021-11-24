@@ -8,6 +8,8 @@
  * Licensed under GPLv2.
  */
 
+#include <llvm/ADT/Optional.h>
+
 #include <QList>
 #include <QPair>
 #include <QString>
@@ -26,7 +28,7 @@ public:
     static QString pass(const QString &argument,
 			const QList<QPair<QString,QString>> &callMapping);
 
-    static QString pass(const QString &argument,
+    static llvm::Optional<QString> pass(const QString &argument,
 			const QPair<QString, QString> &callMapping);
 
     static QString simplify(QString &argument);

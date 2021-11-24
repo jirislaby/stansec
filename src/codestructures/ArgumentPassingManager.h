@@ -8,6 +8,8 @@
  * Licensed under GPLv2.
  */
 
+#include <llvm/ADT/Optional.h>
+
 #include <QList>
 #include <QMap>
 #include <QPair>
@@ -39,8 +41,8 @@ public:
 	return !getMapping().contains(qMakePair(from,to));
     }
 
-    QString pass(const clang::Stmt *from, const QString &argument,
-		 const clang::Stmt *to) {
+    llvm::Optional<QString> pass(const clang::Stmt *from, const QString &argument,
+				 const clang::Stmt *to) {
 	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
     }
 
