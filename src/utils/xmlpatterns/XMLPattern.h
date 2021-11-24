@@ -66,7 +66,7 @@ public:
     matchesXMLElement(const QDomElement &XMLelement) const;
 
     QDomElement getPatternXMLelement() const {
-	    return patternXMLelement;
+	return patternXMLelement.firstChild().toElement();
     }
 
 private:
