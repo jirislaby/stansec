@@ -169,6 +169,9 @@ bool XMLPattern::matchingElements(const QDomElement &XMLpivot,
     if (i.hasNext() || j.hasNext())
 	return false;
 
+#else
+    assert(0);
+    abort();
 #endif
     return true;
 }
@@ -186,6 +189,9 @@ bool XMLPattern::onNested(const QDomElement &XMLpivot,
 	 j.hasNext(); )
 	if (matchingElements(XMLpivot, j.next(), varsAssignment))
 	    return true;
+#else
+    assert(0);
+    abort();
 #endif
     return false;
 }
@@ -199,6 +205,9 @@ bool XMLPattern::matchingAttributes(const QList<QDomAttr> &pivotATTRs,
 	if (elem == null || !matchingAttribute(pivotAttr.getValue(), elem))
 	    return false;
     }
+#else
+    assert(0);
+    abort();
 #endif
     return true;
 }
@@ -211,7 +220,8 @@ bool XMLPattern::matchingAttribute(const QString &pivotAttr,
     return retvalWhenItemInSet(!parsedData.getFirst(),elemAttr,
 			       parsedData.getSecond());
 #else
-	return false;
+    assert(0);
+    abort();
 #endif
 }
 
@@ -228,7 +238,8 @@ bool XMLPattern::satisfyVarConstraints(const QString &elemName,
 					splitAttrSymbols(exceptAttr.getValue()).getSecond()):
 		    true;
 #else
-	return false;
+    assert(0);
+    abort();
 #endif
 }
 

@@ -22,6 +22,8 @@ QVector<QDomElement> XMLLinearizeASTElement::functionCall(const QDomElement &ele
     result = assignFunctionCall(elem);
     if (result == null)
 	return null;
+#else
+	assert(0); abort();
 #endif
     return tail(result);
 }
@@ -32,7 +34,7 @@ QVector<QDomElement> XMLLinearizeASTElement::voidFunctionCall(const QDomElement 
     return elem.getName().equals("functionCall") ?
 		new QVector<QDomElement>((List<QDomElement>)elem.elements()) : null;
 #else
-	return QVector<QDomElement>();
+	assert(0); abort();
 #endif
 }
 
@@ -49,7 +51,7 @@ QVector<QDomElement> XMLLinearizeASTElement::assignFunctionCall(const QDomElemen
 
     return cons(children[0], children[1].elements());
 #else
-	return QVector<QDomElement>();
+	assert(0); abort();
 #endif
 }
 
@@ -63,6 +65,7 @@ bool XMLLinearizeASTElement::isVoidParam(const QList<QDomElement> &params)
 
 QDomElement XMLLinearizeASTElement::createElement(const QString &type, const QString &data)
 {
+	assert(0); abort();
 	//const QDomElement elem = DocumentFactory.getInstance().createElement(type);
 	return QDomElement();//elem.addText(data);
 }
