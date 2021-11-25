@@ -36,7 +36,7 @@ QSet<CFGHandle> StartFunctionsSetBuilder::run(const LazyInternalStructures &inte
 	    if (N == root)
 		result.insert(handle);
 	    else
-		assert(result.remove(handle));
+		result.remove(handle);
 	}
     }
 
