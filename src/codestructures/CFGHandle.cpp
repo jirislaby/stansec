@@ -5,6 +5,8 @@
  * Licensed under GPLv2.
  */
 
+#include <llvm/ADT/DepthFirstIterator.h>
+#include <llvm/ADT/PostOrderIterator.h>
 #include <clang/AST/Decl.h>
 #include <clang/Analysis/CFG.h>
 
@@ -29,38 +31,40 @@ QList<QString> CFGHandle::getParamNames() const
 
 const clang::Stmt *CFGHandle::getFirstStmt(clang::CFGBlock &blk) const
 {
-	llvm::errs() << __func__ << "\n";
-	blk.dump();
-
-	for (auto &el : blk) {
-		if (auto CFGopt = el.getAs<clang::CFGStmt>()) {
+	for (auto &el : blk)
+		if (auto CFGopt = el.getAs<clang::CFGStmt>())
 			return CFGopt->getStmt();
-		}
-	}
 
 	return nullptr;
 }
 
 const clang::Stmt *CFGHandle::getLastStmt(clang::CFGBlock &blk) const
 {
-	llvm::errs() << __func__ << "\n";
-	blk.dump();
-
-	for (auto &el : blk) {
-		if (auto CFGopt = el.getAs<clang::CFGStmt>()) {
+	for (auto &el : blk)
+		if (auto CFGopt = el.getAs<clang::CFGStmt>())
 			return CFGopt->getStmt();
-		}
-	}
 
 	return nullptr;
 }
 
 const clang::Stmt *CFGHandle::getStartNode() const
 {
-	return getFirstStmt(CFG()->back());
+	for (auto blk : llvm::depth_first(CFG()))
+		if (auto ret = getFirstStmt(*blk))
+			return ret;
+
+	qDebug() << "completely empty CFG";
+	CFG()->dump(FD()->getLangOpts(), true);
+	return nullptr;
 }
 
 const clang::Stmt *CFGHandle::getEndNode() const
 {
-	return getLastStmt(CFG()->back());
+	for (auto blk : llvm::post_order(CFG()))
+		if (auto ret = getFirstStmt(*blk))
+			return ret;
+
+	qDebug() << "completely empty CFG";
+	CFG()->dump(FD()->getLangOpts(), true);
+	return nullptr;
 }
