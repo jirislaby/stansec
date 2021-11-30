@@ -11,6 +11,8 @@
 namespace checker {
 
 class CheckingResult {
+public:
+	virtual ~CheckingResult() {}
 };
 
 }

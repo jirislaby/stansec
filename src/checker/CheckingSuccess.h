@@ -12,7 +12,7 @@
 
 namespace checker {
 
-class CheckingSuccess : public CheckingResult {
+class CheckingSuccess final : public CheckingResult {
 };
 
 }
