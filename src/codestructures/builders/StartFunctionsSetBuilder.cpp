@@ -29,7 +29,7 @@ QSet<CFGHandle> StartFunctionsSetBuilder::run(const LazyInternalStructures &inte
 	auto N = *I;
 	for (auto calleeRec : N->callees()) {
 	    auto callee = calleeRec.Callee;
-	    const auto calleeFDecl = dynamic_cast<const clang::FunctionDecl *>(callee->getDecl());
+	    const auto calleeFDecl = llvm::dyn_cast<const clang::FunctionDecl>(callee->getDecl());
 	    assert(calleeFDecl);
 	    auto CFG = mgr.getCFG(calleeFDecl);
 	    CFGHandle handle(CFG, calleeFDecl);

@@ -46,10 +46,10 @@ public:
 		//TU->dump();
 		//auto &srcMgr = mgr.getSourceManager();
 		for (const auto &d : TU->decls())
-		    if (auto fd = dynamic_cast<const FunctionDecl *>(d)) {
+		    if (auto fd = llvm::dyn_cast<const FunctionDecl>(d)) {
 			if (!fd->isThisDeclarationADefinition())
 			    continue;
-			if (/*auto nd =*/ dynamic_cast<const NamedDecl *>(d)) {
+			if (/*auto nd =*/ llvm::dyn_cast<const NamedDecl>(d)) {
 #if 0
 			    const auto &src = d->getSourceRange();
 			    const auto &start = srcMgr.getPresumedLoc(src.getBegin());

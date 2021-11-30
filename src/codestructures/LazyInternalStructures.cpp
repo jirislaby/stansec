@@ -27,10 +27,10 @@ QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles
 	QList<codestructs::CFGHandle> result;
 
 	for (const auto &d : TU->decls())
-	    if (auto fd = dynamic_cast<const clang::FunctionDecl *>(d)) {
+	    if (auto fd = llvm::dyn_cast<const clang::FunctionDecl>(d)) {
 		if (!fd->isThisDeclarationADefinition())
 		    continue;
-		if (dynamic_cast<const clang::NamedDecl *>(d)) {
+		if (llvm::isa<clang::NamedDecl>(d)) {
 		    result.append(codestructs::CFGHandle(mgr.getCFG(d), fd));
 		}
 	    }
