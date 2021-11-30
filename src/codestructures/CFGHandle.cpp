@@ -23,8 +23,8 @@ QList<QString> CFGHandle::getParamNames() const
 	for (auto p : FD()->parameters())
 		result.append(QString::fromStdString(p->getName().str()));
 
-	llvm::errs() << FD() << "\n";
-	qDebug() << result;
+	//llvm::errs() << FD() << "\n";
+	//qDebug() << result;
 
 	return result;
 }
