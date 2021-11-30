@@ -14,14 +14,23 @@
 #include <QPair>
 #include <QString>
 
+namespace clang {
+class Expr;
+class Stmt;
+}
+
+namespace utils {
+class XMLPatternVariablesAssignment;
+}
+
 namespace codestructs {
 
 class PassingSolver {
-
 public:
+    static QList<QString> makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment);
+    static QString makeArgument(const clang::Stmt *node);
+    static QString makeArgument(const clang::Expr *op);
 #if 0
-    static QString makeArgument(const CFGNode::Operand &op);
-    static QString makeArgument(const CFGNode &node);
     static QString makeArgument(const Element &elem);
 #endif
 

@@ -5,50 +5,103 @@
  * Licensed under GPLv2.
  */
 
+#include <clang/AST/Expr.h>
+
 #include <QList>
-#include <QPair>
 #include <QString>
 
+#include "../utils/xmlpatterns/XMLPatternVariablesAssignment.h"
 #include "PassingSolver.h"
 
 using namespace codestructs;
 
-#if 0
-QString PassingSolver::makeArgument(const CFGNode::Operand &op)
+QList<QString>
+PassingSolver::makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment)
 {
-    QString result;
-#if 0
-    switch (op.type) {
-    case varptr:
-	result.append("& ");
-
-    case function:
-    case constant:
-    case varval:
-	result.append(op.id.toString());
-	break;
-
-    case nodeval:
-	result.append(makeArgument((CFGNode)op.id));
-	break;
-    }
+    QList<QString> res;
+#ifdef OLD
+    for (auto key : varToElement)
+	res.append(makeArgument(varToElement[key]));
 #endif
-    return result;
+
+    for (auto &val : xmlAssignment.getVarsNodeMap())
+	res.append(makeArgument(val));
+
+    return res;
 }
-#endif
+
+
+QString PassingSolver::makeArgument(const clang::Stmt *node)
+{
 #if 0
-    public static QString makeArgument(const CFGNode node) {
-        if (node.getNodeType() == null)
-            return makeArgument(node.getElement());
+	if (node.getNodeType() == null)
+	    return makeArgument(node.getElement());
 
-        StringBuilder result = new StringBuilder(parseNodeType(node.getNodeType()));
-        for (CFGNode.Operand op : node.getOperands())
-        {
-            result.append(' ').append(makeArgument(op));
-        }
-        return result.toString();
-    }
+	QString result = new StringBuilder(parseNodeType(node.getNodeType()));
+	for (CFGNode.Operand op : node.getOperands())
+	{
+	    result.append(' ').append(makeArgument(op));
+	}
+	return result.toString();
+#else
+	assert(0); abort();
+#endif
+}
 
+QString PassingSolver::makeArgument(const clang::Expr *op)
+{
+	QString result;
+
+	auto decast = op->IgnoreCasts();
+
+	//qDebug() << __PRETTY_FUNCTION__;
+	//decast->dumpColor();
+
+	if (auto declRef = llvm::dyn_cast<clang::DeclRefExpr>(decast)) {
+		auto decl = declRef->getDecl();
+		if (auto nd = llvm::dyn_cast<clang::NamedDecl>(decl)) {
+		    //nd->dumpColor();
+		    result = QString::fromStdString(nd->getName().str());
+		} else {
+		    qWarning() << "no name for";
+		    decl->dumpColor();
+		}
+	} else {
+		assert(0);
+		abort();
+	}
+#ifdef OLD
+	switch (op.type) {
+	case varptr:
+	    result.append("& ");
+
+	case function:
+	case constant:
+	case varval:
+	    result.append(op.id.toString());
+	    break;
+
+	case nodeval:
+	    result.append(makeArgument((CFGNode)op.id));
+	    break;
+	}
+#endif
+	return result;
+}
+
+QString PassingSolver::parseRootVariableName(const QString &argument)
+{
+	for (int i = 0; i < argument.length(); ++i)
+	    if (argument[i] == '_' || argument[i].isLetter()) {
+		int j = i+1;
+		while (j < argument.length() && argument[j] != ' ')
+		    j++;
+		return argument.mid(i, j - i);
+	    }
+	return QString();
+}
+
+#if 0
     public static QString makeArgument(const Element elem) {
         assert elem != null;
 
@@ -89,18 +142,6 @@ QString PassingSolver::makeArgument(const CFGNode::Operand &op)
     public static QString simplify(const QString argument) {
         return argument.replace("* & ","")
                        .replace("->",". *");
-    }
-
-    public static QString parseRootVariableName(const QString argument) {
-        for (int i = 0; i < argument.length(); ++i)
-            if (argument.charAt(i) == '_' ||
-                    Character.isLetter(argument.charAt(i))) {
-                int j = i+1;
-                for ( ; j < argument.length() && argument.charAt(j) != ' '; )
-                    ++j;
-                return argument.substring(i,j);
-            }
-        return null;
     }
 
     QString parseElement(const Element elem) {
