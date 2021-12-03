@@ -14,6 +14,8 @@
 
 #include "../CFGsNavigator.h"
 
+#include "CFGPathVisitor.h"
+
 namespace clang {
 class CFG;
 class Stmt;
@@ -31,11 +33,11 @@ public:
     virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const = 0;
 };
 
-class ForwardCFGNodeFollowers final : CFGNodeFollowers {
+class ForwardCFGNodeFollowers final : public CFGNodeFollowers {
     virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
 } ;
 
-class BackwardCFGNodeFollowers final : CFGNodeFollowers {
+class BackwardCFGNodeFollowers final : public CFGNodeFollowers {
     virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
 };
 
@@ -43,50 +45,51 @@ class BackwardCFGNodeFollowers final : CFGNodeFollowers {
 
 class CFGNodeFollowersInterprocedural {
 public:
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) = 0;
-    virtual bool isCallNode(const clang::Stmt *node);
-    virtual bool isReturnNode(const clang::Stmt *node);
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node);
+    virtual ~CFGNodeFollowersInterprocedural();
+    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const = 0;
+    virtual bool isCallNode(const clang::Stmt *node) const = 0;
+    virtual bool isReturnNode(const clang::Stmt *node) const = 0;
+    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const = 0;
 };
 
-class ForwardCFGNodeFollowersInterprocedural final : CFGNodeFollowersInterprocedural {
+class ForwardCFGNodeFollowersInterprocedural final : public CFGNodeFollowersInterprocedural {
 public:
     ForwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) { }
 
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) override;
+    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
 
-    virtual bool isCallNode(const clang::Stmt *node) override {
+    virtual bool isCallNode(const clang::Stmt *node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(const clang::Stmt *node) override {
+    virtual bool isReturnNode(const clang::Stmt *node) const override {
         return navigator.isEndNode(node);
     }
 
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) override {
+    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const override {
         return navigator.getCalleeStart(node);
     }
 private:
     const CFGsNavigator &navigator;
 };
 
-class BackwardCFGNodeFollowersInterprocedural final : CFGNodeFollowersInterprocedural {
+class BackwardCFGNodeFollowersInterprocedural final : public CFGNodeFollowersInterprocedural {
 public:
     BackwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) {}
 
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) override;
+    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
 
-    virtual bool isCallNode(const clang::Stmt *node) override {
+    virtual bool isCallNode(const clang::Stmt *node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(const clang::Stmt *node) override {
+    virtual bool isReturnNode(const clang::Stmt *node) const override {
         return navigator.isStartNode(node);
     }
 
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) override {
+    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const override {
         return navigator.getCalleeEnd(node);
     }
 private:
@@ -107,8 +110,8 @@ public:
 template <typename T>
 class CFGTraversationQueue final : public CFGTraversationContainer<T> {
 public:
-    virtual void insert(const T obj) override { queue.add(obj); }
-    virtual T remove() override { return queue.remove(); }
+    virtual void insert(const T obj) override { queue.append(obj); }
+    virtual T remove() override { return queue.takeFirst(); }
     virtual bool isEmpty() const override { return queue.isEmpty(); }
 
 private:
@@ -131,264 +134,155 @@ private:
 class CFGTraversal final {
 
 public:
+    using Stmt = const clang::Stmt;
+    using VisitedEdge = QPair<Stmt *, Stmt *>;
+    using VisitedEdges = QSet<VisitedEdge>;
+    using VisitedStack = QStack<VisitedEdges>;
+    using Path = CFGPathVisitor::Path;
 
-    template<typename T> //<T extends CFGvisitor>
-    static
-    T traverseCFGToBreadthForward(const clang::CFG *cfg,
-				  const clang::Stmt *startNode, const T visitor) {
-	traverseCFG(cfg, startNode,
-		    ForwardCFGNodeFollowers(),
-		    CFGTraversationQueue<const clang::Stmt *>(),
-                    visitor);
-        return visitor;
+    static void
+    traverseCFGToBreadthForward(const clang::CFG *cfg, Stmt *startNode,
+				CFGVisitor &visitor) {
+	CFGTraversationQueue<Stmt *> q;
+	traverseCFG(cfg, startNode, ForwardCFGNodeFollowers(), q, visitor);
+    }
+
+    static void
+    traverseCFGToBreadthBackward(const clang::CFG *cfg, Stmt *startNode,
+				 CFGVisitor &visitor) {
+	CFGTraversationQueue<Stmt *> q;
+	traverseCFG(cfg,startNode, BackwardCFGNodeFollowers(), q, visitor);
+    }
+
+    static void
+    traverseCFGToDepthForward(const clang::CFG *cfg, Stmt *startNode,
+			      CFGVisitor &visitor) {
+	CFGTraversationStack<Stmt *> s;
+	traverseCFG(cfg, startNode, ForwardCFGNodeFollowers(), s, visitor);
+    }
+
+    static void
+    traverseCFGToDepthBackward(const clang::CFG *cfg, Stmt *startNode,
+			       CFGVisitor &visitor) {
+	CFGTraversationStack<Stmt *> s;
+	traverseCFG(cfg, startNode, BackwardCFGNodeFollowers(), s, visitor);
     }
 #ifdef NEEDED
-    template<typename T> //<T extends CFGvisitor>
-    static
-    T traverseCFGToBreadthBackward(const clang::CFG *cfg,
-				   const clang::Stmt *startNode, const T visitor) {
-        traverseCFG(cfg,startNode,
-                    new BackwardCFGNodeFollowers(),
-		    new CFGTraversationQueue<clang::Stmt *>(),
-                    visitor);
-        return visitor;
-    }
-
-    template<typename T> //<T extends CFGvisitor>
-    static
-    T traverseCFGToDepthForward(const clang::CFG *cfg,
-				const clang::Stmt * startNode, const T visitor) {
-        traverseCFG(cfg,startNode,
-                    new ForwardCFGNodeFollowers(),
-		    new CFGTraversationStack<clang::Stmt *>(),
-                    visitor);
-        return visitor;
-    }
-
-    template<typename T> //<T extends CFGvisitor>
-    static
-    T traverseCFGToDepthBackward(const clang::CFG *cfg,
-				 const clang::Stmt * startNode, const T visitor) {
-        traverseCFG(cfg,startNode,
-                    new BackwardCFGNodeFollowers(),
-		    new CFGTraversationStack<clang::Stmt *>(),
-                    visitor);
-        return visitor;
-    }
-
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseFunctionForward(const clang::CFG *cfg, const T &visitor) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseFunctionForward(const clang::CFG *cfg, CFGVisitor &visitor) {
+	Path path;
 	path.insert(cfg->getStartNode());
-	traverseCFGPaths(cfg, path,
-			 ForwardCFGNodeFollowers(),
-			 visitor,new QSet<QPair<clang::Stmt *,clang::Stmt *>>());
-        return visitor;
+	traverseCFGPaths(cfg, path, ForwardCFGNodeFollowers(), visitor,
+			 VisitedEdges());
     }
 
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseFunctionBackward(const clang::CFG *cfg, const T &visitor) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseFunctionBackward(const clang::CFG *cfg, CFGVisitor &visitor) {
+	Path path;
 	path.insert(cfg->getEndNode());
-        traverseCFGPaths(cfg,path,
-			 BackwardCFGNodeFollowers(),
-			 visitor,new QSet<QPair<clang::Stmt *,clang::Stmt *>>());
-        return visitor;
+	traverseCFGPaths(cfg, path, BackwardCFGNodeFollowers(), visitor,
+			 VisitedEdges());
     }
 
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsForward(const clang::CFG *cfg,
-			      clang::Stmt *startNode,
-			      const T &visitor) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseCFGPathsForward(const clang::CFG *cfg, Stmt *startNode,
+			    CFGVisitor &visitor) {
+	Path path;
 	path.append(startNode);
-        traverseCFGPaths(cfg,path,
-			 ForwardCFGNodeFollowers(),
-			 visitor,new QSet<QPair<clang::Stmt *,clang::Stmt *>>());
-        return visitor;
+	traverseCFGPaths(cfg, path, ForwardCFGNodeFollowers(), visitor,
+			 VisitedEdges());
     }
 
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsBackward(const clang::CFG *cfg,
-			       clang::Stmt *startNode,
-			       const T &visitor) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseCFGPathsBackward(const clang::CFG *cfg, Stmt *startNode,
+			     CFGVisitor &visitor) {
+	Path path;
 	path.append(startNode);
-	traverseCFGPaths(cfg, path,
-                         new BackwardCFGNodeFollowers(),
-			 visitor,new QSet<QPair<clang::Stmt *,clang::Stmt *>>());
-        return visitor;
+	traverseCFGPaths(cfg, path, BackwardCFGNodeFollowers(), visitor,
+			 VisitedEdges());
     }
 
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsForwardInterprocedural(const CFGsNavigator &navigator,
-					     const clang::Stmt *startNode,
-					     const T &visitor) {
-        return traverseCFGPathsForwardInterprocedural(navigator,startNode,
-						  visitor,new QStack<clang::Stmt *>());
-    }
-
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsForwardInterprocedural(const CFGsNavigator &navigator,
-					     clang::Stmt *startNode,
-					     const T &visitor,
-					     const QStack<clang::Stmt *> stack) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseCFGPathsForwardInterprocedural(const CFGsNavigator &navigator,
+					   const clang::Stmt *startNode,
+					   CFGPathVisitor &visitor,
+					   CFGPathVisitor::CallStack stack = CFGPathVisitor::CallStack()) {
+	QList<const clang::Stmt *> path;
 	path.append(startNode);
         traverseCFGPathsInterprocedural(path,
 			  ForwardCFGNodeFollowersInterprocedural(navigator),
-                          visitor,createVisitedStack(stack.size()+1),stack);
-        return visitor;
+			  visitor, createVisitedStack(stack.size() + 1), stack);
     }
+#endif
 
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsBackwardInterprocedural(const CFGsNavigator &navigator,
-					      const clang::Stmt *startNode,
-					      const T &visitor) {
-        return traverseCFGPathsBackwardInterprocedural(navigator,startNode,
-						  visitor,new QStack<clang::Stmt *>());
-    }
-
-    template<typename T> //<T extends CFGPathVisitor>
-    static
-    T traverseCFGPathsBackwardInterprocedural(const CFGsNavigator &navigator,
-					      clang::Stmt *startNode,
-					      const T &visitor,
-					      const QStack<clang::Stmt *> stack) {
-	QList<clang::Stmt *> path;
+    static void
+    traverseCFGPathsBackwardInterprocedural(const CFGsNavigator &navigator,
+					    const clang::Stmt *startNode,
+					    CFGPathVisitor &visitor,
+					    CFGPathVisitor::CallStack stack = CFGPathVisitor::CallStack()) {
+	QList<const clang::Stmt *> path;
 	path.append(startNode);
         traverseCFGPathsInterprocedural(path,
 			 BackwardCFGNodeFollowersInterprocedural(navigator),
-                         visitor,createVisitedStack(stack.size()+1),stack);
-        return visitor;
+			 visitor, createVisitedStack(stack.size() + 1), stack);
     }
-#endif
 
 private:
 
-#ifdef NEEDED
-    static QStack<QSet<QPair<clang::Stmt *,clang::Stmt *>>>
-    createVisitedStack(int size) {
-	QStack<QSet<QPair<clang::Stmt *,clang::Stmt *>>> stack;
-        for (int i = 0; i < size; ++i)
-	    stack.push(QSet<QPair<clang::Stmt *,clang::Stmt *>>());
+    static VisitedStack createVisitedStack(int size) {
+	VisitedStack stack;
+
+	stack.resize(size);
+
         return stack;
     }
-#endif
 
     static void traverseCFG(const clang::CFG *cfg,
-			   clang::Stmt *startNode,
+			   const clang::Stmt *startNode,
 			   const CFGNodeFollowers &nodeFollowers,
-			   CFGTraversationContainer<const clang::Stmt *> &nodesToVisit,
+			   CFGTraversationContainer<Stmt *> &nodesToVisit,
 			   CFGVisitor &visitor);
 
-#if 0
+#ifdef NEEDED
     static void traverseCFGPaths(const clang::CFG *cfg,
-			    const QList<clang::Stmt *> path,
-                            const CFGNodeFollowers nodeFollowers,
-			    const CFGPathVisitor &visitor,
-			    const QSet<QPair<clang::Stmt *,clang::Stmt *>> visitedEdges) {
-        if (!visitor.visitInternal(Collections.unmodifiableList(path),
-				   new QStack<clang::Stmt *>()))
+				 Path path,
+				 const CFGNodeFollowers &nodeFollowers,
+				 const CFGPathVisitor &visitor,
+				 VisitedEdges visitedEdges) {
+	if (!visitor.visitInternal(path, CFGPathVisitor::CFGContext()))
             return;
 
-	for (clang::Stmt * currentNodeFollower : nodeFollowers.get(path.getFirst())) {
-	    const QPair<clang::Stmt *,clang::Stmt *> edge =
-		new QPair<clang::Stmt *,clang::Stmt *>(path.getFirst(),currentNodeFollower);
+	for (auto currentNodeFollower : nodeFollowers.get(path.first())) {
+	    const auto edge = qMakePair(path.first(), currentNodeFollower);
             if (visitedEdges.contains(edge)) {
-		visitor.endPath(Collections.unmodifiableList(path),
-			new QStack<clang::Stmt *>());
+		visitor.endPath(path, CFGPathVisitor::CFGContext());
                 continue;
 	    }
 
-            path.addFirst(currentNodeFollower);
-            visitedEdges.add(edge);
+	    path.prepend(currentNodeFollower);
+	    visitedEdges.insert(edge);
 
-            traverseCFGPaths(cfg,path,nodeFollowers,visitor,visitedEdges);
+	    traverseCFGPaths(cfg, path, nodeFollowers, visitor, visitedEdges);
 
             visitedEdges.remove(edge);
             path.removeFirst();
         }
     }
-
-    static void traverseCFGPathsInterprocedural(
-		    const QList<clang::Stmt *> path,
-                    const CFGNodeFollowersInterprocedural nodeFollowers,
-                    const CFGPathVisitor visitor,
-		    const QStack<QSet<QPair<clang::Stmt *,clang::Stmt *>>> visitedStack,
-		    const QStack<clang::Stmt *> callStack) {
-	const QSet<QPair<clang::Stmt *,clang::Stmt *>> visitedEdges = visitedStack.peek();
-        if (nodeFollowers.isCallNode(path.get(0))) {
-            if (path.size() < 2 || !nodeFollowers.isReturnNode(path.get(1))) {
-		const QPair<clang::Stmt *,clang::Stmt *> edge = QPair.make(path.getFirst(),
-                                  nodeFollowers.getCalleeNode(path.getFirst()));
-                if (visitedEdges.contains(edge)) {
-		    visitor.endPath(Collections.unmodifiableList(path), callStack);
-                    return;
-		}
-                if (visitor.onCFGchange(path.getFirst(),edge.getSecond())) {
-                    visitedStack.push(
-			    new QSet<QPair<clang::Stmt *,clang::Stmt *>>(visitedEdges));
-                    callStack.push(edge.getFirst());
-                    traverseCFGPathsInterproceduralByEdge(edge,path,
-                                  nodeFollowers,visitor,visitedStack,callStack);
-                    return;
-                }
-            }
-        }
-        else if (!visitor.visitInternal(Collections.unmodifiableList(path),
-                                        callStack))
-            return;
-        if (nodeFollowers.isReturnNode(path.get(0)) && !callStack.isEmpty()) {
-	    const QPair<clang::Stmt *,clang::Stmt *> edge = QPair.make(path.getFirst(),
-                                                         callStack.peek());
-            if (visitedEdges.contains(edge)) {
-		visitor.endPath(Collections.unmodifiableList(path), callStack);
-                return;
-	    }
-            callStack.pop();
-            visitedStack.pop();
-            visitor.onCFGchange(path.getFirst(),edge.getSecond());
-            traverseCFGPathsInterproceduralByEdge(edge,path,nodeFollowers,
-                                                visitor,visitedStack,callStack);
-            return;
-        }
-	for (clang::Stmt * currentNodeFollower : nodeFollowers.get(path.getFirst())) {
-	    const QPair<clang::Stmt *,clang::Stmt *> edge = QPair.make(path.getFirst(),
-                                                         currentNodeFollower);
-            if (visitedEdges.contains(edge)) {
-		visitor.endPath(Collections.unmodifiableList(path), callStack);
-                continue;
-	    }
-            traverseCFGPathsInterproceduralByEdge(edge,path,nodeFollowers,
-                                                visitor,visitedStack,callStack);
-        }
-    }
-
-    static void traverseCFGPathsInterproceduralByEdge(
-		    const QPair<clang::Stmt *,clang::Stmt *> edge,
-		    const QList<clang::Stmt *> path,
-                    const CFGNodeFollowersInterprocedural nodeFollowers,
-                    const CFGPathVisitor visitor,
-		    const QStack<QSet<QPair<clang::Stmt *,clang::Stmt *>>> visitedStack,
-		    const QStack<clang::Stmt *> callStack) {
-	const QSet<QPair<clang::Stmt *,clang::Stmt *>> visitedEdges = visitedStack.peek();
-        path.addFirst(edge.getSecond());
-        visitedEdges.add(edge);
-
-        traverseCFGPathsInterprocedural(path,nodeFollowers,visitor,
-                                        visitedStack,callStack);
-        visitedEdges.remove(edge);
-        path.removeFirst();
-    }
 #endif
+
+    static void traverseCFGPathsInterprocedural(Path &path,
+		    const CFGNodeFollowersInterprocedural &nodeFollowers,
+		    CFGPathVisitor &visitor,
+		    VisitedStack visitedStack,
+		    CFGPathVisitor::CallStack &callStack);
+
+    static void traverseCFGPathsInterproceduralByEdge(const VisitedEdge &edge,
+						      Path &path,
+						      const CFGNodeFollowersInterprocedural &nodeFollowers,
+						      CFGPathVisitor &visitor,
+						      VisitedStack &visitedStack,
+						      CFGPathVisitor::CallStack &callStack);
+
     CFGTraversal() = delete;
 };
 

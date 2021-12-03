@@ -21,6 +21,7 @@ add_library(codestructures STATIC
 	builders/StartFunctionsSetBuilder.h
 	builders/XMLLinearizeASTElement.cpp
 	builders/XMLLinearizeASTElement.h
+	traversal/CFGPathVisitor.h
 	traversal/CFGVisitor.h
 	traversal/CFGTraversal.cpp
 	traversal/CFGTraversal.h
