@@ -66,6 +66,33 @@ void CFGTraversal::traverseCFG(const clang::CFG *cfg,
     } while (!nodesToVisit.isEmpty());
 }
 
+#ifdef NEEDED
+void CFGTraversal::traverseCFGPaths(const clang::CFG *cfg, Path path, const CFGNodeFollowers &nodeFollowers, const CFGPathVisitor &visitor, VisitedEdges visitedEdges)
+{
+	if (!visitor.visitInternal(Collections.unmodifiableList(path),
+				   new QStack<CFGNode>()))
+		return;
+
+	for (CFGNode currentNodeFollower : nodeFollowers.get(path.getFirst())) {
+		const QPair<CFGNode,CFGNode> edge =
+				new QPair<CFGNode,CFGNode>(path.getFirst(),currentNodeFollower);
+		if (visitedEdges.contains(edge)) {
+			visitor.endPath(Collections.unmodifiableList(path),
+					new QStack<CFGNode>());
+			continue;
+		}
+
+		path.addFirst(currentNodeFollower);
+		visitedEdges.add(edge);
+
+		traverseCFGPaths(cfg,path,nodeFollowers,visitor,visitedEdges);
+
+		visitedEdges.remove(edge);
+		path.removeFirst();
+	}
+}
+#endif
+
 void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 						   const CFGNodeFollowersInterprocedural &nodeFollowers,
 						   CFGPathVisitor &visitor,
@@ -138,36 +165,6 @@ void CFGTraversal::traverseCFGPathsInterproceduralByEdge(const VisitedEdge &edge
 	visitedEdges.remove(edge);
 	path.removeFirst();
 }
-
-#if 0
-private static void traverseCFGPaths(const CFGHandle cfg,
-				     const QList<CFGNode> path,
-				     const CFGNodeFollowers nodeFollowers,
-				     const CFGPathVisitor visitor,
-				     const QSet<QPair<CFGNode,CFGNode>> visitedEdges) {
-	if (!visitor.visitInternal(Collections.unmodifiableList(path),
-				   new QStack<CFGNode>()))
-		return;
-
-	for (CFGNode currentNodeFollower : nodeFollowers.get(path.getFirst())) {
-		const QPair<CFGNode,CFGNode> edge =
-				new QPair<CFGNode,CFGNode>(path.getFirst(),currentNodeFollower);
-		if (visitedEdges.contains(edge)) {
-			visitor.endPath(Collections.unmodifiableList(path),
-					new QStack<CFGNode>());
-			continue;
-		}
-
-		path.addFirst(currentNodeFollower);
-		visitedEdges.add(edge);
-
-		traverseCFGPaths(cfg,path,nodeFollowers,visitor,visitedEdges);
-
-		visitedEdges.remove(edge);
-		path.removeFirst();
-	}
-}
-#endif
 
 CFGNodeFollowersInterprocedural::~CFGNodeFollowersInterprocedural()
 {

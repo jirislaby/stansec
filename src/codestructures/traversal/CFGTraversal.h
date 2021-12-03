@@ -254,26 +254,7 @@ private:
 				 Path path,
 				 const CFGNodeFollowers &nodeFollowers,
 				 const CFGPathVisitor &visitor,
-				 VisitedEdges visitedEdges) {
-	if (!visitor.visitInternal(path, CFGPathVisitor::CFGContext()))
-            return;
-
-	for (auto currentNodeFollower : nodeFollowers.get(path.first())) {
-	    const auto edge = qMakePair(path.first(), currentNodeFollower);
-            if (visitedEdges.contains(edge)) {
-		visitor.endPath(path, CFGPathVisitor::CFGContext());
-                continue;
-	    }
-
-	    path.prepend(currentNodeFollower);
-	    visitedEdges.insert(edge);
-
-	    traverseCFGPaths(cfg, path, nodeFollowers, visitor, visitedEdges);
-
-            visitedEdges.remove(edge);
-            path.removeFirst();
-        }
-    }
+				 VisitedEdges visitedEdges);
 #endif
 
     static void traverseCFGPathsInterprocedural(Path &path,
