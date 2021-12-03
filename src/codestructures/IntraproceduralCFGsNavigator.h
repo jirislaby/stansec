@@ -24,39 +24,38 @@ public:
     }
 
     IntraproceduralCFGsNavigator(const IntraproceduralCFGsNavigator &source) :
-	emptySet(source.getEmptySet()), beginnings(source.getBeginnings()),
-	endings(source.getEndings()) {}
+	beginnings(source.getBeginnings()), endings(source.getEndings()) {}
 
-    virtual bool isCallNode(const clang::Stmt *node) const override {
+    virtual bool isCallNode(Node *node) const override {
         return false;
     }
 
-    virtual bool isStartNode(const clang::Stmt *node) const override {
+    virtual bool isStartNode(Node *node) const override {
 	return getBeginnings().contains(node);
     }
 
-    virtual bool isEndNode(const clang::Stmt *node) const override {
+    virtual bool isEndNode(Node *node) const override {
         return getEndings().contains(node);
     }
 
-    virtual clang::Stmt *getCalleeStart(const clang::Stmt *node) const override {
+    virtual clang::Stmt *getCalleeStart(Node *node) const override {
 	return nullptr;
     }
 
-    virtual clang::Stmt *getCalleeEnd(const clang::Stmt *node) const override {
+    virtual clang::Stmt *getCalleeEnd(Node *node) const override {
 	return nullptr;
     }
 
-    virtual QSet<const clang::Stmt *> getCallersFromStart(const clang::Stmt *node) const override {
-        return getEmptySet();
+    virtual NodeSet getCallersFromStart(Node *node) const override {
+	return NodeSet();
     }
 
-    virtual QSet<const clang::Stmt *> getCallersFromEnd(const clang::Stmt *node) const override {
-        return getEmptySet();
+    virtual NodeSet getCallersFromEnd(Node *node) const override {
+	return NodeSet();
     }
 
-    virtual QSet<const clang::Stmt *> callSites() const override {
-        return getEmptySet();
+    virtual NodeSet callSites() const override {
+	return NodeSet();
     }
 
 private:
@@ -67,15 +66,13 @@ private:
         }
     }
 
-    QSet<const clang::Stmt *> &getBeginnings() { return beginnings; }
-    const QSet<const clang::Stmt *> getBeginnings() const { return beginnings; }
-    QSet<const clang::Stmt *> &getEndings() { return endings; }
-    const QSet<const clang::Stmt *> getEndings() const { return endings; }
-    const QSet<const clang::Stmt *> getEmptySet() const { return emptySet; }
+    NodeSet &getBeginnings() { return beginnings; }
+    const NodeSet getBeginnings() const { return beginnings; }
+    NodeSet &getEndings() { return endings; }
+    const NodeSet getEndings() const { return endings; }
 
-    QSet<const clang::Stmt *> emptySet;
-    QSet<const clang::Stmt *> beginnings;
-    QSet<const clang::Stmt *> endings;
+    NodeSet beginnings;
+    NodeSet endings;
 };
 
 }

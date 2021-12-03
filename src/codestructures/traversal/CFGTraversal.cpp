@@ -17,38 +17,42 @@
 
 using namespace codestructs;
 
-QList<const clang::Stmt *> ForwardCFGNodeFollowers::get(const clang::Stmt *node) const
+CFGNodeFollowers::Followers
+ForwardCFGNodeFollowers::get(Node *node) const
 {
 	assert(0); abort();
 	//return node.getSuccessors();
 }
 
-QList<const clang::Stmt *> BackwardCFGNodeFollowers::get(const clang::Stmt *node) const
+CFGNodeFollowers::Followers
+BackwardCFGNodeFollowers::get(Node *node) const
 {
 	assert(0); abort();
 	//return node.getPredecessors();
 }
 
 
-QList<const clang::Stmt *> ForwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node) const
+CFGNodeFollowersInterprocedural::Followers
+ForwardCFGNodeFollowersInterprocedural::get(Node *node) const
 {
 	assert(0); abort();
     //return node.getSuccessors();
 }
 
-QList<const clang::Stmt *> BackwardCFGNodeFollowersInterprocedural::get(const clang::Stmt *node) const
+CFGNodeFollowersInterprocedural::Followers
+BackwardCFGNodeFollowersInterprocedural::get(Node *node) const
 {
 	assert(0); abort();
 	//return node.getPredecessors();
 }
 
 void CFGTraversal::traverseCFG(const clang::CFG *cfg,
-			       const clang::Stmt *startNode,
+			       Stmt *startNode,
 			       const CFGNodeFollowers &nodeFollowers,
 			       CFGTraversationContainer<Stmt *> &nodesToVisit,
 			       CFGVisitor &visitor)
 {
-    QSet<const clang::Stmt *> visitedNodes;
+    QSet<Stmt *> visitedNodes;
     nodesToVisit.insert(startNode);
     do {
 	auto currentNode = nodesToVisit.remove();
@@ -88,8 +92,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 				return;
 			}
 		}
-	} else if (!visitor.visitInternal(path,
-					  callStack))
+	} else if (!visitor.visitInternal(path, callStack))
 		return;
 
 	if (nodeFollowers.isReturnNode(path[0]) && !callStack.isEmpty()) {
@@ -126,7 +129,7 @@ void CFGTraversal::traverseCFGPathsInterproceduralByEdge(const VisitedEdge &edge
 							 VisitedStack &visitedStack,
 							 CFGPathVisitor::CallStack &callStack)
 {
-	auto visitedEdges = visitedStack.top();
+	auto &visitedEdges = visitedStack.top();
 	path.prepend(edge.second);
 	visitedEdges.insert(edge);
 

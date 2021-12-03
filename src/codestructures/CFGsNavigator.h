@@ -18,14 +18,17 @@ namespace codestructs {
 
 class CFGsNavigator {
 public:
-	virtual bool isCallNode(const clang::Stmt *node) const = 0;
-	virtual bool isStartNode(const clang::Stmt *node) const = 0;
-	virtual bool isEndNode(const clang::Stmt *node) const = 0;
-	virtual const clang::Stmt *getCalleeStart(const clang::Stmt *node) const = 0;
-	virtual const clang::Stmt *getCalleeEnd(const clang::Stmt *node) const = 0;
-	virtual QSet<const clang::Stmt *> getCallersFromStart(const clang::Stmt *node) const = 0;
-	virtual QSet<const clang::Stmt *> getCallersFromEnd(const clang::Stmt *node) const = 0;
-	virtual QSet<const clang::Stmt *> callSites() const = 0;
+	using Node = const clang::Stmt;
+	using NodeSet = QSet<Node *>;
+
+	virtual bool isCallNode(Node *node) const = 0;
+	virtual bool isStartNode(Node *node) const = 0;
+	virtual bool isEndNode(Node *node) const = 0;
+	virtual Node *getCalleeStart(Node *node) const = 0;
+	virtual Node *getCalleeEnd(Node *node) const = 0;
+	virtual NodeSet getCallersFromStart(Node *node) const = 0;
+	virtual NodeSet getCallersFromEnd(Node *node) const = 0;
+	virtual NodeSet callSites() const = 0;
 };
 
 }

@@ -30,26 +30,32 @@ class CFGVisitor;
 
 class CFGNodeFollowers {
 public:
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const = 0;
+    using Node = const clang::Stmt;
+    using Followers = QList<Node *>;
+
+    virtual Followers get(Node *node) const = 0;
 };
 
 class ForwardCFGNodeFollowers final : public CFGNodeFollowers {
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
+    virtual Followers get(Node *node) const override;
 } ;
 
 class BackwardCFGNodeFollowers final : public CFGNodeFollowers {
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
+    virtual Followers get(Node *node) const override;
 };
 
 // Node followers Interprocedural ----------------------------------------------
 
 class CFGNodeFollowersInterprocedural {
 public:
+    using Node = const clang::Stmt;
+    using Followers = QList<Node *>;
+
     virtual ~CFGNodeFollowersInterprocedural();
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const = 0;
-    virtual bool isCallNode(const clang::Stmt *node) const = 0;
-    virtual bool isReturnNode(const clang::Stmt *node) const = 0;
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const = 0;
+    virtual Followers get(Node *node) const = 0;
+    virtual bool isCallNode(Node *node) const = 0;
+    virtual bool isReturnNode(Node *node) const = 0;
+    virtual Node *getCalleeNode(Node *node) const = 0;
 };
 
 class ForwardCFGNodeFollowersInterprocedural final : public CFGNodeFollowersInterprocedural {
@@ -57,17 +63,17 @@ public:
     ForwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) { }
 
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
+    virtual Followers get(Node *node) const override;
 
-    virtual bool isCallNode(const clang::Stmt *node) const override {
+    virtual bool isCallNode(Node *node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(const clang::Stmt *node) const override {
+    virtual bool isReturnNode(Node *node) const override {
         return navigator.isEndNode(node);
     }
 
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const override {
+    virtual Node *getCalleeNode(Node *node) const override {
         return navigator.getCalleeStart(node);
     }
 private:
@@ -79,17 +85,17 @@ public:
     BackwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) {}
 
-    virtual QList<const clang::Stmt *> get(const clang::Stmt *node) const override;
+    virtual QList<Node *> get(Node *node) const override;
 
-    virtual bool isCallNode(const clang::Stmt *node) const override {
+    virtual bool isCallNode(Node *node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(const clang::Stmt *node) const override {
+    virtual bool isReturnNode(Node *node) const override {
         return navigator.isStartNode(node);
     }
 
-    virtual const clang::Stmt *getCalleeNode(const clang::Stmt *node) const override {
+    virtual Node *getCalleeNode(Node *node) const override {
         return navigator.getCalleeEnd(node);
     }
 private:
@@ -204,10 +210,10 @@ public:
 
     static void
     traverseCFGPathsForwardInterprocedural(const CFGsNavigator &navigator,
-					   const clang::Stmt *startNode,
+					   Stmt *startNode,
 					   CFGPathVisitor &visitor,
 					   CFGPathVisitor::CallStack stack = CFGPathVisitor::CallStack()) {
-	QList<const clang::Stmt *> path;
+	Path path;
 	path.append(startNode);
         traverseCFGPathsInterprocedural(path,
 			  ForwardCFGNodeFollowersInterprocedural(navigator),
@@ -217,10 +223,10 @@ public:
 
     static void
     traverseCFGPathsBackwardInterprocedural(const CFGsNavigator &navigator,
-					    const clang::Stmt *startNode,
+					    Stmt *startNode,
 					    CFGPathVisitor &visitor,
 					    CFGPathVisitor::CallStack stack = CFGPathVisitor::CallStack()) {
-	QList<const clang::Stmt *> path;
+	Path path;
 	path.append(startNode);
         traverseCFGPathsInterprocedural(path,
 			 BackwardCFGNodeFollowersInterprocedural(navigator),
@@ -238,7 +244,7 @@ private:
     }
 
     static void traverseCFG(const clang::CFG *cfg,
-			   const clang::Stmt *startNode,
+			   Stmt *startNode,
 			   const CFGNodeFollowers &nodeFollowers,
 			   CFGTraversationContainer<Stmt *> &nodesToVisit,
 			   CFGVisitor &visitor);
