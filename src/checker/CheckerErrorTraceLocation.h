@@ -22,14 +22,13 @@ public:
 	    lineNumber(ploc.isValid() ? ploc.getLine() : 0),
 	    columnNumber(ploc.isValid() ? ploc.getColumn() : 0),
 	    description(description) { }
-#ifdef NEEDED
+
     CheckerErrorTraceLocation(const QString unitName,
 			      const int lineNumber,
 			      const int columnNumber,
 			      const QString description) :
 	    unitName(unitName), lineNumber(lineNumber),
 	    columnNumber(columnNumber), description(description) { }
-#endif
 
     QString toString() const {
         return getDescription() + " [file: " + getUnitName() + ", line: " +
