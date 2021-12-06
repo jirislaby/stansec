@@ -145,7 +145,7 @@ public:
     using VisitedEdges = QSet<VisitedEdge>;
     using VisitedStack = QStack<VisitedEdges>;
     using Path = CFGPathVisitor::Path;
-
+#ifdef CRAWL
     static void
     traverseCFGToBreadthForward(const clang::CFG *cfg, Stmt *startNode,
 				CFGVisitor &visitor) {
@@ -173,6 +173,7 @@ public:
 	CFGTraversationStack<Stmt *> s;
 	traverseCFG(cfg, startNode, BackwardCFGNodeFollowers(), s, visitor);
     }
+#endif
 #ifdef NEEDED
     static void
     traverseFunctionForward(const clang::CFG *cfg, CFGVisitor &visitor) {
