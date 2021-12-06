@@ -27,6 +27,7 @@ namespace codestructs {
 
 class PassingSolver {
 public:
+    using CallMapping = QPair<QString, QString>;
     static QList<QString> makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment);
     static QString makeArgument(const clang::Stmt *node);
     static QString makeArgument(const clang::Expr *op);
@@ -34,13 +35,17 @@ public:
     static QString makeArgument(const Element &elem);
 #endif
 
-    static QString pass(const QString &argument,
-			const QList<QPair<QString,QString>> &callMapping);
+    static llvm::Optional<QString>
+    pass(const QString &argument,
+	 const QList<CallMapping> &callMapping);
+    static llvm::Optional<QString>
+    pass(QString argument,
+	 const CallMapping &callMapping);
 
-    static llvm::Optional<QString> pass(const QString &argument,
-			const QPair<QString, QString> &callMapping);
-
-    static QString simplify(QString &argument);
+    static QString simplify(QString argument) {
+	    return argument.replace("* & ", "")
+			    .replace("->", ". *");
+    }
 
     static QString parseRootVariableName(const QString &argument);
 

@@ -89,6 +89,42 @@ QString PassingSolver::makeArgument(const clang::Expr *op)
 	return result;
 }
 
+llvm::Optional<QString>
+PassingSolver::pass(const QString &argument,
+		    const QList<CallMapping> &callMapping)
+{
+	bool wasTransformed = false;
+	QString result(argument);
+
+	for (const auto &map : callMapping) {
+	    const auto paramTransformation = pass(result, map);
+	    if (paramTransformation) {
+		wasTransformed = true;
+		result = *paramTransformation;
+	    }
+	}
+
+	return wasTransformed ? result : llvm::Optional<QString>();
+}
+
+llvm::Optional<QString>
+PassingSolver::pass(QString argument, const CallMapping &callMapping)
+{
+	const auto &fi = callMapping.first;
+	const auto &se = callMapping.second;
+
+	if (argument.isEmpty() || fi.isEmpty())
+	    return llvm::Optional<QString>();
+
+	if (argument.contains(fi))
+	    return simplify(argument.replace(fi, se));
+
+	if (fi.contains(argument) && fi[0] == '&')
+	    return "* " + se;
+
+	return llvm::Optional<QString>();
+}
+
 QString PassingSolver::parseRootVariableName(const QString &argument)
 {
 	for (int i = 0; i < argument.length(); ++i)
@@ -109,39 +145,6 @@ QString PassingSolver::parseRootVariableName(const QString &argument)
         for (Element e: (List<Element>)elem.elements())
             result.append(' ').append(makeArgument(e));
         return result.toString();
-    }
-
-    public static QString
-    pass(const QString argument, const QList<QPair<QString,QString>>
-                                                                  callMapping) {
-        bool wasTransformed = false;
-        QString result = argument;
-        for (const QPair<QString,QString> map : callMapping) {
-            const QString paramTransformation = pass(result,map);
-            if (paramTransformation != null) {
-                wasTransformed = true;
-                result = paramTransformation;
-            }
-        }
-        return (wasTransformed) ? result : null;
-    }
-
-    public static QString
-    pass(const QString argument, const QPair<QString,QString> callMapping) {
-        if (argument.isEmpty() || callMapping.getFirst().isEmpty())
-            return null;
-        if (argument.contains(callMapping.getFirst()))
-            return simplify(argument.replace(callMapping.getFirst(),
-                                             callMapping.getSecond()));
-        if (callMapping.getFirst().contains(argument) &&
-            callMapping.getFirst().charAt(0) == '&')
-            return "* " + callMapping.getSecond();
-        return null;
-    }
-
-    public static QString simplify(const QString argument) {
-        return argument.replace("* & ","")
-                       .replace("->",". *");
     }
 
     QString parseElement(const Element elem) {
