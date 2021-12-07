@@ -28,6 +28,7 @@ public:
 	clang::CFG *CFG() const { return first; }
 	const clang::FunctionDecl *FD() const { return second; }
 
+	QString getName() const;
 	QList<QString> getParamNames() const;
 
 	const clang::Stmt *getStartNode() const;

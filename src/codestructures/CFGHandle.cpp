@@ -16,6 +16,11 @@
 
 using namespace codestructs;
 
+QString CFGHandle::getName() const
+{
+	return QString::fromStdString(FD()->getName().str());
+}
+
 QList<QString> CFGHandle::getParamNames() const
 {
 	QList<QString> result;
