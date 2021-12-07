@@ -50,26 +50,25 @@ QString PassingSolver::makeArgument(const clang::Stmt *node)
 
 QString PassingSolver::makeArgument(const clang::Expr *op)
 {
-	QString result;
-
 	auto decast = op->IgnoreCasts();
-
-	//qDebug() << __PRETTY_FUNCTION__;
-	//decast->dumpColor();
 
 	if (auto declRef = llvm::dyn_cast<clang::DeclRefExpr>(decast)) {
 		auto decl = declRef->getDecl();
 		if (auto nd = llvm::dyn_cast<clang::NamedDecl>(decl)) {
 		    //nd->dumpColor();
-		    result = QString::fromStdString(nd->getName().str());
+		    return QString::fromStdString(nd->getName().str());
 		} else {
 		    qWarning() << "no name for";
 		    decl->dumpColor();
 		}
-	} else {
-		assert(0);
-		abort();
+	} else if (auto unaryOp = llvm::dyn_cast<clang::UnaryOperator>(decast)) {
+		if (unaryOp->getOpcode() == clang::UnaryOperatorKind::UO_AddrOf)
+			return "& " + makeArgument(unaryOp->getSubExpr());
 	}
+	decast->dumpColor();
+	assert(0);
+	abort();
+
 #ifdef OLD
 	switch (op.type) {
 	case varptr:
@@ -86,7 +85,6 @@ QString PassingSolver::makeArgument(const clang::Expr *op)
 	    break;
 	}
 #endif
-	return result;
 }
 
 llvm::Optional<QString>
