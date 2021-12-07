@@ -27,7 +27,7 @@ XMLPattern::XMLPattern(const QDomElement XMLelement) :
 
 llvm::Optional<XMLPatternVariablesAssignment>
 XMLPattern::matchesNode(const clang::Stmt *node,
-			const AliasResolver &aliasResolver)
+			const AliasResolver &aliasResolver) const
 {
     QDomElement xmlPivot = getPatternXMLelement();
     if (xmlPivot.tagName() == "node")

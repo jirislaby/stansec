@@ -53,18 +53,14 @@ public:
 	       getPatternXMLelement() == other.getPatternXMLelement();
     }
 #endif
-    QString getName() const {
-        return name;
-    }
+    QString getName() const { return name; }
+    bool isConstructive() const { return constructive; }
 
-    bool isConstructive() const {
-        return constructive;
-    }
+    llvm::Optional<XMLPatternVariablesAssignment>
+    matchesNode(const clang::Stmt *node, const AliasResolver &aliasResolver) const;
 
-    llvm::Optional<XMLPatternVariablesAssignment> matchesNode(const clang::Stmt *node,
-		const AliasResolver &aliasResolver);
-
-    llvm::Optional<XMLPatternVariablesAssignment> matchesXMLElement(const QDomElement &XMLelement) const;
+    llvm::Optional<XMLPatternVariablesAssignment>
+    matchesXMLElement(const QDomElement &XMLelement) const;
 
     QDomElement getPatternXMLelement() const {
 	return patternXMLelement.firstChild().toElement();
@@ -107,23 +103,6 @@ private:
     //const QMap<QString, QRegularExpression> compiledRegexes;
     bool constructive;
 };
-
-inline bool operator<(const QDomElement &lhs, const QDomElement &rhs)
-{
-	QString l, r;
-	QTextStream s(&l);
-	s << lhs;
-	s.setString(&r);
-	s << rhs;
-	return l < r;
-}
-
-inline bool operator<(const XMLPattern &lhs, const XMLPattern &rhs)
-{
-	return lhs.getName() < rhs.getName() &&
-			lhs.getPatternXMLelement() < rhs.getPatternXMLelement() &&
-			lhs.isConstructive() < rhs.isConstructive();
-}
 
 }
 
