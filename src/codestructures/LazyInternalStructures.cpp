@@ -11,15 +11,16 @@
 #include <clang/Analysis/CallGraph.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
-#include "builders/NodeToCFGdictionaryBuilder.h"
+#include "CFGsNavigator.h"
 
 #include "ArgumentPassingManager.h"
 #include "LazyInternalStructures.h"
 
 codestructs::LazyInternalStructures::~LazyInternalStructures()
 {
-	delete callGraph;
 	delete argumentPassingManager;
+	delete callGraph;
+	delete navigator;
 }
 
 QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles() const
