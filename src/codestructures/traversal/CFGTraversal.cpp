@@ -59,7 +59,7 @@ void CFGTraversal::traverseCFG(const clang::CFG *cfg,
 	if (visitedNodes.contains(currentNode))
 	    continue;
 	visitedNodes.insert(currentNode);
-	if (!visitor.visitInternal(currentNode/*, currentNode.getElement()*/))
+	if (!visitor.visit(currentNode/*, currentNode.getElement()*/))
 	    continue;
 	for (auto currentNodeFollower : nodeFollowers.get(currentNode))
 	    nodesToVisit.insert(currentNodeFollower);
@@ -119,7 +119,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 				return;
 			}
 		}
-	} else if (!visitor.visitInternal(path, callStack))
+	} else if (!visitor.visit(path, callStack))
 		return;
 
 	if (nodeFollowers.isReturnNode(path[0]) && !callStack.isEmpty()) {
