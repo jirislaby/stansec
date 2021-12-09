@@ -24,7 +24,7 @@ public:
     using CallStack = QStack<Stmt *>;
 
     virtual bool visit(const Path &path, const CallStack &cfgContext) = 0;
-    virtual void endPath(const Path &path, const CallStack &cfgContext) { }
+    virtual void onEndPath(const Path &path, const CallStack &cfgContext) { }
     virtual bool onCFGchange(Stmt *from, Stmt *to) { return false; }
 };
 

@@ -142,7 +142,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 			const auto edge = qMakePair(path.first(),
 						    nodeFollowers.getCalleeNode(path.first()));
 			if (visitedEdges.contains(edge)) {
-				visitor.endPath(path, callStack);
+				visitor.onEndPath(path, callStack);
 				return;
 			}
 			if (visitor.onCFGchange(path.first(), edge.second)) {
@@ -162,7 +162,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 	if (nodeFollowers.isReturnNode(path[0]) && !callStack.isEmpty()) {
 		const auto edge = qMakePair(path.first(), callStack.top());
 		if (visitedEdges.contains(edge)) {
-			visitor.endPath(path, callStack);
+			visitor.onEndPath(path, callStack);
 			return;
 		}
 		callStack.pop();
@@ -177,7 +177,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 	for (const auto currentNodeFollower : nodeFollowers.get(path.first())) {
 		const auto edge = qMakePair(path.first(), currentNodeFollower);
 		if (visitedEdges.contains(edge)) {
-			visitor.endPath(path, callStack);
+			visitor.onEndPath(path, callStack);
 			continue;
 		}
 		traverseCFGPathsInterproceduralByEdge(edge, path, nodeFollowers,
