@@ -18,6 +18,7 @@
 
 namespace clang {
 class CFG;
+class CFGBlock;
 class Stmt;
 }
 
@@ -102,39 +103,6 @@ private:
     const CFGsNavigator &navigator;
 };
 
-// Traversation container ------------------------------------------------------
-
-template <typename T>
-class CFGTraversationContainer {
-public:
-    virtual void insert(const T node) = 0;
-    virtual T remove() = 0;
-    virtual bool isEmpty() const = 0;
-};
-
-
-template <typename T>
-class CFGTraversationQueue final : public CFGTraversationContainer<T> {
-public:
-    virtual void insert(const T obj) override { queue.append(obj); }
-    virtual T remove() override { return queue.takeFirst(); }
-    virtual bool isEmpty() const override { return queue.isEmpty(); }
-
-private:
-    QList<T> queue;
-};
-
-template <typename T>
-class CFGTraversationStack final : public CFGTraversationContainer<T> {
-public:
-    virtual void insert(const T obj) override { stack.push(obj); }
-    virtual T remove() override { return stack.pop(); }
-    virtual bool isEmpty() const override { return stack.isEmpty(); }
-
-private:
-    QStack<T> stack;
-};
-
 // CFG traversal itself --------------------------------------------------------
 
 class CFGTraversal final {
@@ -145,14 +113,16 @@ public:
     using VisitedEdges = QSet<VisitedEdge>;
     using VisitedStack = QStack<VisitedEdges>;
     using Path = CFGPathVisitor::Path;
-#ifdef CRAWL
-    static void
-    traverseCFGToBreadthForward(const clang::CFG *cfg, Stmt *startNode,
-				CFGVisitor &visitor) {
-	CFGTraversationQueue<Stmt *> q;
-	traverseCFG(cfg, startNode, ForwardCFGNodeFollowers(), q, visitor);
-    }
 
+    static const clang::CFGBlock *findCFGBlock(const clang::CFG *cfg,
+					       const clang::Stmt *stmt);
+
+    static void
+    traverseCFGToBreadthForward(const clang::CFG *cfg,
+				CFGVisitor &visitor,
+				const Stmt *startNode = nullptr);
+
+#ifdef CRAWL
     static void
     traverseCFGToBreadthBackward(const clang::CFG *cfg, Stmt *startNode,
 				 CFGVisitor &visitor) {
@@ -243,12 +213,13 @@ private:
 
         return stack;
     }
-
+#if 0
     static void traverseCFG(const clang::CFG *cfg,
 			   Stmt *startNode,
 			   const CFGNodeFollowers &nodeFollowers,
 			   CFGTraversationContainer<Stmt *> &nodesToVisit,
 			   CFGVisitor &visitor);
+#endif
 
 #ifdef NEEDED
     static void traverseCFGPaths(const clang::CFG *cfg,
