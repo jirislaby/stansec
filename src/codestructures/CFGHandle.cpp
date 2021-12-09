@@ -45,7 +45,7 @@ const clang::Stmt *CFGHandle::getFirstStmt(const clang::CFGBlock &blk) const
 
 const clang::Stmt *CFGHandle::getLastStmt(const clang::CFGBlock &blk) const
 {
-	for (auto &el : blk)
+	for (auto &el : llvm::reverse(blk))
 		if (auto CFGopt = el.getAs<clang::CFGStmt>())
 			return CFGopt->getStmt();
 
@@ -66,7 +66,7 @@ const clang::Stmt *CFGHandle::getStartNode() const
 const clang::Stmt *CFGHandle::getEndNode() const
 {
 	for (auto blk : llvm::post_order(CFG()))
-		if (auto ret = getFirstStmt(*blk))
+		if (auto ret = getLastStmt(*blk))
 			return ret;
 
 	qDebug() << "completely empty CFG";
