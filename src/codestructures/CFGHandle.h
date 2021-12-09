@@ -35,8 +35,8 @@ public:
 	const clang::Stmt *getEndNode() const;
 
 private:
-	const clang::Stmt *getFirstStmt(clang::CFGBlock &blk) const;
-	const clang::Stmt *getLastStmt(clang::CFGBlock &blk) const;
+	const clang::Stmt *getFirstStmt(const clang::CFGBlock &blk) const;
+	const clang::Stmt *getLastStmt(const clang::CFGBlock &blk) const;
 
 	CFGHandle() = delete;
 };

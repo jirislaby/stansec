@@ -34,7 +34,7 @@ QList<QString> CFGHandle::getParamNames() const
 	return result;
 }
 
-const clang::Stmt *CFGHandle::getFirstStmt(clang::CFGBlock &blk) const
+const clang::Stmt *CFGHandle::getFirstStmt(const clang::CFGBlock &blk) const
 {
 	for (auto &el : blk)
 		if (auto CFGopt = el.getAs<clang::CFGStmt>())
@@ -43,7 +43,7 @@ const clang::Stmt *CFGHandle::getFirstStmt(clang::CFGBlock &blk) const
 	return nullptr;
 }
 
-const clang::Stmt *CFGHandle::getLastStmt(clang::CFGBlock &blk) const
+const clang::Stmt *CFGHandle::getLastStmt(const clang::CFGBlock &blk) const
 {
 	for (auto &el : blk)
 		if (auto CFGopt = el.getAs<clang::CFGStmt>())
