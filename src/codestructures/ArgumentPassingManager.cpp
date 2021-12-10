@@ -20,7 +20,7 @@
 using namespace codestructs;
 
 void ArgumentPassingManager::build(const CFGsNavigator &navigator,
-				   const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict)
+				   const LazyInternalStructures::NodeToCFGDictionary &nodeToCFGdict)
 {
     for (const auto caller : navigator.callSites()) {
 	const auto start = navigator.getCalleeStart(caller);

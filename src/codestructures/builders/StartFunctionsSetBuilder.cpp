@@ -18,13 +18,14 @@
 
 using namespace codestructs;
 
-QSet<CFGHandle> StartFunctionsSetBuilder::run(const LazyInternalStructures &internals,
-					      const clang::CallGraph &callGraph)
+LazyInternalStructures::StartFunctions
+StartFunctionsSetBuilder::run(const LazyInternalStructures &internals,
+			      const clang::CallGraph &callGraph)
 {
     auto &mgr = internals.getAnalysisManager();
     auto root = callGraph.getRoot();
 
-    QSet<CFGHandle> result;
+    LazyInternalStructures::StartFunctions result;
 
     llvm::ReversePostOrderTraversal<const clang::CallGraph *> RPOT(&callGraph);
     for (auto I = RPOT.begin(), E = RPOT.end(); I != E; ++I) {

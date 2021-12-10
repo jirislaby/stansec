@@ -8,9 +8,7 @@
  * Licensed under GPLv2.
  */
 
-#include <QSet>
-
-#include "../CFGHandle.h"
+#include "../LazyInternalStructures.h"
 
 namespace clang {
 class CallGraph;
@@ -18,12 +16,11 @@ class CallGraph;
 
 namespace codestructs {
 
-class LazyInternalStructures;
-
-class StartFunctionsSetBuilder {
+class StartFunctionsSetBuilder final {
 public:
-    static QSet<CFGHandle> run(const LazyInternalStructures &internals,
-			       const clang::CallGraph &callGraph);
+    static LazyInternalStructures::StartFunctions
+    run(const LazyInternalStructures &internals,
+	const clang::CallGraph &callGraph);
 
 private:
     StartFunctionsSetBuilder() = delete;

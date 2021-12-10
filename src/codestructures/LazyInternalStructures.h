@@ -13,13 +13,10 @@
 #include <QSet>
 #include <QString>
 
-//#include "../utils/DirectedGraph.h"
 #include "../utils/AliasResolver.h"
 
-#include "builders/StartFunctionsSetBuilder.h"
-#include "builders/NodeToCFGdictionaryBuilder.h"
-
 #include "CFGHandle.h"
+#include "CFGNode.h"
 
 namespace clang {
 class CallGraph;
@@ -35,6 +32,9 @@ class CFGsNavigator;
 
 class LazyInternalStructures {
 public:
+    using NodeToCFGDictionary = QMap<CFGNode, const CFGHandle *>;
+    using StartFunctions = QSet<codestructs::CFGHandle>;
+
     LazyInternalStructures(clang::ento::AnalysisManager &mgr,
 			   const clang::TranslationUnitDecl *TU) : mgr(mgr),
 	    TU(TU), callGraph(nullptr), argumentPassingManager(nullptr),
@@ -63,7 +63,7 @@ public:
         return units;
     }
 #endif
-    const QSet<codestructs::CFGHandle> getStartFunctions() const {
+    const StartFunctions getStartFunctions() const {
 	if (startFunctions.empty())
 	    const_cast<LazyInternalStructures *>(this)->setStartFunctions();
 	return startFunctions;
@@ -108,7 +108,7 @@ public:
 	return *navigator;
     }
 
-    NodeToCFGdictionaryBuilder::NodeToCFGDictionary getNodeToCFGdictionary() const {
+    const NodeToCFGDictionary &getNodeToCFGdictionary() const {
 	if (nodeToCFGdictionary.empty())
 	    const_cast<LazyInternalStructures *>(this)->setNodeToCFGdictionary();
 	return nodeToCFGdictionary;
@@ -155,11 +155,11 @@ private:
     const QList<codestructs::CFGHandle> cfgs;
     const utils::AliasResolver aliasResolver;
 
-    QSet<codestructs::CFGHandle> startFunctions;
+    StartFunctions startFunctions;
     clang::CallGraph *callGraph;
     codestructs::ArgumentPassingManager *argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;
-    NodeToCFGdictionaryBuilder::NodeToCFGDictionary nodeToCFGdictionary;
+    NodeToCFGDictionary nodeToCFGdictionary;
     //ElementCFGdictionary elementToCFGdictionary;
 
 protected:

@@ -11,9 +11,11 @@
 #include <clang/Analysis/CallGraph.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
-#include "CFGsNavigator.h"
+#include "builders/NodeToCFGdictionaryBuilder.h"
+#include "builders/StartFunctionsSetBuilder.h"
 
 #include "ArgumentPassingManager.h"
+#include "CFGsNavigator.h"
 #include "LazyInternalStructures.h"
 
 codestructs::LazyInternalStructures::~LazyInternalStructures()

@@ -17,8 +17,7 @@
 
 #include "../codestructures/CFGNode.h"
 
-#include "builders/NodeToCFGdictionaryBuilder.h"
-
+#include "LazyInternalStructures.h"
 #include "PassingSolver.h"
 
 namespace clang {
@@ -35,7 +34,7 @@ public:
     ArgumentPassingManager() = delete;
 
     ArgumentPassingManager(const CFGsNavigator &navigator,
-			   const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict) {
+			   const LazyInternalStructures::NodeToCFGDictionary &nodeToCFGdict) {
 	build(navigator, nodeToCFGdict);
     }
 
@@ -55,7 +54,7 @@ private:
     using Mapping = QMap<QPair<const codestructs::CFGNode, const codestructs::CFGNode>, CallSiteToCalleeMap>;
 
     void build(const CFGsNavigator &navigator,
-	       const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict);
+	       const LazyInternalStructures::NodeToCFGDictionary &nodeToCFGdict);
 
     void buildPassingsForCallSite(const clang::Stmt *caller,
 				  const CFGHandle &callee);

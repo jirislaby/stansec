@@ -9,13 +9,14 @@
 #include <clang/Analysis/CFG.h>
 
 #include "../CFGHandle.h"
+#include "../CFGNode.h"
 
 #include "NodeToCFGdictionaryBuilder.h"
 
 using namespace codestructs;
 
 void NodeToCFGdictionaryBuilder::run(const QList<CFGHandle> &CFGs,
-				     NodeToCFGDictionary &dict)
+				     LazyInternalStructures::NodeToCFGDictionary &dict)
 {
 	for (const auto &cfg: CFGs) {
 		auto cfg2 = cfg.getCFG();

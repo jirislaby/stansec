@@ -9,9 +9,8 @@
  */
 
 #include <QList>
-#include <QMap>
 
-#include "../CFGNode.h"
+#include "../LazyInternalStructures.h"
 
 namespace codestructs {
 
@@ -19,9 +18,8 @@ class CFGHandle;
 
 class NodeToCFGdictionaryBuilder final {
 public:
-    using NodeToCFGDictionary = QMap<CFGNode, const CFGHandle *>;
-
-    static void run(const QList<CFGHandle> &CFGs, NodeToCFGDictionary &dict);
+    static void run(const QList<CFGHandle> &CFGs,
+		    LazyInternalStructures::NodeToCFGDictionary &dict);
 
 private:
     NodeToCFGdictionaryBuilder() = delete;
