@@ -13,6 +13,7 @@
 #include <QDebug>
 
 #include "CFGHandle.h"
+#include "CFGNode.h"
 
 using namespace codestructs;
 
@@ -34,42 +35,12 @@ QList<QString> CFGHandle::getParamNames() const
 	return result;
 }
 
-const clang::Stmt *CFGHandle::getFirstStmt(const clang::CFGBlock &blk) const
+const codestructs::CFGNode CFGHandle::getStartNode() const
 {
-	for (auto &el : blk)
-		if (auto CFGopt = el.getAs<clang::CFGStmt>())
-			return CFGopt->getStmt();
-
-	return nullptr;
+	return codestructs::CFGNode(&getCFG()->getEntry());
 }
 
-const clang::Stmt *CFGHandle::getLastStmt(const clang::CFGBlock &blk) const
+const codestructs::CFGNode CFGHandle::getEndNode() const
 {
-	for (auto &el : llvm::reverse(blk))
-		if (auto CFGopt = el.getAs<clang::CFGStmt>())
-			return CFGopt->getStmt();
-
-	return nullptr;
-}
-
-const clang::Stmt *CFGHandle::getStartNode() const
-{
-	for (auto blk : llvm::depth_first(getCFG()))
-		if (auto ret = getFirstStmt(*blk))
-			return ret;
-
-	qDebug() << "completely empty CFG";
-	getCFG()->dump(getFD()->getLangOpts(), true);
-	return nullptr;
-}
-
-const clang::Stmt *CFGHandle::getEndNode() const
-{
-	for (auto blk : llvm::post_order(getCFG()))
-		if (auto ret = getLastStmt(*blk))
-			return ret;
-
-	qDebug() << "completely empty CFG";
-	getCFG()->dump(getFD()->getLangOpts(), true);
-	return nullptr;
+	return codestructs::CFGNode(&getCFG()->getExit());
 }

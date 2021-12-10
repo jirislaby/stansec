@@ -14,6 +14,8 @@
 
 #include "ArgumentPassingManager.h"
 #include "CFGsNavigator.h"
+#include "CFGHandle.h"
+#include "CFGNode.h"
 
 using namespace codestructs;
 
@@ -22,12 +24,12 @@ void ArgumentPassingManager::build(const CFGsNavigator &navigator,
 {
     for (const auto caller : navigator.callSites()) {
 	const auto start = navigator.getCalleeStart(caller);
-	buildPassingsForCallSite(*caller, *nodeToCFGdict[start]);
+	buildPassingsForCallSite(caller.getStmt(), *nodeToCFGdict[start]);
     }
 }
 
-void ArgumentPassingManager::buildPassingsForCallSite(const clang::Stmt &caller,
-								   const CFGHandle &callee)
+void ArgumentPassingManager::buildPassingsForCallSite(const clang::Stmt *caller,
+						      const CFGHandle &callee)
 {
 #if 0
 	auto map = buildMappingFromCallSiteToCallee(caller, callee);

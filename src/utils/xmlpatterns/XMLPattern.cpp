@@ -13,6 +13,8 @@
 #include <QPair>
 #include <QString>
 
+#include "../../codestructures/CFGNode.h"
+
 #include "../AliasResolver.h"
 
 #include "XMLPattern.h"
@@ -26,7 +28,7 @@ XMLPattern::XMLPattern(const QDomElement XMLelement) :
 }
 
 llvm::Optional<XMLPatternVariablesAssignment>
-XMLPattern::matchesNode(const clang::Stmt *node,
+XMLPattern::matchesNode(const codestructs::CFGNode &node,
 			const AliasResolver &aliasResolver) const
 {
     QDomElement xmlPivot = getPatternXMLelement();
@@ -37,6 +39,17 @@ XMLPattern::matchesNode(const clang::Stmt *node,
 	return matchesXMLElement(node.getElement());
 #endif
     else
+	return llvm::Optional<XMLPatternVariablesAssignment>();
+}
+
+llvm::Optional<XMLPatternVariablesAssignment>
+XMLPattern::matchesNode(const codestructs::CFGNode &node,
+			const QDomElement &xmlPivot,
+			const AliasResolver &aliasResolver) const
+{
+	if (auto stmt = node.getStmt())
+		return matchesNode(stmt, xmlPivot, aliasResolver);
+
 	return llvm::Optional<XMLPatternVariablesAssignment>();
 }
 

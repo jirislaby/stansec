@@ -20,14 +20,14 @@
 using namespace codestructs;
 
 CFGNodeFollowers::Followers
-ForwardCFGNodeFollowers::get(Node *node) const
+ForwardCFGNodeFollowers::get(const Node &node) const
 {
 	assert(0); abort();
 	//return node.getSuccessors();
 }
 
 CFGNodeFollowers::Followers
-BackwardCFGNodeFollowers::get(Node *node) const
+BackwardCFGNodeFollowers::get(const Node &node) const
 {
 	assert(0); abort();
 	//return node.getPredecessors();
@@ -35,14 +35,14 @@ BackwardCFGNodeFollowers::get(Node *node) const
 
 
 CFGNodeFollowersInterprocedural::Followers
-ForwardCFGNodeFollowersInterprocedural::get(Node *node) const
+ForwardCFGNodeFollowersInterprocedural::get(const Node &node) const
 {
 	assert(0); abort();
     //return node.getSuccessors();
 }
 
 CFGNodeFollowersInterprocedural::Followers
-BackwardCFGNodeFollowersInterprocedural::get(Node *node) const
+BackwardCFGNodeFollowersInterprocedural::get(const Node &node) const
 {
 	assert(0); abort();
 	//return node.getPredecessors();
@@ -62,24 +62,40 @@ const clang::CFGBlock *CFGTraversal::findCFGBlock(const clang::CFG *cfg,
 
 void CFGTraversal::traverseCFGToBreadthForward(const clang::CFG *cfg,
 					       CFGVisitor &visitor,
-					       const Stmt *startNode) {
-	auto blk = startNode ? findCFGBlock(cfg, startNode) : &cfg->getEntry();
+					       const Node *startNode) {
+	const clang::CFGBlock *blk;
+	bool seeking = false;
+	if (startNode) {
+		if (startNode->hasStmt()) {
+			blk = findCFGBlock(cfg, startNode->getStmt());
+			seeking = true;
+		} else
+			blk = startNode->getBlock();
+	} else
+	    blk = &cfg->getEntry();
+
 	/* different CFG */
 	if (!blk)
 	    return;
-	bool seeking = startNode;
-	for (auto I = llvm::bf_begin(blk); I != llvm::bf_end(blk); ++I)
+
+	for (auto I = llvm::bf_begin(blk); I != llvm::bf_end(blk); ++I) {
+	    if (!seeking && !visitor.visit(CFGNode(*I))) {
+		I.Visited.insert((*I)->succ_begin(),
+				 (*I)->succ_end());
+		continue;
+	    }
 	    for (auto BI = (*I)->begin(), BE = (*I)->end(); BI != BE; ++BI)
 		if (auto stmt = BI->getAs<clang::CFGStmt>()) {
-		    if (seeking && startNode != stmt->getStmt())
+		    if (seeking && startNode->getStmt() != stmt->getStmt())
 			continue;
 		    seeking = false;
-		    if (!visitor.visit(stmt->getStmt())) {
+		    if (!visitor.visit(CFGNode(stmt->getStmt()))) {
 			I.Visited.insert((*I)->succ_begin(),
 					 (*I)->succ_end());
 			break;
 		    }
 		}
+	}
 }
 #if 0
 void CFGTraversal::traverseCFG(const clang::CFG *cfg,
@@ -139,8 +155,8 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 	auto visitedEdges = visitedStack.top();
 	if (nodeFollowers.isCallNode(path[0])) {
 		if (path.size() < 2 || !nodeFollowers.isReturnNode(path[1])) {
-			const auto edge = qMakePair(path.first(),
-						    nodeFollowers.getCalleeNode(path.first()));
+			auto callee = nodeFollowers.getCalleeNode(path.first());
+			const auto edge = qMakePair(path.first(), callee);
 			if (visitedEdges.contains(edge)) {
 				visitor.onEndPath(path, callStack);
 				return;
@@ -174,7 +190,7 @@ void CFGTraversal::traverseCFGPathsInterprocedural(Path &path,
 		return;
 	}
 
-	for (const auto currentNodeFollower : nodeFollowers.get(path.first())) {
+	for (const auto &currentNodeFollower : nodeFollowers.get(path.first())) {
 		const auto edge = qMakePair(path.first(), currentNodeFollower);
 		if (visitedEdges.contains(edge)) {
 			visitor.onEndPath(path, callStack);

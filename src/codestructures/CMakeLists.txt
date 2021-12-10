@@ -7,6 +7,8 @@ add_library(codestructures STATIC
 	ArgumentPassingManager.h
 	CFGHandle.cpp
 	CFGHandle.h
+	CFGNode.cpp
+	CFGNode.h
 	CFGsNavigator.h
 	IntraproceduralCFGsNavigator.h
 	LazyInternalStructures.cpp

@@ -13,12 +13,12 @@
 
 namespace clang {
 class CFG;
-class CFGBlock;
 class FunctionDecl;
-class Stmt;
 }
 
 namespace codestructs {
+
+class CFGNode;
 
 class CFGHandle final {
 public:
@@ -31,13 +31,10 @@ public:
 	QString getName() const;
 	QList<QString> getParamNames() const;
 
-	const clang::Stmt *getStartNode() const;
-	const clang::Stmt *getEndNode() const;
+	const codestructs::CFGNode getStartNode() const;
+	const codestructs::CFGNode getEndNode() const;
 
 private:
-	const clang::Stmt *getFirstStmt(const clang::CFGBlock &blk) const;
-	const clang::Stmt *getLastStmt(const clang::CFGBlock &blk) const;
-
 	clang::CFG *CFG;
 	const clang::FunctionDecl *FD;
 

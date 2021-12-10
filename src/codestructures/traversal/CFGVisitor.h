@@ -8,6 +8,8 @@
  * Licensed under GPLv2.
  */
 
+#include "../CFGNode.h"
+
 namespace clang {
 class Stmt;
 }
@@ -16,11 +18,11 @@ namespace codestructs {
 
 class CFGVisitor {
 public:
-	virtual bool visit(const clang::Stmt *node/*, Element element*/) = 0;
+	virtual bool visit(const CFGNode &node/*, Element element*/) = 0;
 
 	/* for clang::CFG::VisitBlockStmts */
 	void operator()(clang::Stmt *stmt) {
-	    visit(stmt);
+	    visit(CFGNode(stmt));
 	}
 };
 

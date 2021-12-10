@@ -18,12 +18,15 @@
 #include <QString>
 #include <QVector>
 
-//#include "XMLAlgo.h"
 #include "XMLPatternVariablesAssignment.h"
 
 namespace clang {
 class CallExpr;
 class Stmt;
+}
+
+namespace codestructs {
+class CFGNode;
 }
 
 namespace utils {
@@ -57,7 +60,8 @@ public:
     bool isConstructive() const { return constructive; }
 
     llvm::Optional<XMLPatternVariablesAssignment>
-    matchesNode(const clang::Stmt *node, const AliasResolver &aliasResolver) const;
+    matchesNode(const codestructs::CFGNode &node,
+		const AliasResolver &aliasResolver) const;
 
     llvm::Optional<XMLPatternVariablesAssignment>
     matchesXMLElement(const QDomElement &XMLelement) const;
@@ -67,6 +71,10 @@ public:
     }
 
 private:
+    llvm::Optional<XMLPatternVariablesAssignment>
+    matchesNode(const codestructs::CFGNode &node,
+		const QDomElement &xmlPivot,
+		const AliasResolver &aliasResolver) const;
     llvm::Optional<XMLPatternVariablesAssignment>
     matchesNode(const clang::Stmt *node, const QDomElement &xmlPivot,
 		const AliasResolver &aliasResolver) const;

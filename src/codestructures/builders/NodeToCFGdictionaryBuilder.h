@@ -11,9 +11,7 @@
 #include <QList>
 #include <QMap>
 
-namespace clang {
-class Stmt;
-}
+#include "../CFGNode.h"
 
 namespace codestructs {
 
@@ -21,7 +19,7 @@ class CFGHandle;
 
 class NodeToCFGdictionaryBuilder final {
 public:
-    using NodeToCFGDictionary = QMap<const clang::Stmt *, const CFGHandle *>;
+    using NodeToCFGDictionary = QMap<CFGNode, const CFGHandle *>;
 
     static void run(const QList<CFGHandle> &CFGs, NodeToCFGDictionary &dict);
 

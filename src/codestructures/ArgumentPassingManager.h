@@ -15,6 +15,8 @@
 #include <QPair>
 #include <QString>
 
+#include "../codestructures/CFGNode.h"
+
 #include "builders/NodeToCFGdictionaryBuilder.h"
 
 #include "PassingSolver.h"
@@ -37,27 +39,29 @@ public:
 	build(navigator, nodeToCFGdict);
     }
 
-    bool isIdentityPass(const clang::Stmt *from, const clang::Stmt *to) {
-	return !getMapping().contains(qMakePair(from,to));
+    bool isIdentityPass(const codestructs::CFGNode &from,
+			const codestructs::CFGNode &to) {
+	return !getMapping().contains(qMakePair(from, to));
     }
 
-    llvm::Optional<QString> pass(const clang::Stmt *from, const QString &argument,
-				 const clang::Stmt *to) {
+    llvm::Optional<QString> pass(const clang::Stmt *from,
+				 const QString &argument,
+				 const codestructs::CFGNode &to) {
 	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
     }
 
 private:
     using CallSiteToCalleeMap = QList<QPair<QString, QString> >;
-    using Mapping = QMap<QPair<const clang::Stmt *, const clang::Stmt *>, CallSiteToCalleeMap>;
+    using Mapping = QMap<QPair<const codestructs::CFGNode, const codestructs::CFGNode>, CallSiteToCalleeMap>;
 
     void build(const CFGsNavigator &navigator,
 	       const NodeToCFGdictionaryBuilder::NodeToCFGDictionary &nodeToCFGdict);
 
-    void buildPassingsForCallSite(const clang::Stmt &caller,
+    void buildPassingsForCallSite(const clang::Stmt *caller,
 				  const CFGHandle &callee);
 
     static CallSiteToCalleeMap
-    buildMappingFromCallSiteToCallee(const clang::Stmt &caller,
+    buildMappingFromCallSiteToCallee(const clang::Stmt *caller,
 				     const CFGHandle &callee);
 
     static CallSiteToCalleeMap

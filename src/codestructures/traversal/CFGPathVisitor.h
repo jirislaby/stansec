@@ -11,21 +11,19 @@
 #include <QList>
 #include <QStack>
 
-namespace clang {
-class Stmt;
-}
-
 namespace codestructs {
+
+class CFGNode;
 
 class CFGPathVisitor {
 public:
-    using Stmt = const clang::Stmt;
-    using Path = QList<Stmt *>;
-    using CallStack = QStack<Stmt *>;
+    using Stmt = codestructs::CFGNode;
+    using Path = QList<Stmt>;
+    using CallStack = QStack<Stmt>;
 
     virtual bool visit(const Path &path, const CallStack &cfgContext) = 0;
     virtual void onEndPath(const Path &path, const CallStack &cfgContext) { }
-    virtual bool onCFGchange(Stmt *from, Stmt *to) { return false; }
+    virtual bool onCFGchange(const Stmt &from, const Stmt &to) { return false; }
 };
 
 }

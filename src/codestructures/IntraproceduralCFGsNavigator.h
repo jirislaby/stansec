@@ -13,6 +13,7 @@
 
 #include "CFGsNavigator.h"
 #include "CFGHandle.h"
+#include "CFGNode.h"
 
 namespace codestructs {
 
@@ -26,31 +27,31 @@ public:
     IntraproceduralCFGsNavigator(const IntraproceduralCFGsNavigator &source) :
 	beginnings(source.getBeginnings()), endings(source.getEndings()) {}
 
-    virtual bool isCallNode(Node *node) const override {
+    virtual bool isCallNode(const Node &node) const override {
         return false;
     }
 
-    virtual bool isStartNode(Node *node) const override {
+    virtual bool isStartNode(const Node &node) const override {
 	return getBeginnings().contains(node);
     }
 
-    virtual bool isEndNode(Node *node) const override {
+    virtual bool isEndNode(const Node &node) const override {
         return getEndings().contains(node);
     }
 
-    virtual clang::Stmt *getCalleeStart(Node *node) const override {
-	return nullptr;
+    virtual Node getCalleeStart(const Node &node) const override {
+	return Node();
     }
 
-    virtual clang::Stmt *getCalleeEnd(Node *node) const override {
-	return nullptr;
+    virtual Node getCalleeEnd(const Node &node) const override {
+	return Node();
     }
 
-    virtual NodeSet getCallersFromStart(Node *node) const override {
+    virtual NodeSet getCallersFromStart(const Node &node) const override {
 	return NodeSet();
     }
 
-    virtual NodeSet getCallersFromEnd(Node *node) const override {
+    virtual NodeSet getCallersFromEnd(const Node &node) const override {
 	return NodeSet();
     }
 

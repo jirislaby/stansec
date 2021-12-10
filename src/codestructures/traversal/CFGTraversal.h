@@ -13,6 +13,7 @@
 #include <QStack>
 
 #include "../CFGsNavigator.h"
+#include "../CFGNode.h"
 
 #include "CFGPathVisitor.h"
 
@@ -31,32 +32,32 @@ class CFGVisitor;
 
 class CFGNodeFollowers {
 public:
-    using Node = const clang::Stmt;
-    using Followers = QList<Node *>;
+    using Node = CFGNode;
+    using Followers = QList<Node>;
 
-    virtual Followers get(Node *node) const = 0;
+    virtual Followers get(const Node &node) const = 0;
 };
 
 class ForwardCFGNodeFollowers final : public CFGNodeFollowers {
-    virtual Followers get(Node *node) const override;
+    virtual Followers get(const Node &node) const override;
 } ;
 
 class BackwardCFGNodeFollowers final : public CFGNodeFollowers {
-    virtual Followers get(Node *node) const override;
+    virtual Followers get(const Node &node) const override;
 };
 
 // Node followers Interprocedural ----------------------------------------------
 
 class CFGNodeFollowersInterprocedural {
 public:
-    using Node = const clang::Stmt;
-    using Followers = QList<Node *>;
+    using Node = CFGNode;
+    using Followers = QList<Node>;
 
     virtual ~CFGNodeFollowersInterprocedural();
-    virtual Followers get(Node *node) const = 0;
-    virtual bool isCallNode(Node *node) const = 0;
-    virtual bool isReturnNode(Node *node) const = 0;
-    virtual Node *getCalleeNode(Node *node) const = 0;
+    virtual Followers get(const Node &node) const = 0;
+    virtual bool isCallNode(const Node &node) const = 0;
+    virtual bool isReturnNode(const Node &node) const = 0;
+    virtual Node getCalleeNode(const Node &node) const = 0;
 };
 
 class ForwardCFGNodeFollowersInterprocedural final : public CFGNodeFollowersInterprocedural {
@@ -64,17 +65,17 @@ public:
     ForwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) { }
 
-    virtual Followers get(Node *node) const override;
+    virtual Followers get(const Node &node) const override;
 
-    virtual bool isCallNode(Node *node) const override {
+    virtual bool isCallNode(const Node &node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(Node *node) const override {
+    virtual bool isReturnNode(const Node &node) const override {
         return navigator.isEndNode(node);
     }
 
-    virtual Node *getCalleeNode(Node *node) const override {
+    virtual Node getCalleeNode(const Node &node) const override {
         return navigator.getCalleeStart(node);
     }
 private:
@@ -86,17 +87,17 @@ public:
     BackwardCFGNodeFollowersInterprocedural(const CFGsNavigator &navigator) :
 	navigator(navigator) {}
 
-    virtual QList<Node *> get(Node *node) const override;
+    virtual QList<Node> get(const Node &node) const override;
 
-    virtual bool isCallNode(Node *node) const override {
+    virtual bool isCallNode(const Node &node) const override {
         return navigator.isCallNode(node);
     }
 
-    virtual bool isReturnNode(Node *node) const override {
+    virtual bool isReturnNode(const Node &node) const override {
         return navigator.isStartNode(node);
     }
 
-    virtual Node *getCalleeNode(Node *node) const override {
+    virtual Node getCalleeNode(const Node &node) const override {
         return navigator.getCalleeEnd(node);
     }
 private:
@@ -108,8 +109,8 @@ private:
 class CFGTraversal final {
 
 public:
-    using Stmt = const clang::Stmt;
-    using VisitedEdge = QPair<Stmt *, Stmt *>;
+    using Node = CFGNode;
+    using VisitedEdge = QPair<Node, Node>;
     using VisitedEdges = QSet<VisitedEdge>;
     using VisitedStack = QStack<VisitedEdges>;
     using Path = CFGPathVisitor::Path;
@@ -120,7 +121,7 @@ public:
     static void
     traverseCFGToBreadthForward(const clang::CFG *cfg,
 				CFGVisitor &visitor,
-				const Stmt *startNode = nullptr);
+				const Node *startNode = nullptr);
 
 #ifdef CRAWL
     static void
@@ -194,7 +195,7 @@ public:
 
     static void
     traverseCFGPathsBackwardInterprocedural(const CFGsNavigator &navigator,
-					    Stmt *startNode,
+					    const Node &startNode,
 					    CFGPathVisitor &visitor,
 					    CFGPathVisitor::CallStack stack = CFGPathVisitor::CallStack()) {
 	Path path;

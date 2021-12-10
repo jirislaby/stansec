@@ -9,6 +9,7 @@
 #include <clang/Analysis/CFG.h>
 
 #include "../CFGHandle.h"
+
 #include "NodeToCFGdictionaryBuilder.h"
 
 using namespace codestructs;
@@ -16,16 +17,13 @@ using namespace codestructs;
 void NodeToCFGdictionaryBuilder::run(const QList<CFGHandle> &CFGs,
 				     NodeToCFGDictionary &dict)
 {
-	struct CFGVisitor {
-		CFGVisitor(const CFGHandle *handle, NodeToCFGDictionary &dict) :
-			handle(handle), dict(dict) {}
-		void operator()(clang::Stmt *stmt) { dict.insert(stmt, handle); }
-		const CFGHandle *handle;
-		NodeToCFGDictionary &dict;
-	};
-
 	for (const auto &cfg: CFGs) {
-		CFGVisitor v(&cfg, dict);
-		cfg.getCFG()->VisitBlockStmts(v);
+		auto cfg2 = cfg.getCFG();
+		for (auto I = cfg2->begin(), E = cfg2->end(); I != E; ++I) {
+		    dict.insert(CFGNode(*I), &cfg);
+		    for (auto BI = (*I)->begin(), BE = (*I)->end(); BI != BE; ++BI)
+			if (auto stmt = BI->getAs<clang::CFGStmt>())
+				dict.insert(CFGNode(stmt->getStmt()), &cfg);
+		}
 	}
 }

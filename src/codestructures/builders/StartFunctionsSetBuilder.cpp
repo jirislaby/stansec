@@ -10,6 +10,8 @@
 #include <clang/Analysis/CallGraph.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
+#include "../../codestructures/CFGHandle.h"
+
 #include "../LazyInternalStructures.h"
 
 #include "StartFunctionsSetBuilder.h"
