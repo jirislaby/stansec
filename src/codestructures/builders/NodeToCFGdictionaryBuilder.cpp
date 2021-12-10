@@ -26,6 +26,6 @@ void NodeToCFGdictionaryBuilder::run(const QList<CFGHandle> &CFGs,
 
 	for (const auto &cfg: CFGs) {
 		CFGVisitor v(&cfg, dict);
-		cfg.CFG()->VisitBlockStmts(v);
+		cfg.getCFG()->VisitBlockStmts(v);
 	}
 }

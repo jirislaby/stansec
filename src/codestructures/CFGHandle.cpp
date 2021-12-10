@@ -18,14 +18,14 @@ using namespace codestructs;
 
 QString CFGHandle::getName() const
 {
-	return QString::fromStdString(FD()->getName().str());
+	return QString::fromStdString(getFD()->getName().str());
 }
 
 QList<QString> CFGHandle::getParamNames() const
 {
 	QList<QString> result;
 
-	for (auto p : FD()->parameters())
+	for (auto p : getFD()->parameters())
 		result.append(QString::fromStdString(p->getName().str()));
 
 	//llvm::errs() << FD() << "\n";
@@ -54,22 +54,22 @@ const clang::Stmt *CFGHandle::getLastStmt(const clang::CFGBlock &blk) const
 
 const clang::Stmt *CFGHandle::getStartNode() const
 {
-	for (auto blk : llvm::depth_first(CFG()))
+	for (auto blk : llvm::depth_first(getCFG()))
 		if (auto ret = getFirstStmt(*blk))
 			return ret;
 
 	qDebug() << "completely empty CFG";
-	CFG()->dump(FD()->getLangOpts(), true);
+	getCFG()->dump(getFD()->getLangOpts(), true);
 	return nullptr;
 }
 
 const clang::Stmt *CFGHandle::getEndNode() const
 {
-	for (auto blk : llvm::post_order(CFG()))
+	for (auto blk : llvm::post_order(getCFG()))
 		if (auto ret = getLastStmt(*blk))
 			return ret;
 
 	qDebug() << "completely empty CFG";
-	CFG()->dump(FD()->getLangOpts(), true);
+	getCFG()->dump(getFD()->getLangOpts(), true);
 	return nullptr;
 }
