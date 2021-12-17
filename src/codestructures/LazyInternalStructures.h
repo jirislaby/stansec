@@ -32,7 +32,7 @@ class CFGsNavigator;
 
 class LazyInternalStructures {
 public:
-    using NodeToCFGDictionary = QMap<CFGNode, const CFGHandle *>;
+    using NodeToCFGDictionary = QMap<CFGNode, CFGHandle>;
     using StartFunctions = QSet<codestructs::CFGHandle>;
 
     LazyInternalStructures(clang::ento::AnalysisManager &mgr,

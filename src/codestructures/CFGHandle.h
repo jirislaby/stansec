@@ -22,6 +22,7 @@ class CFGNode;
 
 class CFGHandle final {
 public:
+	CFGHandle() : CFG(nullptr), FD(nullptr) { assert(0); abort(); }
 	CFGHandle(clang::CFG *CFG, const clang::FunctionDecl *FD) :
 		CFG(CFG), FD(FD) { }
 
@@ -37,8 +38,6 @@ public:
 private:
 	clang::CFG *CFG;
 	const clang::FunctionDecl *FD;
-
-	CFGHandle() = delete;
 };
 
 inline bool operator==(const CFGHandle &lhs, const CFGHandle &rhs)

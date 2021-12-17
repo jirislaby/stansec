@@ -24,7 +24,7 @@ void ArgumentPassingManager::build(const CFGsNavigator &navigator,
 {
     for (const auto caller : navigator.callSites()) {
 	const auto start = navigator.getCalleeStart(caller);
-	buildPassingsForCallSite(caller.getStmt(), *nodeToCFGdict[start]);
+	buildPassingsForCallSite(caller.getStmt(), nodeToCFGdict[start]);
     }
 }
 
