@@ -116,7 +116,8 @@ public:
     using Path = CFGPathVisitor::Path;
 
     static const clang::CFGBlock *findCFGBlock(const clang::CFG *cfg,
-					       const clang::Stmt *stmt);
+					       const clang::Stmt *stmt,
+					       int *index = nullptr);
 
     static void
     traverseCFGToBreadthForward(const clang::CFG *cfg,

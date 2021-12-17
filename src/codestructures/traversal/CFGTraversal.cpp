@@ -49,13 +49,17 @@ BackwardCFGNodeFollowersInterprocedural::get(const Node &node) const
 }
 
 const clang::CFGBlock *CFGTraversal::findCFGBlock(const clang::CFG *cfg,
-						  const clang::Stmt *stmt)
+						  const clang::Stmt *stmt,
+						  int *index)
 {
 	for (auto I = cfg->begin(), E = cfg->end(); I != E; ++I)
-		for (auto BI = (*I)->begin(), BE = (*I)->end(); BI != BE; ++BI)
-			if (auto s = BI->getAs<clang::CFGStmt>())
-				if (s->getStmt() == stmt)
+		for (auto BI = (*I)->ref_begin(), BE = (*I)->ref_end(); BI != BE; ++BI)
+			if (auto s = (*BI)->getAs<clang::CFGStmt>())
+				if (s->getStmt() == stmt) {
+					if (index)
+						*index = (*BI).getIndexInBlock();
 					return *I;
+				}
 
 	return nullptr;
 }
