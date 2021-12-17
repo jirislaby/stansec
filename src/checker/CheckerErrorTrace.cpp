@@ -76,3 +76,13 @@ clang::PresumedLoc CheckerErrorTrace::getPLoc(const clang::SourceManager &SM,
 					      const clang::Stmt *stmt) {
 	return SM.getPresumedLoc(stmt->getBeginLoc());
 }
+
+QDebug operator<<(QDebug d, const CheckerErrorTrace &item)
+{
+	d << "CheckerErrorTrace(" << item.toString() << ')';
+
+	for (auto &l : item.getLocations())
+		d << "  " << l;
+
+	return d;
+}

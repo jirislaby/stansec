@@ -8,6 +8,7 @@
  * Licensed under GPLv2.
  */
 
+#include <QDebug>
 #include <QString>
 
 #include <clang/Basic/SourceLocation.h>
@@ -79,6 +80,15 @@ private:
     QString description;
 };
 
+}
+
+inline QDebug operator<<(QDebug d, const checker::CheckerErrorTraceLocation &item)
+{
+	d << item.getUnitName() + ':' +
+		     QString::number(item.getLineNumber()) + ':' +
+		     QString::number(item.getColumnNumber()) <<
+	     item.getDescription();
+	return d;
 }
 
 #endif

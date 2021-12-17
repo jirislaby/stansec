@@ -8,6 +8,7 @@
  * Licensed under GPLv2.
  */
 
+#include <QDebug>
 #include <QList>
 #include <QPair>
 #include <QString>
@@ -102,5 +103,7 @@ private:
 };
 
 }
+
+QDebug operator<<(QDebug d, const checker::CheckerErrorTrace &item);
 
 #endif
