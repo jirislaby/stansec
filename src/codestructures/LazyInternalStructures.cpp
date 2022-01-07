@@ -18,16 +18,18 @@
 #include "CFGsNavigator.h"
 #include "LazyInternalStructures.h"
 
-codestructs::LazyInternalStructures::~LazyInternalStructures()
+using namespace codestructs;
+
+LazyInternalStructures::~LazyInternalStructures()
 {
 	delete argumentPassingManager;
 	delete callGraph;
 	delete navigator;
 }
 
-QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles() const
+QList<CFGHandle> LazyInternalStructures::getCFGHandles() const
 {
-	QList<codestructs::CFGHandle> result;
+	QList<CFGHandle> result;
 
 	for (const auto &d : TU->decls())
 	    if (auto fd = llvm::dyn_cast<const clang::FunctionDecl>(d)) {
@@ -35,30 +37,30 @@ QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles
 		    continue;
 		if (!llvm::isa<clang::NamedDecl>(d))
 		    continue;
-		result.append(codestructs::CFGHandle(mgr.getCFG(d), fd));
+		result.append(CFGHandle(mgr.getCFG(d), fd));
 	    }
 	return result;
 }
 
-void codestructs::LazyInternalStructures::setStartFunctions() {
+void LazyInternalStructures::setStartFunctions() {
 	assert(startFunctions.empty());
 	startFunctions = StartFunctionsSetBuilder::run(*this, *getCallGraph());
 }
 
-void codestructs::LazyInternalStructures::setCallGraph()
+void LazyInternalStructures::setCallGraph()
 {
 	assert(!callGraph);
 	callGraph = new clang::CallGraph();
 	callGraph->addToCallGraph(const_cast<clang::TranslationUnitDecl *>(TU));
 }
 
-void codestructs::LazyInternalStructures::setArgumentPassingManager() {
+void LazyInternalStructures::setArgumentPassingManager() {
 	assert(!argumentPassingManager);
-	argumentPassingManager = new codestructs::ArgumentPassingManager(getNavigator(),
+	argumentPassingManager = new ArgumentPassingManager(getNavigator(),
 							    getNodeToCFGdictionary());
 }
 
-void codestructs::LazyInternalStructures::setReturnValuePassingManager() {
+void LazyInternalStructures::setReturnValuePassingManager() {
 #if 0
 	if (returnValuePassingManager == null)
 		returnValuePassingManager =
@@ -68,12 +70,12 @@ void codestructs::LazyInternalStructures::setReturnValuePassingManager() {
 #endif
 }
 
-void codestructs::LazyInternalStructures::setNodeToCFGdictionary() {
+void LazyInternalStructures::setNodeToCFGdictionary() {
 	assert(nodeToCFGdictionary.empty());
 	NodeToCFGdictionaryBuilder::run(getCFGHandles(), nodeToCFGdictionary);
 }
 
-void codestructs::LazyInternalStructures::setElementToCFGdictionary() {
+void LazyInternalStructures::setElementToCFGdictionary() {
 #if 0
 	if (elementToCFGdictionary == null)
 		elementToCFGdictionary = new ElementCFGdictionary(getCFGHandles());
