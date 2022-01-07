@@ -60,6 +60,9 @@ CheckingResult ReachabilityChecker::check(const LazyInternalStructures &internal
 	    if (!node.getOptPredecessors().isEmpty())
 		continue;
 #endif
+	    if (node->empty() && !node->getTerminator().isValid())
+		    continue;
+
 #if 0
 	    QString elemName = nodeElem.getName();
 	    if (elemName.equals("intConst") &&
@@ -86,6 +89,8 @@ CheckingResult ReachabilityChecker::check(const LazyInternalStructures &internal
 #endif
 	    QList<const clang::Stmt *> trace;
 	    buildTrace(trace, node);
+
+	    assert(!trace.empty());
 
 	    auto nodeComm = "This node is unreachable";
 	    errReceiver.receive(CheckerError("Unreachable code",
