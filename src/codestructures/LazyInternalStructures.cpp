@@ -33,9 +33,9 @@ QList<codestructs::CFGHandle> codestructs::LazyInternalStructures::getCFGHandles
 	    if (auto fd = llvm::dyn_cast<const clang::FunctionDecl>(d)) {
 		if (!fd->isThisDeclarationADefinition() || !fd->hasBody())
 		    continue;
-		if (llvm::isa<clang::NamedDecl>(d)) {
-		    result.append(codestructs::CFGHandle(mgr.getCFG(d), fd));
-		}
+		if (!llvm::isa<clang::NamedDecl>(d))
+		    continue;
+		result.append(codestructs::CFGHandle(mgr.getCFG(d), fd));
 	    }
 	return result;
 }
