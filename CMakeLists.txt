@@ -10,6 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+include_directories(include)
 add_compile_options(-Wall)
 
 if (USE_WEXTRA)
