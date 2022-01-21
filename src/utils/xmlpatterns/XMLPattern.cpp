@@ -89,8 +89,11 @@ XMLPattern::matchesNode(const clang::CallExpr *node, const QDomElement &xmlPivot
 	    return llvm::Optional<XMLPatternVariablesAssignment>();
     }
 
-    auto callee = llvm::dyn_cast<clang::FunctionDecl>(node->getCalleeDecl());
-    assert(callee);
+    auto callee = llvm::dyn_cast_or_null<clang::FunctionDecl>(node->getCalleeDecl());
+    if (!callee) {
+	    //qDebug() << __func__ << "callee is not known, skipping";
+	    return llvm::Optional<XMLPatternVariablesAssignment>();
+    }
     auto calleeName = QString::fromStdString(callee->getName().str());
 
     //qDebug() << __func__ << "comparing name" << calleeName << "to" << funElement.text();
