@@ -8,6 +8,7 @@
  * Licensed under GPLv2.
  */
 
+#include "InterproceduralCFGsNavigator.h"
 #include "LazyInternalStructures.h"
 
 namespace codestructs {
@@ -19,11 +20,8 @@ public:
 	LazyInternalStructures(mgr, TU) { }
 
     virtual void setNavigator() override {
-#if 0
-	if (navigator == null)
-	    navigator = new InterproceduralCFGsNavigator(getCFGHandles(),
-							 getElementToCFGdictionary());
-#endif
+	assert(!navigator);
+	navigator = new InterproceduralCFGsNavigator(getCFGHandles());
     }
 };
 

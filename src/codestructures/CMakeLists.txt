@@ -14,6 +14,8 @@ add_library(codestructures STATIC
 	CFGNode.cpp
 	CFGNode.h
 	CFGsNavigator.h
+	InterproceduralCFGsNavigator.cpp
+	InterproceduralCFGsNavigator.h
 	IntraproceduralCFGsNavigator.h
 	LazyInternalStructures.cpp
 	LazyInternalStructures.h

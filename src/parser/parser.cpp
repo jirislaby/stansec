@@ -18,6 +18,7 @@
 #include <clang/Tooling/Tooling.h>
 
 #include "../codestructures/LazyInternalStructuresIntra.h"
+#include "../codestructures/LazyInternalStructuresInter.h"
 
 #include "parser.h"
 
@@ -39,7 +40,8 @@ public:
 		auto chkMgr = mgr.getCheckerManager();
 		auto p = parserMap[&chkMgr->getAnalyzerOptions()];
 
-		codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
+		//codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
+		codestructs::LazyInternalStructuresInter LIS(mgr, TU);
 
 		p->check(LIS, TU);
 
