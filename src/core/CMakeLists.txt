@@ -1,10 +1,14 @@
 include_directories(../ui)
 
-add_definitions(-DDATADIR="${CMAKE_INSTALL_FULL_DATADIR}")
+add_compile_definitions(DATADIR="${CMAKE_INSTALL_FULL_DATADIR}")
 
-find_package(Qt5 COMPONENTS Core Gui LinguistTools Widgets REQUIRED)
+set(QT_COMPONENTS Core Gui LinguistTools Widgets)
+find_package(Qt6 QUIET COMPONENTS Core5Compat ${QT_COMPONENTS})
+if (NOT Qt6_FOUND)
+	find_package(Qt5 REQUIRED COMPONENTS ${QT_COMPONENTS})
+endif()
 
-qt5_create_translation(QM_FILES
+qt_create_translation(QM_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}
 	../ui
 	../../trans/stansec_cs.ts)
@@ -27,7 +31,10 @@ add_executable(stansec
 	${QM_FILES}
     )
 
-target_link_libraries(stansec checker parser Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(stansec checker parser Qt::Core Qt::Gui Qt::Widgets)
+if (Qt6_FOUND)
+    target_link_libraries(stansec Qt::Core5Compat)
+endif()
 
 install(TARGETS stansec
 	RUNTIME DESTINATION bin)

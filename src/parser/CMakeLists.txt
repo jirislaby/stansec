@@ -1,4 +1,8 @@
-find_package(Qt5 COMPONENTS Core REQUIRED)
+set(QT_COMPONENTS Core)
+find_package(Qt6 QUIET COMPONENTS ${QT_COMPONENTS})
+if (NOT Qt6_FOUND)
+	find_package(Qt5 REQUIRED COMPONENTS ${QT_COMPONENTS})
+endif()
 
 add_compile_definitions(QT_NO_FOREACH)
 
@@ -24,4 +28,4 @@ add_library(parser STATIC
     parser.h
     )
 
-target_link_libraries(parser checker libclang clang-cpp ${llvm_libs} Qt5::Core)
+target_link_libraries(parser checker libclang clang-cpp ${llvm_libs} Qt::Core)

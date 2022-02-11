@@ -1,4 +1,8 @@
-find_package(Qt5 COMPONENTS Core Xml REQUIRED)
+set(QT_COMPONENTS Core Xml)
+find_package(Qt6 QUIET COMPONENTS ${QT_COMPONENTS})
+if (NOT Qt6_FOUND)
+	find_package(Qt5 REQUIRED COMPONENTS ${QT_COMPONENTS})
+endif()
 
 add_compile_definitions(QT_NO_FOREACH)
 
@@ -29,4 +33,4 @@ add_library(codestructures STATIC
 	traversal/CFGTraversal.h
 	)
 
-target_link_libraries(codestructures utils Qt5::Core Qt5::Xml)
+target_link_libraries(codestructures utils Qt::Core Qt::Xml)
