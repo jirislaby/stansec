@@ -47,33 +47,33 @@ public:
 	return Node();
     }
 
-    virtual NodeSet getCallersFromStart(const Node &node) const override {
-	return NodeSet();
+    virtual NodeList getCallersFromStart(const Node &node) const override {
+	return NodeList();
     }
 
-    virtual NodeSet getCallersFromEnd(const Node &node) const override {
-	return NodeSet();
+    virtual NodeList getCallersFromEnd(const Node &node) const override {
+	return NodeList();
     }
 
-    virtual NodeSet callSites() const override {
-	return NodeSet();
+    virtual NodeList callSites() const override {
+	return NodeList();
     }
 
 private:
     void buildBeginingsAndEndings(const QList<CFGHandle> &CFGs) {
 	for (const auto &cfg: CFGs) {
-	    getBeginnings().insert(cfg.getStartNode());
-	    getEndings().insert(cfg.getEndNode());
+	    getBeginnings().append(cfg.getStartNode());
+	    getEndings().append(cfg.getEndNode());
         }
     }
 
-    NodeSet &getBeginnings() { return beginnings; }
-    const NodeSet getBeginnings() const { return beginnings; }
-    NodeSet &getEndings() { return endings; }
-    const NodeSet getEndings() const { return endings; }
+    NodeList &getBeginnings() { return beginnings; }
+    const NodeList getBeginnings() const { return beginnings; }
+    NodeList &getEndings() { return endings; }
+    const NodeList getEndings() const { return endings; }
 
-    NodeSet beginnings;
-    NodeSet endings;
+    NodeList beginnings;
+    NodeList endings;
 };
 
 }

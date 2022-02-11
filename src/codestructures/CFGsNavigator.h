@@ -8,7 +8,7 @@
  * Licensed under GPLv2.
  */
 
-#include <QSet>
+#include <QList>
 
 namespace codestructs {
 
@@ -17,7 +17,7 @@ class CFGNode;
 class CFGsNavigator {
 public:
 	using Node = codestructs::CFGNode;
-	using NodeSet = QSet<Node>;
+	using NodeList = QList<Node>;
 
 	virtual ~CFGsNavigator() {}
 
@@ -26,9 +26,9 @@ public:
 	virtual bool isEndNode(const Node &node) const = 0;
 	virtual Node getCalleeStart(const Node &node) const = 0;
 	virtual Node getCalleeEnd(const Node &node) const = 0;
-	virtual NodeSet getCallersFromStart(const Node &node) const = 0;
-	virtual NodeSet getCallersFromEnd(const Node &node) const = 0;
-	virtual NodeSet callSites() const = 0;
+	virtual NodeList getCallersFromStart(const Node &node) const = 0;
+	virtual NodeList getCallersFromEnd(const Node &node) const = 0;
+	virtual NodeList callSites() const = 0;
 };
 
 }
