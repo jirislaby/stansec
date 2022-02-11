@@ -46,7 +46,7 @@ public:
     llvm::Optional<QString> pass(const clang::Stmt *from,
 				 const QString &argument,
 				 const codestructs::CFGNode &to) {
-	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
+	return PassingSolver::pass(argument, getMapping()[qMakePair(CFGNode(from), to)]);
     }
 
 private:
