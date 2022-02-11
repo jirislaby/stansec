@@ -48,7 +48,6 @@ public:
 	startFunctions = null;
         returnValuePassingManager = null;
         nodeToCFGdictionary = null;
-        elementToCFGdictionary = null;
 #endif
     }
     ~LazyInternalStructures();
@@ -115,20 +114,13 @@ public:
     }
 
     QList<codestructs::CFGHandle> getCFGHandles() const;
-#if 0
-    ElementCFGdictionary getElementToCFGdictionary() {
-        if (elementToCFGdictionary == null)
-            setElementToCFGdictionary();
-        return elementToCFGdictionary;
-    }
-#endif
+
 //    public synchronized void clearStartFunctions() { startFunctions = null; }
 //    public synchronized void clearCallGraph() { callGraph = null; }
 //    public synchronized void clearArgumentPassingManager() { argumentPassingManager = null; }
 //    public synchronized void clearNavigator() { navigator = null; }
 //    public synchronized void clearNodeToCFGdictionary() { nodeToCFGdictionary = null; }
 //    public synchronized void clearCFGtoUnitDictionary() { cfgToUnitDictionary = null; }
-//    public synchronized void clearElementToCFGdictionary() { elementToCFGdictionary = null; }
 //
 //    public synchronized void clear() {
 //        clearStartFunctions();
@@ -160,7 +152,6 @@ private:
     codestructs::ArgumentPassingManager *argumentPassingManager;
     //ReturnValuePassingManager returnValuePassingManager;
     NodeToCFGDictionary nodeToCFGdictionary;
-    //ElementCFGdictionary elementToCFGdictionary;
 
 protected:
     CFGsNavigator *navigator;
