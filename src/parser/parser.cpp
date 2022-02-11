@@ -40,8 +40,11 @@ public:
 		auto chkMgr = mgr.getCheckerManager();
 		auto p = parserMap[&chkMgr->getAnalyzerOptions()];
 
-		//codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
+#ifndef INTER
+		codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
+#else
 		codestructs::LazyInternalStructuresInter LIS(mgr, TU);
+#endif
 
 		p->check(LIS, TU);
 
