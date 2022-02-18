@@ -20,6 +20,7 @@
 namespace clang {
 class CFG;
 class CFGBlock;
+class CFGStmt;
 class Stmt;
 }
 
@@ -115,9 +116,19 @@ public:
     using VisitedStack = QStack<VisitedEdges>;
     using Path = CFGPathVisitor::Path;
 
+    template <typename CB>
+    static void visitBlockStmtsIdx(const clang::CFG *cfg,
+				   CB &cb) {
+	for (auto I = cfg->begin(), E = cfg->end(); I != E; ++I)
+		for (auto BI = (*I)->ref_begin(), BE = (*I)->ref_end(); BI != BE; ++BI)
+			if (auto s = (*BI)->getAs<clang::CFGStmt>())
+				if (cb(*I, s->getStmt(), (*BI).getIndexInBlock()))
+					return;
+    }
+
     static const clang::CFGBlock *findCFGBlock(const clang::CFG *cfg,
 					       const clang::Stmt *stmt,
-					       int *index = nullptr);
+					       size_t *index = nullptr);
 
     static void
     traverseCFGToBreadthForward(const clang::CFG *cfg,

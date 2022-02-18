@@ -11,6 +11,7 @@
 #include "../CFGNode.h"
 
 namespace clang {
+class CFGBlock;
 class Stmt;
 }
 
@@ -24,6 +25,17 @@ public:
 	void operator()(clang::Stmt *stmt) {
 	    visit(CFGNode(stmt));
 	}
+};
+
+class CFGVisitorIdx {
+public:
+	bool operator()(const clang::CFGBlock *blk, const clang::Stmt *stmt,
+			size_t index) {
+		return visit(blk, stmt, index);
+	}
+private:
+	virtual bool visit(const clang::CFGBlock *blk, const clang::Stmt *stmt,
+			   size_t index) = 0;
 };
 
 }
