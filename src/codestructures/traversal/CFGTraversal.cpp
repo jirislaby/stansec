@@ -94,12 +94,12 @@ void CFGTraversal::traverseCFGToBreadthForward(const clang::CFG *cfg,
 				 (*I)->succ_end());
 		continue;
 	    }
-	    for (auto BI = (*I)->begin(), BE = (*I)->end(); BI != BE; ++BI)
-		if (auto stmt = BI->getAs<clang::CFGStmt>()) {
+	    for (auto BI = (*I)->ref_begin(), BE = (*I)->ref_end(); BI != BE; ++BI)
+		if (auto stmt = (*BI)->getAs<clang::CFGStmt>()) {
 		    if (seeking && startNode->getStmt() != stmt->getStmt())
 			continue;
 		    seeking = false;
-		    if (!visitor.visit(CFGNode(stmt->getStmt()))) {
+		    if (!visitor.visit(CFGNode(*I, (*BI).getIndexInBlock()))) {
 			I.Visited.insert((*I)->succ_begin(),
 					 (*I)->succ_end());
 			break;

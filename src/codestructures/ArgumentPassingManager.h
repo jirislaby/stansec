@@ -43,10 +43,11 @@ public:
 	return !getMapping().contains(qMakePair(from, to));
     }
 
-    llvm::Optional<QString> pass(const clang::Stmt *from,
+    llvm::Optional<QString> pass(const codestructs::CFGNode &from,
 				 const QString &argument,
 				 const codestructs::CFGNode &to) {
-	return PassingSolver::pass(argument, getMapping()[qMakePair(CFGNode(from), to)]);
+	assert(from.hasStmt());
+	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
     }
 
 private:

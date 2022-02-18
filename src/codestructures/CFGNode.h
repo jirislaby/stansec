@@ -20,19 +20,17 @@ namespace codestructs {
 class CFGNode {
 public:
 	CFGNode() : ptr(nullptr) {}
-	explicit CFGNode(const clang::Stmt *stmt) : stmt(stmt) {}
-	explicit CFGNode(const clang::CFGBlock *blk) : blk(blk),
-		_hasStmt(false) {}
+	explicit CFGNode(const clang::CFGBlock *blk,
+		int blkIndex = -1) : blk(blk), blkIndex(blkIndex) {}
+
+	const clang::CFGBlock *getBlock() const { return blk; }
+	int getBlockIdx() const { return blkIndex; }
 
 	bool isValid() const { return ptr; }
-	bool hasStmt() const { return _hasStmt; }
+	bool hasStmt() const { return blkIndex != -1; }
 
 	const clang::Stmt *getStmt() const {
-	    return hasStmt() ? stmt : nullptr;
-	}
-
-	const clang::CFGBlock *getBlock() const {
-	    return hasStmt() ? nullptr : blk;
+	    return hasStmt() ? _getStmt() : nullptr;
 	}
 
 	const void *getPointer() const { return ptr; }
@@ -40,12 +38,13 @@ public:
 	clang::SourceLocation getBeginLoc() const;
 	void dumpColor() const;
 private:
+	const clang::Stmt *_getStmt() const;
+
 	union {
 	    const clang::CFGBlock *blk;
-	    const clang::Stmt *stmt;
 	    void *ptr;
 	};
-	bool _hasStmt = true;
+	int blkIndex = -1;
 };
 
 QDebug operator<<(QDebug d, const CFGNode &item);

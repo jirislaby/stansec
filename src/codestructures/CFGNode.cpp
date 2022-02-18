@@ -29,14 +29,23 @@ void CFGNode::dumpColor() const
 		getBlock()->dump();
 }
 
+const clang::Stmt *CFGNode::_getStmt() const
+{
+	return blk->Elements[blkIndex].getAs<clang::CFGStmt>()->getStmt();
+}
+
 QDebug codestructs::operator<<(QDebug d, const CFGNode &item)
 {
-	if (!item.isValid())
+	if (!item.isValid()) {
 		d << "<invalid>";
-	else if (auto blk = item.getBlock())
+	} else if (auto stmt = item.getStmt()) {
+		d << "S:0x" + QString::number((quintptr)stmt, 16) <<
+		     "(B:" + QString::number(item.getBlock()->getBlockID()) +
+		     "[" + QString::number(item.getBlockIdx()) + "])";
+	} else {
+		auto blk = item.getBlock();
 		d << "B:" + QString::number(blk->getBlockID());
-	else if (auto stmt = item.getStmt())
-		d << "S:0x" + QString::number((quintptr)stmt, 16);
+	}
 
 	return d;
 }

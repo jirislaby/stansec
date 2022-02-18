@@ -10,6 +10,7 @@
 
 #include <QMap>
 
+#include "../codestructures/traversal/CFGTraversal.h"
 #include "CFGHandle.h"
 #include "InterproceduralCFGsNavigator.h"
 
@@ -22,18 +23,21 @@ void InterproceduralCFGsNavigator::build(const QList<CFGHandle> &CFGs)
 	for (const CFGHandle &cfgh : CFGs)
 		declHandle.insert(cfgh.getFD(), &cfgh);
 
-	for (const CFGHandle &cfgh : CFGs) {
-		auto visitor = [this, &declHandle](clang::Stmt *stmt) {
-			if (auto CE = llvm::dyn_cast<clang::CallExpr>(stmt)) {
-				auto callee = CE->getDirectCallee();
-				if (!callee || !declHandle.contains(callee))
-					return;
-				fillDictionaries(CFGNode(stmt),
-						 *declHandle[callee]);
-			}
-		};
-		cfgh.getCFG()->VisitBlockStmts(visitor);
-	}
+	const auto cb = [this, &declHandle](const clang::CFGBlock *blk,
+			const clang::Stmt *stmt, size_t idx) -> bool {
+		if (auto CE = llvm::dyn_cast<clang::CallExpr>(stmt)) {
+			auto callee = CE->getDirectCallee();
+			if (!callee || !declHandle.contains(callee))
+				return false;
+			fillDictionaries(CFGNode(blk, idx),
+					 *declHandle[callee]);
+		}
+		return false;
+	};
+
+	for (const CFGHandle &cfgh : CFGs)
+		codestructs::CFGTraversal::visitBlockStmtsIdx(cfgh.getCFG(),
+			cb);
 }
 
 void InterproceduralCFGsNavigator::fillDictionaries(const CFGNode &callSite,

@@ -20,11 +20,6 @@ namespace codestructs {
 class CFGVisitor {
 public:
 	virtual bool visit(const CFGNode &node/*, Element element*/) = 0;
-
-	/* for clang::CFG::VisitBlockStmts */
-	void operator()(clang::Stmt *stmt) {
-	    visit(CFGNode(stmt));
-	}
 };
 
 class CFGVisitorIdx {
