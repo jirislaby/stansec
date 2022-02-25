@@ -35,8 +35,6 @@ add_library(checker STATIC
 	automatonchecker/CheckerErrorBuilder.cpp
 	automatonchecker/CheckerErrorBuilder.h
 	automatonchecker/ComposedAutomatonID.h
-	automatonchecker/ConnectPatternLocationToSuccessors.cpp
-	automatonchecker/ConnectPatternLocationToSuccessors.h
 	automatonchecker/ErrorRule.h
 	automatonchecker/ErrorTracesListCreator.cpp
 	automatonchecker/ErrorTracesListCreator.h

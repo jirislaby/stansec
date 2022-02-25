@@ -3,6 +3,9 @@
  *
  * Licensed under GPLv2.
  */
+
+#include <llvm/ADT/BreadthFirstIterator.h>
+
 #include <clang/Analysis/CFG.h>
 #include <clang/Basic/SourceManager.h>
 #include <clang/Lex/Lexer.h>
@@ -23,7 +26,6 @@
 
 #include "AutomatonStateTransferManager.h"
 #include "CallSiteDetector.h"
-#include "ConnectPatternLocationToSuccessors.h"
 #include "NodeLocationDictionary.h"
 #include "PatternLocation.h"
 #include "PatternLocationBuilder.h"
@@ -271,20 +273,57 @@ void PatternLocationBuilder::setStateTransferorToLocations(const QList<checker::
 		}
 }
 
+PatternLocation *PatternLocationBuilder::connectInsideBlock(NodeLocationDictionary &NLD,
+							    const clang::CFGBlock *blk,
+							    checker::Locations &stmtList)
+{
+	auto I = stmtList.begin();
+	const auto &fiStmt = *(I++);
+	auto refLoc = fiStmt.second.second;
+
+	for (auto E = stmtList.end(); I != E; ++I) {
+	    auto fi = I->second.first;
+	    //assert(node == fi->getCFGreferenceNode());
+	    auto &succs = refLoc->getSuccessorPatternLocations();
+	    if (!succs.contains(fi))
+		succs.append(fi);
+	    refLoc = I->second.second;
+	}
+
+	return refLoc;
+}
+
 void PatternLocationBuilder::createIntraproceduralConnectionsBetweenPatternLocations(NodeLocationDictionary &NLD,
 										     const codestructs::CFGHandle &cfg)
 {
 	for (const auto &blk: *cfg.getCFG()) {
-	    if (NLD.find(blk) == NLD.end())
+	    const auto blkI = NLD.find(blk);
+	    if (blkI == NLD.end())
 		continue;
-	    for (const auto &blkLocationsPair : NLD[blk]) {
-		const auto &locationsPair = blkLocationsPair.second;
-		auto refNode = locationsPair.second->getCFGreferenceNode();
-		ConnectPatternLocationToSuccessors connect(locationsPair.second,
-							   NLD);
-		codestructs::CFGTraversal::traverseCFGToBreadthForward(cfg.getCFG(),
-								       connect,
-								       &refNode);
+
+	    auto last = connectInsideBlock(NLD, blk, *blkI);
+
+	    auto I = llvm::bf_begin(blk);
+	    ++I; // skip self
+	    for (auto E = llvm::bf_end(blk); I != E; ++I) {
+		    auto it = NLD.find(*I);
+		    if (it == NLD.end())
+			continue;
+
+		    const auto &nodeLocationsList = *it;
+		    const auto &nodeLocationsPair = nodeLocationsList.first().second;
+
+		    if (nodeLocationsPair.second == last)
+			continue;
+
+		    auto fi = nodeLocationsPair.first;
+		    //assert(node == fi->getCFGreferenceNode());
+		    auto &succs = last->getSuccessorPatternLocations();
+		    if (!succs.contains(fi))
+			succs.append(fi);
+
+		    I.Visited.insert((*I)->succ_begin(),
+				     (*I)->succ_end());
 	    }
 	}
 }

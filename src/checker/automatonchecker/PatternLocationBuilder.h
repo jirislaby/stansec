@@ -81,6 +81,9 @@ private:
 					      checker::AutomatonStateTransferManager *transferor);
     static void createIntraproceduralConnectionsBetweenPatternLocations(NodeLocationDictionary &nodeLocationDictionary,
 									const codestructs::CFGHandle &cfg);
+    static PatternLocation *connectInsideBlock(NodeLocationDictionary &NLD,
+					       const clang::CFGBlock *blk,
+					       Locations &stmtList);
 
     static void createInterproceduralConnectionsBetweenPatternLocations(const NodeLocationDictionary &nodeLocationDictionary,
 		    const codestructs::CFGsNavigator &navigator,
