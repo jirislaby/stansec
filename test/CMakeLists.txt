@@ -15,3 +15,9 @@ add_test(NAME lockGoodTest
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set_property(TEST lockGoodTest
 	PROPERTY FAIL_REGULAR_EXPRESSION "error \".*\" at:")
+
+add_test(NAME reachBadTest
+	COMMAND stansec reach_bad.c
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TEST reachBadTest
+	PROPERTY PASS_REGULAR_EXPRESSION "This node is unreachable .*line: 7")
