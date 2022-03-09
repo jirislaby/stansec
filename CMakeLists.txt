@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(stansec VERSION 1.0.0 LANGUAGES CXX)
 
+enable_testing()
+
 include(GNUInstallDirs)
 
 set(CMAKE_AUTOMOC ON)
@@ -18,3 +20,4 @@ if (USE_WERROR)
 endif()
 
 add_subdirectory(src)
+add_subdirectory(test)
