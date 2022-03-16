@@ -36,5 +36,9 @@ if (Qt6_FOUND)
     target_link_libraries(stansec Qt::Core5Compat)
 endif()
 
+file(CREATE_LINK stansec
+    ${CMAKE_CURRENT_BINARY_DIR}/stansec-qt
+    COPY_ON_ERROR SYMBOLIC)
+
 install(TARGETS stansec
 	RUNTIME DESTINATION bin)

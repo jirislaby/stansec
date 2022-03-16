@@ -7,18 +7,21 @@
  * Licensed under GPLv2.
  */
 
+#include <memory>
+
 #include <QObject>
 
-#include "CmdLineManager.h"
+class QCoreApplication;
 
 namespace core {
+
+class CmdLineManager;
 
 class Stansec : public QObject
 {
 	Q_OBJECT
 public:
-	Stansec(QApplication &app, const CmdLineManager &cmdLine) :
-		app(app), cmdLine(cmdLine) {}
+	Stansec(int argc, char *argv[], bool GUI);
 
 	int startUI();
 
@@ -26,11 +29,9 @@ private:
 	int startTUI();
 	int startGUI();
 
-	QApplication &app;
-	const CmdLineManager &cmdLine;
-
-signals:
-
+	std::unique_ptr<QCoreApplication> app;
+	std::unique_ptr<CmdLineManager> cmdLine;
+	bool GUI;
 };
 
 } // namespace core

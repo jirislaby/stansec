@@ -23,7 +23,7 @@ using namespace core;
 
 //import org.apache.log4j.Level;
 
-CmdLineManager::CmdLineManager(QApplication &a)
+CmdLineManager::CmdLineManager(QCoreApplication &a)
 {
     QCommandLineParser parser;
 
@@ -60,9 +60,6 @@ CmdLineManager::CmdLineManager(QApplication &a)
     QCommandLineOption dumpCFG("dump-cfg", tr("Dump control flow graphs in Dot format."));
     parser.addOption(dumpCFG);
 
-    QCommandLineOption gui({ "g", "gui" }, tr("Starts GUI."));
-    parser.addOption(gui);
-
     QCommandLineOption debugLevel({ "d", "debug-level" }, tr("Sets the debug level."),
 		    tr("n"), "-1");
     parser.addOption(debugLevel);
@@ -78,7 +75,6 @@ CmdLineManager::CmdLineManager(QApplication &a)
     _makeParams = parser.value(makeParams);
     _jobfile = parser.value(jobfile);
     _dumpCFG = parser.isSet(dumpCFG);
-    _gui = parser.isSet(gui);
     _debugLevel = parser.value(debugLevel).toInt();
 
 

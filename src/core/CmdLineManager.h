@@ -8,7 +8,7 @@
  * Licensed under GPLv2.
  */
 
-#include <QApplication>
+#include <QCoreApplication>
 //#include <QList>
 #include <QString>
 #include <QStringList>
@@ -20,12 +20,11 @@ class CmdLineManager : public QObject {
 
     // package-private section
 public:
-    CmdLineManager(QApplication &a);
+    CmdLineManager(QCoreApplication &a);
 
     QStringList positionalArguments() const { return _positionalArguments; }
 
     bool dumpCFG() const { return _dumpCFG; }
-    bool startGUI() const { return _gui; }
 
 #if 0
     SourceConfiguration getSourceConfiguration() const;
@@ -213,7 +212,6 @@ private:
     QString _makeParams;
     QString _jobfile;
     bool _dumpCFG;
-    bool _gui;
     int _debugLevel;
     QStringList _positionalArguments;
 };

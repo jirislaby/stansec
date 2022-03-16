@@ -180,31 +180,26 @@
     </message>
     <message>
         <location filename="../src/core/CmdLineManager.cpp" line="63"/>
-        <source>Starts GUI.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="66"/>
         <source>Sets the debug level.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="67"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="64"/>
         <source>n</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="70"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="67"/>
         <source>sources</source>
         <translation>zdroje</translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="71"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="68"/>
         <source>Sources to check</source>
         <translation>Zdroje k analýze</translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="72"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="69"/>
         <source>[sources...]</source>
         <translation>[zdroje...]</translation>
     </message>
@@ -212,17 +207,17 @@
 <context>
     <name>core::Stansec</name>
     <message>
-        <location filename="../src/core/stansec.cpp" line="37"/>
+        <location filename="../src/core/stansec.cpp" line="53"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="42"/>
+        <location filename="../src/core/stansec.cpp" line="58"/>
         <source>Cannot open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="44"/>
+        <location filename="../src/core/stansec.cpp" line="60"/>
         <source>due to error</source>
         <translation type="unfinished"></translation>
     </message>
