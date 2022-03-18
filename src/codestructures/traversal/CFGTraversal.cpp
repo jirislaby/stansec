@@ -52,34 +52,33 @@ void CFGTraversal::traverseCFGToBreadthForward(const clang::CFG *cfg,
 					       CFGVisitor &visitor,
 					       const Node *startNode) {
 	const clang::CFGBlock *blk;
-	bool seeking = false;
+	int seeking = -1;
 	if (startNode) {
 		blk = startNode->getBlock();
-		seeking = startNode->hasStmt();
+		if (startNode->hasStmt())
+		    seeking = startNode->getBlockIdx();
+		assert(blk->getParent() == cfg);
 	} else
 	    blk = &cfg->getEntry();
 
-	/* different CFG */
-	if (!blk)
-	    return;
-
 	for (auto I = llvm::bf_begin(blk); I != llvm::bf_end(blk); ++I) {
-	    if (!seeking && !visitor.visit(CFGNode(*I))) {
+	    if (seeking < 0 && !visitor.visit(CFGNode(*I))) {
 		I.Visited.insert((*I)->succ_begin(),
 				 (*I)->succ_end());
 		continue;
 	    }
-	    for (auto BI = (*I)->ref_begin(), BE = (*I)->ref_end(); BI != BE; ++BI)
-		if (auto stmt = (*BI)->getAs<clang::CFGStmt>()) {
-		    if (seeking && startNode->getStmt() != stmt->getStmt())
-			continue;
-		    seeking = false;
+	    auto BI = (*I)->ref_begin();
+	    if (seeking >= 0) {
+		BI = BI + seeking;
+		seeking = -1;
+	    }
+	    for (auto BE = (*I)->ref_end(); BI != BE; ++BI)
+		if (auto stmt = (*BI)->getAs<clang::CFGStmt>())
 		    if (!visitor.visit(CFGNode(*I, (*BI).getIndexInBlock()))) {
 			I.Visited.insert((*I)->succ_begin(),
 					 (*I)->succ_end());
 			break;
 		    }
-		}
 	}
 }
 #if 0

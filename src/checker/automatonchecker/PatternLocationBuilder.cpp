@@ -274,8 +274,10 @@ void PatternLocationBuilder::setStateTransferorToLocations(const QList<checker::
 void PatternLocationBuilder::createIntraproceduralConnectionsBetweenPatternLocations(NodeLocationDictionary &NLD,
 										     const codestructs::CFGHandle &cfg)
 {
-	for (const auto &locations : NLD.values()) {
-	    for (const auto &blkLocationsPair : locations) {
+	for (const auto &blk: *cfg.getCFG()) {
+	    if (NLD.find(blk) == NLD.end())
+		continue;
+	    for (const auto &blkLocationsPair : NLD[blk]) {
 		const auto &locationsPair = blkLocationsPair.second;
 		auto refNode = locationsPair.second->getCFGreferenceNode();
 		ConnectPatternLocationToSuccessors connect(locationsPair.second,
