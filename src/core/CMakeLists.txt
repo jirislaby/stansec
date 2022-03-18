@@ -42,3 +42,6 @@ file(CREATE_LINK stansec
 
 install(TARGETS stansec
 	RUNTIME DESTINATION bin)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/stansec-qt
+	TYPE BIN)
