@@ -17,6 +17,7 @@
 #include "../CheckerErrorTrace.h"
 
 #include "ErrorRule.h"
+#include "FalsePositivesDetector.h"
 
 namespace codestructs {
 class LazyInternalStructures;
@@ -108,7 +109,7 @@ private:
     QVector<CheckerErrorTrace> errorTracesList;
     /*const QList<FalsePositivesDetector>*/void *detectors;
     AutomatonCheckerLogger &monitor;
-    int totalImportance;// = FalsePositivesDetector::getBugDefaultImportance();
+    int totalImportance = FalsePositivesDetector::getBugDefaultImportance();
     QString failMsg;
     int numRejectedMeasure = 0;
 };
