@@ -126,10 +126,6 @@ public:
 					return;
     }
 
-    static const clang::CFGBlock *findCFGBlock(const clang::CFG *cfg,
-					       const clang::Stmt *stmt,
-					       size_t *index = nullptr);
-
     static void
     traverseCFGToBreadthForward(const clang::CFG *cfg,
 				CFGVisitor &visitor,

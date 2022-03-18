@@ -48,39 +48,14 @@ BackwardCFGNodeFollowersInterprocedural::get(const Node &node) const
 	//return node.getPredecessors();
 }
 
-const clang::CFGBlock *CFGTraversal::findCFGBlock(const clang::CFG *cfg,
-						  const clang::Stmt *stmt,
-						  size_t *index)
-{
-	const clang::CFGBlock *retval = nullptr;
-
-	const auto cb = [stmt, index, &retval](const clang::CFGBlock *blk,
-			const clang::Stmt *stmt2, size_t index2) -> bool {
-		if (stmt == stmt2) {
-			if (index)
-			    *index = index2;
-			retval = blk;
-			return true;
-		}
-		return false;
-	};
-
-	visitBlockStmtsIdx(cfg, cb);
-
-	return retval;
-}
-
 void CFGTraversal::traverseCFGToBreadthForward(const clang::CFG *cfg,
 					       CFGVisitor &visitor,
 					       const Node *startNode) {
 	const clang::CFGBlock *blk;
 	bool seeking = false;
 	if (startNode) {
-		if (startNode->hasStmt()) {
-			blk = findCFGBlock(cfg, startNode->getStmt());
-			seeking = true;
-		} else
-			blk = startNode->getBlock();
+		blk = startNode->getBlock();
+		seeking = startNode->hasStmt();
 	} else
 	    blk = &cfg->getEntry();
 
