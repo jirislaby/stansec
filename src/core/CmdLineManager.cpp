@@ -7,6 +7,7 @@
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QString>
 
 #include "CmdLineManager.h"

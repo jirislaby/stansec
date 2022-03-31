@@ -138,68 +138,68 @@
 <context>
     <name>core::CmdLineManager</name>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="38"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="39"/>
         <source>Use simpler intraprocedural analysis instead of much more complex interprocedural analysis. Affects all checkers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="43"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="44"/>
         <source>Checker name and (possibly) configuration. Can be used multiple times.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="49"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="50"/>
         <source>Makefile specifying input files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="50"/>
-        <location filename="../src/core/CmdLineManager.cpp" line="57"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="51"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="58"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="52"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="53"/>
         <source>Parameters passed to the make tool.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="53"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="54"/>
         <source>parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="56"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="57"/>
         <source>Jobfile specifying input files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="60"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="61"/>
         <source>Dump control flow graphs in Dot format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="63"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="64"/>
         <source>Sets the debug level.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="64"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="65"/>
         <source>n</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="67"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="68"/>
         <source>sources</source>
         <translation>zdroje</translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="68"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="69"/>
         <source>Sources to check</source>
         <translation>Zdroje k analýze</translation>
     </message>
     <message>
-        <location filename="../src/core/CmdLineManager.cpp" line="69"/>
+        <location filename="../src/core/CmdLineManager.cpp" line="70"/>
         <source>[sources...]</source>
         <translation>[zdroje...]</translation>
     </message>

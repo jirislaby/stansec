@@ -9,13 +9,12 @@
 
 #include <memory>
 
+#include <QCoreApplication>
 #include <QObject>
 
-class QCoreApplication;
+#include "CmdLineManager.h"
 
 namespace core {
-
-class CmdLineManager;
 
 class Stansec : public QObject
 {
