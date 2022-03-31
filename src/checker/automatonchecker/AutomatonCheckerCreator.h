@@ -24,11 +24,11 @@ public:
 
 	}
 
-	QString getCheckerName() override {
+	QString getCheckerName() const override {
 	    return getNameForCheckerFactory();
 	}
 
-	QString getCheckerCreationInfo() override {
+	QString getCheckerCreationInfo() const override {
 	    return "   AutomatonChecker is a static checker which is able to "
 	       "detect locking problems, interrupts enabling/disabling "
 	       "problems, unnecessary check optimizations and points-to "
@@ -47,12 +47,12 @@ public:
                "distributed with Stanse as well.";
 	}
 
-	QList<QString> getDataFilesExtensions() override {
+	QList<QString> getDataFilesExtensions() const override {
 	    QList<QString> result({"xml"});
 	    return result;
 	}
 
-    virtual bool checkArgumentList(const QList<QFile *> &args) override {
+    virtual bool checkArgumentList(const QList<QFile *> &args) const override {
 	return args.size() == 1 &&
 	       args[0]->fileName().endsWith(".xml", Qt::CaseInsensitive);
     }

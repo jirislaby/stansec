@@ -26,10 +26,10 @@ class CheckerCreator {
 public:
     CheckerCreator() {}
 
-    virtual QString getCheckerName() = 0;
-    virtual QString getCheckerCreationInfo() = 0;
-    virtual QList<QString> getDataFilesExtensions() = 0;
-    virtual bool checkArgumentList(const QList<QFile *> &args) = 0;
+    virtual QString getCheckerName() const = 0;
+    virtual QString getCheckerCreationInfo() const = 0;
+    virtual QList<QString> getDataFilesExtensions() const = 0;
+    virtual bool checkArgumentList(const QList<QFile *> &args) const = 0;
     virtual std::unique_ptr<Checker> createInterprocedural(const clang::TranslationUnitDecl *TU) = 0;
     //throws CheckerException;
     virtual std::unique_ptr<Checker> createIntraprocedural(const clang::TranslationUnitDecl *TU) = 0;

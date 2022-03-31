@@ -25,11 +25,11 @@ class ReachabilityCheckerCreator : public CheckerCreator {
 
 public:
 
-    virtual QString getCheckerName() override {
+    virtual QString getCheckerName() const override {
         return getNameForCheckerFactory();
     }
 
-    virtual QString getCheckerCreationInfo() override {
+    virtual QString getCheckerCreationInfo() const override {
 	return "   ReachabilityChecker is a static checker which is able to "
                "detect unreachable code.";
     }
@@ -42,12 +42,12 @@ public:
 	return createIntraprocedural(TU);
     }
 
-    virtual QList<QString> getDataFilesExtensions() override {
+    virtual QList<QString> getDataFilesExtensions() const override {
 	/*throw new UnsupportedOperationException("Reachability Checker needs no data");*/
 	return QList<QString>();
     }
 
-    virtual bool checkArgumentList(const QList<QFile *> &args) override {
+    virtual bool checkArgumentList(const QList<QFile *> &args) const override {
         return args.size() == 0;
     }
 
