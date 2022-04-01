@@ -34,12 +34,14 @@ public:
                "detect unreachable code.";
     }
 
-    virtual std::unique_ptr<Checker> createIntraprocedural() override {
+    virtual std::unique_ptr<Checker>
+    createIntraprocedural(const QStringList &args) override {
 	return std::make_unique<ReachabilityChecker>();
     }
 
-    virtual std::unique_ptr<Checker> createInterprocedural() override {
-	return createIntraprocedural();
+    virtual std::unique_ptr<Checker>
+    createInterprocedural(const QStringList &args) override {
+	return createIntraprocedural(args);
     }
 
     virtual QStringList getDataFilesExtensions() const override {

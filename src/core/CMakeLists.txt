@@ -16,6 +16,9 @@ qt_create_translation(QM_FILES
 add_compile_definitions(QT_NO_FOREACH)
 
 add_executable(stansec
+	CheckerConfiguration.cpp
+	CheckerConfiguration.h
+	Configuration.h
 	CmdLineManager.cpp
 	CmdLineManager.h
 	main.cpp

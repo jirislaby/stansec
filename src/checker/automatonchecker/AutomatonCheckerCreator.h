@@ -21,9 +21,7 @@ namespace checker {
 
 class AutomatonCheckerCreator : public CheckerCreator {
 public:
-	AutomatonCheckerCreator(const QList<QFile *> &args) : xmlFile(*args[0]) {
-
-	}
+	AutomatonCheckerCreator() { }
 
 	QString getCheckerName() const override {
 	    return getNameForCheckerFactory();
@@ -57,19 +55,19 @@ public:
 	       args[0].endsWith(".xml", Qt::CaseInsensitive);
     }
 
-    virtual std::unique_ptr<Checker> createIntraprocedural() override {
-	return std::make_unique<AutomatonChecker>(xmlFile);
+    virtual std::unique_ptr<Checker>
+    createIntraprocedural(const QStringList &args) override {
+	return std::make_unique<AutomatonChecker>(args[0]);
     }
 
-    virtual std::unique_ptr<Checker> createInterprocedural() override {
-	return std::make_unique<AutomatonChecker>(xmlFile);
+    virtual std::unique_ptr<Checker>
+    createInterprocedural(const QStringList &args) override {
+	return std::make_unique<AutomatonChecker>(args[0]);
     }
 
     static QString getNameForCheckerFactory() {
 	return "AutomatonChecker";
     }
-private:
-    QFile &xmlFile;
 };
 
 }

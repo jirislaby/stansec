@@ -13,7 +13,7 @@
 #include <QMap>
 #include <QString>
 
-#include "../checker/CheckerCreator.h"
+#include "../core/CheckerConfiguration.h"
 #include "../checker/CheckerErrorReceiver.h"
 #include "../checker/CheckerProgressMonitor.h"
 
@@ -35,12 +35,12 @@ public:
 	QString getDot(const QString &fun, int shrink = 0) const;
 	void dumpDots() const;
 
-	void addChecker(checker::CheckerCreator *checker) {
+	void addChecker(const core::CheckerConfiguration &checker) {
 		checkers.append(checker);
 	}
 
 private:
-	QList<checker::CheckerCreator *> checkers;
+	QList<core::CheckerConfiguration> checkers;
 	checker::CheckerProgressMonitor *monitor;
 	checker::CheckerErrorReceiver &errReceiver;
 };

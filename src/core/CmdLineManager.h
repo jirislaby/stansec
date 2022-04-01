@@ -8,9 +8,12 @@
  * Licensed under GPLv2.
  */
 
+#include <QList>
 #include <QObject>
 #include <QString>
 #include <QStringList>
+
+#include "CheckerConfiguration.h"
 
 class QCoreApplication;
 
@@ -27,10 +30,10 @@ public:
 
     bool dumpCFG() const { return _dumpCFG; }
 
+    QList<CheckerConfiguration> getCheckerConfiguration() const;
+
 #if 0
     SourceConfiguration getSourceConfiguration() const;
-
-    QList<CheckerConfiguration> getCheckerConfiguration() const;
 
     QString getOutputDir() const;
 

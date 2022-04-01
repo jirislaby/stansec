@@ -25,7 +25,7 @@ public:
 	typedef QMap<PatternLocation, int> PatternIds;
 
 	AutomatonChecker() = delete;
-	AutomatonChecker(QFile &xmlFile) : xmlFile(xmlFile) { }
+	AutomatonChecker(const QString &xmlFile) : xmlFile(xmlFile) { }
 
 	QString getName() override;
 
@@ -104,7 +104,7 @@ private:
     std::unique_ptr<XMLAutomatonDefinition>
     parseXMLAutomatondefinition(std::unique_ptr<QDomDocument> XMLdefinition);
 
-    QFile &xmlFile;
+    QFile xmlFile;
 };
 
 }

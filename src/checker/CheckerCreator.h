@@ -25,9 +25,11 @@ public:
     virtual QString getCheckerCreationInfo() const = 0;
     virtual QStringList getDataFilesExtensions() const = 0;
     virtual bool checkArgumentList(const QStringList &args) const = 0;
-    virtual std::unique_ptr<Checker> createInterprocedural() = 0;
+    virtual std::unique_ptr<Checker>
+    createInterprocedural(const QStringList &args) = 0;
     //throws CheckerException;
-    virtual std::unique_ptr<Checker> createIntraprocedural() = 0;
+    virtual std::unique_ptr<Checker>
+    createIntraprocedural(const QStringList &args) = 0;
     //throws CheckerException;
 };
 

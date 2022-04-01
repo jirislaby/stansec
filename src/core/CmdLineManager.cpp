@@ -11,18 +11,14 @@
 #include <QString>
 
 #include "CmdLineManager.h"
+#include "Configuration.h"
 
-using namespace core;
-
-//#include "Configuration.h"
-//#include "CheckerConfiguration.h"
 //#include "SourceConfiguration.h"
 //#include "MakefileSourceEnumerator.h"
 //#include "FileListEnumerator.h"
 //#include "BatchFileEnumerator.h"
-//import cz.muni.stanse.configuration.source_enumeration.DirectorySourceEnumerator;
 
-//import org.apache.log4j.Level;
+using namespace core;
 
 CmdLineManager::CmdLineManager(QCoreApplication &a)
 {
@@ -223,26 +219,22 @@ CmdLineManager::CmdLineManager(QCoreApplication &a)
                             getOptions().nonOptionArguments()));
         return Configuration.createDefaultSourceConfiguration();
     }
+#endif
+QList<CheckerConfiguration> CmdLineManager::getCheckerConfiguration() const
+{
+    if (_checkers.isEmpty())
+	return Configuration::createDefaultCheckerConfiguration();
 
-    List<CheckerConfiguration> getCheckerConfiguration() {
-        if (!getOptions().has(checkers))
-            return Configuration.createDefaultCheckerConfiguration();
-
-        QList<CheckerConfiguration> checkerConfiguration =
-            new QList<CheckerConfiguration>();
-        for (const QString s: getOptions().valuesOf(checkers)) {
-            QString[] cc = s.split(":");
-            const QString checkerName = cc[0];
-            const QList<File> checkerDataFiles = new QList<File>();
-            for (int i = 1; i < cc.length; i++)
-                checkerDataFiles.add(new File(cc[i]));
-            checkerConfiguration.add(
-                new CheckerConfiguration(checkerName,checkerDataFiles,
-                                !getOptions().has(useIntraproceduralAnalysis)));
-        }
-        return checkerConfiguration;
+    QList<CheckerConfiguration> checkerConfiguration;
+    for (const auto &s: _checkers) {
+	auto cc = s.split(":");
+	const auto &checkerName = cc.takeFirst();
+	checkerConfiguration.append(
+	    CheckerConfiguration(checkerName, cc, !_intraprocedural));
     }
-
+    return checkerConfiguration;
+}
+#if 0
     QString getOutputDir() {
         return getOptions().has(outputDir) ? getOptions().valueOf(outputDir)
                                                          .toString() :

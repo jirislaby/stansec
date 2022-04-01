@@ -3,8 +3,8 @@
 #include "sourcecodeedit.h"
 
 #include "../parser/parser.h"
+#include "../core/CheckerConfiguration.h"
 #include "../codestructures/LazyInternalStructuresIntra.h"
-#include "../checker/reachabilitychecker/ReachabilityCheckerCreator.h"
 #include "../checker/CheckerProgressMonitor.h"
 
 #include <iostream>
@@ -100,10 +100,9 @@ void MainWindow::on_pbRun_clicked()
 		treeErrorModel.addError(err);
 	}, []() {
 	});
-	checker::ReachabilityCheckerCreator reach;
 
 	auto parser = new parser::Parser(&monitor, errReceiver);
-	parser->addChecker(&reach);
+	parser->addChecker(core::CheckerConfiguration("ReachabilityChecker"));
 	parser->parseAndCheck(cur->toPlainText().toStdString());
 	parsers.insert(cur, parser);
 	cur->setParser(parser);

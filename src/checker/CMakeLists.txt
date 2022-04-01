@@ -14,6 +14,8 @@ add_library(checker STATIC
 	CheckerErrorTrace.cpp
 	CheckerErrorTrace.h
 	CheckerErrorTraceLocation.h
+	CheckerFactory.cpp
+	CheckerFactory.h
 	Checker.h
 	CheckerProgressMonitor.h
 	CheckingResult.h
