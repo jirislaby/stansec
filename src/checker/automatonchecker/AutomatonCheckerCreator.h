@@ -3,7 +3,7 @@
 
 /*
  * Copyright (c) 2008-2009 Marek Trtik
- * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ * Copyright (c) 2021-2022 Jiri Slaby <jirislaby@gmail.com>
  *
  * Licensed under GPLv2.
  */
@@ -57,11 +57,11 @@ public:
 	       args[0].endsWith(".xml", Qt::CaseInsensitive);
     }
 
-    virtual std::unique_ptr<Checker> createIntraprocedural(const clang::TranslationUnitDecl *TU) override {
+    virtual std::unique_ptr<Checker> createIntraprocedural() override {
 	return std::make_unique<AutomatonChecker>(xmlFile);
     }
 
-    virtual std::unique_ptr<Checker> createInterprocedural(const clang::TranslationUnitDecl *TU) override {
+    virtual std::unique_ptr<Checker> createInterprocedural() override {
 	return std::make_unique<AutomatonChecker>(xmlFile);
     }
 

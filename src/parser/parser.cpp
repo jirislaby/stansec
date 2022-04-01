@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ * Copyright (c) 2021-2022 Jiri Slaby <jirislaby@gmail.com>
  *
  * Licensed under GPLv2.
  */
@@ -46,7 +46,7 @@ public:
 		codestructs::LazyInternalStructuresInter LIS(mgr, TU);
 #endif
 
-		p->check(LIS, TU);
+		p->check(LIS);
 
 		//TU->dump();
 		//auto &srcMgr = mgr.getSourceManager();
@@ -175,11 +175,10 @@ void Parser::parseAndCheck(const std::string &code)
 	tooling::runToolOnCode(std::make_unique<ParserAction>(this), code, "input.c");
 }
 
-void Parser::check(const codestructs::LazyInternalStructures &LIS, const TranslationUnitDecl *TU)
+void Parser::check(const codestructs::LazyInternalStructures &LIS)
 {
 	for (auto chC: checkers)
-		chC->createIntraprocedural(TU)->check(LIS, errReceiver,
-						      *monitor);
+		chC->createIntraprocedural()->check(LIS, errReceiver, *monitor);
 }
 
 #if 0

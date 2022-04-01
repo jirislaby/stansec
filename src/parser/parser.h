@@ -2,7 +2,7 @@
 #define PARSER_H
 
 /*
- * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ * Copyright (c) 2021-2022 Jiri Slaby <jirislaby@gmail.com>
  *
  * Licensed under GPLv2.
  */
@@ -17,10 +17,6 @@
 #include "../checker/CheckerErrorReceiver.h"
 #include "../checker/CheckerProgressMonitor.h"
 
-namespace clang {
-class TranslationUnitDecl;
-}
-
 namespace parser {
 
 class Parser {
@@ -31,8 +27,7 @@ public:
 	~Parser();
 
 	void parseAndCheck(const std::string &in);
-	void check(const codestructs::LazyInternalStructures &LIS,
-		   const clang::TranslationUnitDecl *TU);
+	void check(const codestructs::LazyInternalStructures &LIS);
 
 	//CFG *getFunction(unsigned int line) const;
 

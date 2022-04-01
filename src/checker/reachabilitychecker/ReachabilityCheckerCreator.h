@@ -4,7 +4,7 @@
 /**
  * @brief ReachabilityChecker factory
  *
- * Copyright (c) 2009-2021 Jiri Slaby <jirislaby@gmail.com>
+ * Copyright (c) 2009-2022 Jiri Slaby <jirislaby@gmail.com>
  *
  * Licensed under GPLv2.
  */
@@ -34,12 +34,12 @@ public:
                "detect unreachable code.";
     }
 
-    virtual std::unique_ptr<Checker> createIntraprocedural(const clang::TranslationUnitDecl *TU) override {
+    virtual std::unique_ptr<Checker> createIntraprocedural() override {
 	return std::make_unique<ReachabilityChecker>();
     }
 
-    virtual std::unique_ptr<Checker> createInterprocedural(const clang::TranslationUnitDecl *TU) override {
-	return createIntraprocedural(TU);
+    virtual std::unique_ptr<Checker> createInterprocedural() override {
+	return createIntraprocedural();
     }
 
     virtual QStringList getDataFilesExtensions() const override {
