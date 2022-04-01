@@ -10,6 +10,7 @@
 
 #include <QList>
 #include <QString>
+#include <QStringList>
 
 #include "../Checker.h"
 #include "../CheckerCreator.h"
@@ -47,14 +48,13 @@ public:
                "distributed with Stanse as well.";
 	}
 
-	QList<QString> getDataFilesExtensions() const override {
-	    QList<QString> result({"xml"});
-	    return result;
+	QStringList getDataFilesExtensions() const override {
+	    return {"xml"};
 	}
 
-    virtual bool checkArgumentList(const QList<QFile *> &args) const override {
+    virtual bool checkArgumentList(const QStringList &args) const override {
 	return args.size() == 1 &&
-	       args[0]->fileName().endsWith(".xml", Qt::CaseInsensitive);
+	       args[0].endsWith(".xml", Qt::CaseInsensitive);
     }
 
     virtual std::unique_ptr<Checker> createIntraprocedural(const clang::TranslationUnitDecl *TU) override {

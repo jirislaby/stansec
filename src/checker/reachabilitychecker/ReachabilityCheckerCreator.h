@@ -9,7 +9,6 @@
  * Licensed under GPLv2.
  */
 
-#include <QList>
 #include <QFile>
 #include <QString>
 #include <QStringList>
@@ -48,7 +47,7 @@ public:
 	abort();
     }
 
-    virtual bool checkArgumentList(const QList<QFile *> &args) const override {
+    virtual bool checkArgumentList(const QStringList &args) const override {
         return args.size() == 0;
     }
 

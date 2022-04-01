@@ -10,9 +10,8 @@
 
 #include <memory>
 
-#include <QFile>
-#include <QList>
 #include <QString>
+#include <QStringList>
 
 #include "Checker.h"
 
@@ -28,8 +27,8 @@ public:
 
     virtual QString getCheckerName() const = 0;
     virtual QString getCheckerCreationInfo() const = 0;
-    virtual QList<QString> getDataFilesExtensions() const = 0;
-    virtual bool checkArgumentList(const QList<QFile *> &args) const = 0;
+    virtual QStringList getDataFilesExtensions() const = 0;
+    virtual bool checkArgumentList(const QStringList &args) const = 0;
     virtual std::unique_ptr<Checker> createInterprocedural(const clang::TranslationUnitDecl *TU) = 0;
     //throws CheckerException;
     virtual std::unique_ptr<Checker> createIntraprocedural(const clang::TranslationUnitDecl *TU) = 0;
