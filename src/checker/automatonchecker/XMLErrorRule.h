@@ -13,7 +13,6 @@
 #include <QPair>
 #include <QSet>
 #include <QString>
-#include <QVector>
 
 #include "XMLRuleStringParser.h"
 
@@ -51,7 +50,7 @@ public:
     QString toString() const;
 
 private:
-    using MatchFlags = QVector<QPair<QString, QVector<bool> > >;
+    using MatchFlags = QList<QPair<QString, QList<bool> > >;
 
     bool checkExcludedStates(const QSet<AutomatonState> &statesCollection,
 			     const SimpleAutomatonID &simpleID) const;
@@ -60,7 +59,7 @@ private:
 			     const SimpleAutomatonID &simpleID) const;
 
     static bool stateMatch(const AutomatonState &state,
-			   const QString &symbol, const QVector<bool> &flags,
+			   const QString &symbol, const QList<bool> &flags,
 			   const SimpleAutomatonID &simpleID);
 
     static MatchFlags

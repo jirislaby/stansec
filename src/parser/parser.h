@@ -9,9 +9,9 @@
 
 #include <string>
 
+#include <QList>
 #include <QMap>
 #include <QString>
-#include <QVector>
 
 #include "../checker/CheckerCreator.h"
 #include "../checker/CheckerErrorReceiver.h"
@@ -45,7 +45,7 @@ public:
 	}
 
 private:
-	QVector<checker::CheckerCreator *> checkers;
+	QList<checker::CheckerCreator *> checkers;
 	checker::CheckerProgressMonitor *monitor;
 	checker::CheckerErrorReceiver &errReceiver;
 };

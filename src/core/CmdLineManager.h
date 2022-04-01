@@ -107,10 +107,10 @@ public:
         return orderingFile;
     }
 
-    QVector<QString> getStatsOrdering() {
+    QList<QString> getStatsOrdering() {
         if (!getOptions().has(statsSort))
             return null;
-        const QVector<QString> ordering = new QVector<QString>();
+        const QList<QString> ordering = new QList<QString>();
         QString[] cc = getOptions().valueOf(statsSort).split(":");
         for (int i = 2; i < cc.length; i++)
             ordering.add(cc[i]);

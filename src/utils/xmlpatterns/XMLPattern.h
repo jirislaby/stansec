@@ -12,11 +12,11 @@
 #include <QTextStream>
 
 #include <QDomElement>
+#include <QList>
 //#include <QMap>
 #include <QPair>
 //#include <QRegularExpression>
 #include <QString>
-#include <QVector>
 
 #include "XMLPatternVariablesAssignment.h"
 
@@ -102,9 +102,9 @@ private:
 
     static bool retvalWhenItemInSet(const bool &retval,
 				    const QString &item,
-				    const QVector<QString> &set);
+				    const QList<QString> &set);
 
-    static QPair<bool, QVector<QString> > splitAttrSymbols(QString attrString);
+    static QPair<bool, QList<QString> > splitAttrSymbols(QString attrString);
 
     QDomElement patternXMLelement;
     QString name;

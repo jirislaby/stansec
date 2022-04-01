@@ -8,8 +8,8 @@
  * Licensed under GPLv2.
  */
 
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "../../utils/xmlpatterns/XMLAlgo.h"
 
@@ -20,11 +20,11 @@ namespace codestructs {
 class XMLLinearizeASTElement final {
 public:
 
-    static QVector<QDomElement> functionCall(const QDomElement &elem);
-    static QVector<QDomElement> voidFunctionCall(const QDomElement &elem);
-    static QVector<QDomElement> assignFunctionCall(const QDomElement &elem);
+    static QList<QDomElement> functionCall(const QDomElement &elem);
+    static QList<QDomElement> voidFunctionCall(const QDomElement &elem);
+    static QList<QDomElement> assignFunctionCall(const QDomElement &elem);
     static QDomElement functionRet(const QDomElement &elem);
-    static QVector<QDomElement> functionDeclaration(const QDomElement elem);
+    static QList<QDomElement> functionDeclaration(const QDomElement elem);
 
 private:
     /**
@@ -49,14 +49,14 @@ private:
     static QDomElement createElement(const QString &type, const QString &data);
 
     template<typename T>
-    static QVector<T> cons(const T &v, const QList<T> &l) {
-	QVector<T> result(l.begin(), l.end());
+    static QList<T> cons(const T &v, const QList<T> &l) {
+	QList<T> result(l.begin(), l.end());
 	result.prepend(v);
         return result;
     }
 
     template<typename T>
-    static QVector<T> tail(const QVector<T> &l) {
+    static QList<T> tail(const QList<T> &l) {
 	return l.mid(1);
     }
 

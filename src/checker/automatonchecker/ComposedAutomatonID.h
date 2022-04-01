@@ -11,7 +11,6 @@
 #include <QDebug>
 #include <QList>
 #include <QString>
-#include <QVector>
 
 #include "SimpleAutomatonID.h"
 
@@ -27,9 +26,9 @@ public:
     }
 
     explicit ComposedAutomatonID(const QList<SimpleAutomatonID> &ids) :
-	    automataIDs(QVector<SimpleAutomatonID>::fromList(ids)) { }
+	    automataIDs(QList<SimpleAutomatonID>::fromList(ids)) { }
 
-    const QVector<SimpleAutomatonID> getSimpleAutomataIDs() const {
+    const QList<SimpleAutomatonID> getSimpleAutomataIDs() const {
         return automataIDs;
     }
 
@@ -41,9 +40,9 @@ public:
     }
 
 private:
-    QVector<SimpleAutomatonID> &getSimpleAutomataIDs() { return automataIDs; }
+    QList<SimpleAutomatonID> &getSimpleAutomataIDs() { return automataIDs; }
 
-    QVector<SimpleAutomatonID> automataIDs;
+    QList<SimpleAutomatonID> automataIDs;
 };
 
 inline bool operator==(const ComposedAutomatonID &lhs,

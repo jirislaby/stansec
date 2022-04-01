@@ -6,16 +6,16 @@
  */
 
 #include <QDomElement>
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "XMLLinearizeASTElement.h"
 
 using namespace codestructs;
 
-QVector<QDomElement> XMLLinearizeASTElement::functionCall(const QDomElement &elem)
+QList<QDomElement> XMLLinearizeASTElement::functionCall(const QDomElement &elem)
 {
-    QVector<QDomElement> result = voidFunctionCall(elem);
+    QList<QDomElement> result = voidFunctionCall(elem);
 #if 0
     if (result != null)
 	return result;
@@ -28,25 +28,25 @@ QVector<QDomElement> XMLLinearizeASTElement::functionCall(const QDomElement &ele
     return tail(result);
 }
 
-QVector<QDomElement> XMLLinearizeASTElement::voidFunctionCall(const QDomElement &elem)
+QList<QDomElement> XMLLinearizeASTElement::voidFunctionCall(const QDomElement &elem)
 {
 #if 0
     return elem.getName().equals("functionCall") ?
-		new QVector<QDomElement>((List<QDomElement>)elem.elements()) : null;
+		new QList<QDomElement>((List<QDomElement>)elem.elements()) : null;
 #else
 	assert(0); abort();
 #endif
 }
 
-QVector<QDomElement> XMLLinearizeASTElement::assignFunctionCall(const QDomElement &elem)
+QList<QDomElement> XMLLinearizeASTElement::assignFunctionCall(const QDomElement &elem)
 {
 #if 0
     if (elem.getName() != "assignExpression")
-	return QVector<QDomElement>();
+	return QList<QDomElement>();
 	//return nullptr;
     QList<QDomElement> children = elem.elements();
     if (children[1].getName() != "functionCall")
-	return QVector<QDomElement>();
+	return QList<QDomElement>();
 	//return nullptr;
 
     return cons(children[0], children[1].elements());
@@ -77,7 +77,7 @@ QDomElement XMLLinearizeASTElement::createElement(const QString &type, const QSt
     }
 
     @SuppressWarnings("unchecked")
-    public static QVector<QDomElement> functionDeclaration(const QDomElement elem) {
+    public static QList<QDomElement> functionDeclaration(const QDomElement elem) {
 	QDomElement fnDecl = (QDomElement)elem.selectSingleNode(
 		"./declarator[1]");
         if (fnDecl == null)
@@ -88,7 +88,7 @@ QDomElement XMLLinearizeASTElement::createElement(const QString &type, const QSt
 	    if (fnDecl == null)
 		throw new NullPointerException("wrong functionDeclaration");
 	}
-	const QVector<QDomElement> result = new QVector<QDomElement>();
+	const QList<QDomElement> result = new QList<QDomElement>();
         result.add(id);
         int argID = 0;
 	const List<QDomElement> params =

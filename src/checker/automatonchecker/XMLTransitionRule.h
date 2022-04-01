@@ -10,8 +10,8 @@
 
 #include <llvm/ADT/Optional.h>
 
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "XMLRuleStringParser.h"
 
@@ -48,10 +48,10 @@ private:
     buildResultState(const AutomatonState &state,
 		     const SimpleAutomatonID &simpleID) const;
 
-    static QVector<bool> buildMatchFlags(const QStringList &automataIDs,
+    static QList<bool> buildMatchFlags(const QStringList &automataIDs,
 					 const QString &automatonID);
 
-    static QVector<int> buildMatchOutIndices(const QStringList &fromAutomataIDs,
+    static QList<int> buildMatchOutIndices(const QStringList &fromAutomataIDs,
 					     const QStringList &toAutomataIDs,
 					     const QString &automatonID);
 				       //throws XMLAutomatonSyntaxErrorException {
@@ -67,14 +67,14 @@ private:
 			  const int numVars);
     //throws XMLAutomatonSyntaxErrorException {
 
-    const QVector<bool> &getMatchFlags() const { return matchFlags; }
-    const QVector<int> &getMatchOutIndices() const { return matchOutIndices; }
+    const QList<bool> &getMatchFlags() const { return matchFlags; }
+    const QList<int> &getMatchOutIndices() const { return matchOutIndices; }
 
     QString patternName;
     QString inSymbol;
     QString outSymbol;
-    QVector<bool> matchFlags;
-    QVector<int> matchOutIndices;
+    QList<bool> matchFlags;
+    QList<int> matchOutIndices;
 };
 
 }

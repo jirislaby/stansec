@@ -8,9 +8,8 @@
  * Licensed under GPLv2.
  */
 
-//#include <QList>
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "../../codestructures/traversal/CFGPathVisitor.h"
 
@@ -42,8 +41,8 @@ public:
 	rule(rule), transferor(transferor), NLD(NLD), startNode(startNode),
 	internals(internals), detectors(detectors), monitor(monitor) {}
 
-    //QVector<CheckerErrorTrace> getErrorTracesList() const { return errorTracesList; }
-    QVector<CheckerErrorTrace> &getErrorTracesList() { return errorTracesList; }
+    //QList<CheckerErrorTrace> getErrorTracesList() const { return errorTracesList; }
+    QList<CheckerErrorTrace> &getErrorTracesList() { return errorTracesList; }
     int getTotalImportance() const { return totalImportance; }
     QString getFailMessage() const { return failMsg; }
 
@@ -106,7 +105,7 @@ private:
     const NodeLocationDictionary &NLD;
     Stmt startNode;
     const codestructs::LazyInternalStructures &internals;
-    QVector<CheckerErrorTrace> errorTracesList;
+    QList<CheckerErrorTrace> errorTracesList;
     /*const QList<FalsePositivesDetector>*/void *detectors;
     AutomatonCheckerLogger &monitor;
     int totalImportance = FalsePositivesDetector::getBugDefaultImportance();

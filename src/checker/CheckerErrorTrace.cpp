@@ -10,8 +10,8 @@
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
 #include <QDebug>
+#include <QList>
 #include <QString>
-#include <QVector>
 
 #include "../codestructures/LazyInternalStructures.h"
 

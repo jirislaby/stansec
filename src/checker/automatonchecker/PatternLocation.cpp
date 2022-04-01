@@ -11,7 +11,6 @@
 #include <QPair>
 #include <QStack>
 #include <QString>
-#include <QVector>
 
 #include "AutomatonStateCFGcontextAlgo.h"
 #include "AutomatonStateTransferManager.h"
@@ -93,8 +92,8 @@ void PatternLocation::propagateStateToLocation(const AutomatonState &state,
 void PatternLocation::reduceStateSet(QSet<AutomatonState> &set)
 {
 #if 0
-    QVector<AutomatonState> stateVec;
-    QVector<QStack<CFGNode>> contextVec;
+    QList<AutomatonState> stateVec;
+    QList<QStack<CFGNode>> contextVec;
     for (const auto state : set) {
 	stateVec.push_back(state);
 	contextVec.push_back(AutomatonStateCFGcontextAlgo::getContext(state.getContext()));

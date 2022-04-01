@@ -10,7 +10,6 @@
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <QVector>
 
 #include "../../utils/xmlpatterns/XMLPattern.h"
 
@@ -33,7 +32,7 @@ public:
     QString getAutomatonName() const { return automatonName; }
     QString getAutomatonDescription() const { return automatonDesc; }
     QString getStartSymbol() const { return startSymbol; }
-    const QVector<utils::XMLPattern> &getXMLpatterns() const { return XMLpatterns; }
+    const QList<utils::XMLPattern> &getXMLpatterns() const { return XMLpatterns; }
 
     QList<const XMLTransitionRule *>
     getXMLtransitionRulesForPattern(const utils::XMLPattern *pattern) const {
@@ -64,9 +63,9 @@ private:
     QString automatonDesc;
     QString startSymbol;
 
-    QVector<utils::XMLPattern> XMLpatterns;
-    QVector<XMLTransitionRule> XMLtransitionRules;
-    QVector<XMLErrorRule> XMLerrorRules;
+    QList<utils::XMLPattern> XMLpatterns;
+    QList<XMLTransitionRule> XMLtransitionRules;
+    QList<XMLErrorRule> XMLerrorRules;
 
     QMap<const utils::XMLPattern *, QList<const XMLTransitionRule *>> patternTransitionRulesDictionary;
     QMap<const utils::XMLPattern *, QList<const XMLErrorRule *>> patternErrorRulesDictionary;

@@ -303,7 +303,7 @@ bool XMLPattern::satisfyVarConstraints(const QString &elemName,
 }
 
 bool XMLPattern::retvalWhenItemInSet(const bool &retval, const QString &item,
-				     const QVector<QString> &set)
+				     const QList<QString> &set)
 {
     for (const auto &setItem : set)
 	if (setItem == item)
@@ -312,7 +312,7 @@ bool XMLPattern::retvalWhenItemInSet(const bool &retval, const QString &item,
     return !retval;
 }
 
-QPair<bool, QVector<QString>> XMLPattern::splitAttrSymbols(QString attrString)
+QPair<bool, QList<QString>> XMLPattern::splitAttrSymbols(QString attrString)
 {
 #if 0
     attrString = attrString.replace(" ","")

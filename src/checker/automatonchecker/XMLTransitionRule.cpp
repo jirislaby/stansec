@@ -4,9 +4,9 @@
  * Licensed under GPLv2.
  */
 
+#include <QList>
 #include <QString>
 #include <QStringList>
-#include <QVector>
 
 #include "AutomatonState.h"
 #include "AutomatonStateContextAlgo.h"
@@ -133,10 +133,10 @@ XMLTransitionRule::buildResultState(const AutomatonState &state,
     return AutomatonState(getOutSymbol(), context);
 }
 
-QVector<bool> XMLTransitionRule::buildMatchFlags(const QStringList &automataIDs,
+QList<bool> XMLTransitionRule::buildMatchFlags(const QStringList &automataIDs,
 						 const QString &automatonID)
 {
-    QVector<bool> matchFlags;
+    QList<bool> matchFlags;
     matchFlags.reserve(automataIDs.size());
 
     for (const auto &id : automataIDs)
@@ -145,11 +145,11 @@ QVector<bool> XMLTransitionRule::buildMatchFlags(const QStringList &automataIDs,
     return matchFlags;
 }
 
-QVector<int> XMLTransitionRule::buildMatchOutIndices(const QStringList &fromAutomataIDs,
+QList<int> XMLTransitionRule::buildMatchOutIndices(const QStringList &fromAutomataIDs,
 						     const QStringList &toAutomataIDs,
 						     const QString &automatonID)
 {
-    QVector<int> matchIndices;
+    QList<int> matchIndices;
     matchIndices.reserve(toAutomataIDs.size());
 
     for (const auto &id : toAutomataIDs)

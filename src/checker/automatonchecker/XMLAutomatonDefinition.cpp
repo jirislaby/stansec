@@ -9,7 +9,6 @@
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <QVector>
 
 #include "XMLAutomatonDefinition.h"
 

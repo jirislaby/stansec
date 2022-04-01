@@ -228,12 +228,12 @@ CmdLineManager::CmdLineManager(QCoreApplication &a)
         if (!getOptions().has(checkers))
             return Configuration.createDefaultCheckerConfiguration();
 
-        QVector<CheckerConfiguration> checkerConfiguration =
-            new QVector<CheckerConfiguration>();
+        QList<CheckerConfiguration> checkerConfiguration =
+            new QList<CheckerConfiguration>();
         for (const QString s: getOptions().valuesOf(checkers)) {
             QString[] cc = s.split(":");
             const QString checkerName = cc[0];
-            const QVector<File> checkerDataFiles = new QVector<File>();
+            const QList<File> checkerDataFiles = new QList<File>();
             for (int i = 1; i < cc.length; i++)
                 checkerDataFiles.add(new File(cc[i]));
             checkerConfiguration.add(
@@ -361,10 +361,10 @@ CmdLineManager::CmdLineManager(QCoreApplication &a)
         return orderingFile;
     }
 
-    QVector<QString> getStatsOrdering() {
+    QList<QString> getStatsOrdering() {
         if (!getOptions().has(statsSort))
             return null;
-        const QVector<QString> ordering = new QVector<QString>();
+        const QList<QString> ordering = new QList<QString>();
         QString[] cc = getOptions().valueOf(statsSort).split(":");
         for (int i = 2; i < cc.length; i++)
             ordering.add(cc[i]);

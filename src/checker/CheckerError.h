@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QString>
-#include <QVector>
 
 #include "../codestructures/LazyInternalStructures.h"
 

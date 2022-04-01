@@ -9,9 +9,9 @@
 
 #include <llvm/ADT/Optional.h>
 
+#include <QList>
 #include <QMap>
 #include <QPair>
-#include <QVector>
 
 namespace clang {
 class CFGBlock;
@@ -32,7 +32,7 @@ class PatternLocation;
  */
 using LocationPair = QPair<PatternLocation *, PatternLocation *>;
 /* A vector of (index in CFGBlock + location) */
-using Locations = QVector<QPair<int, LocationPair>>;
+using Locations = QList<QPair<int, LocationPair>>;
 
 class NodeLocationDictionary : public QMap<const clang::CFGBlock *, Locations> {
 public:
