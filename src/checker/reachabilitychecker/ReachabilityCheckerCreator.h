@@ -12,6 +12,7 @@
 #include <QList>
 #include <QFile>
 #include <QString>
+#include <QStringList>
 
 #include "../Checker.h"
 #include "../CheckerCreator.h"
@@ -42,9 +43,9 @@ public:
 	return createIntraprocedural(TU);
     }
 
-    virtual QList<QString> getDataFilesExtensions() const override {
-	/*throw new UnsupportedOperationException("Reachability Checker needs no data");*/
-	return QList<QString>();
+    virtual QStringList getDataFilesExtensions() const override {
+	assert(0 && "Reachability Checker needs no data");
+	abort();
     }
 
     virtual bool checkArgumentList(const QList<QFile *> &args) const override {
