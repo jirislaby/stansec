@@ -162,8 +162,9 @@ private:
 }
 
 Parser::Parser(checker::CheckerProgressMonitor *monitor,
-	       checker::CheckerErrorReceiver &errReceiver) : monitor(monitor),
-	errReceiver(errReceiver)
+	       checker::CheckerErrorReceiver &errReceiver,
+	       const QList<core::CheckerConfiguration> &checkers) :
+	checkers(checkers), monitor(monitor), errReceiver(errReceiver)
 {
 }
 

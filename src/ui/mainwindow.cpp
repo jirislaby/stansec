@@ -101,8 +101,8 @@ void MainWindow::on_pbRun_clicked()
 	}, []() {
 	});
 
-	auto parser = new parser::Parser(&monitor, errReceiver);
-	parser->addChecker(core::CheckerConfiguration("ReachabilityChecker"));
+	auto parser = new parser::Parser(&monitor, errReceiver,
+					 { core::CheckerConfiguration("ReachabilityChecker") });
 	parser->parseAndCheck("input.c", cur->toPlainText().toStdString());
 	parsers.insert(cur, parser);
 	cur->setParser(parser);

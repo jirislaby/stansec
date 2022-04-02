@@ -23,7 +23,8 @@ class Parser {
 public:
 	Parser() = delete;
 	Parser(checker::CheckerProgressMonitor *monitor,
-	       checker::CheckerErrorReceiver &errReceiver);
+	       checker::CheckerErrorReceiver &errReceiver,
+	       const QList<core::CheckerConfiguration> &checkers);
 	~Parser();
 
 	void parseAndCheck(const std::string &fileName, const std::string &in);
@@ -34,10 +35,6 @@ public:
 	QString getDot(unsigned int line, int shrink = 0) const;
 	QString getDot(const QString &fun, int shrink = 0) const;
 	void dumpDots() const;
-
-	void addChecker(const core::CheckerConfiguration &checker) {
-		checkers.append(checker);
-	}
 
 private:
 	QList<core::CheckerConfiguration> checkers;

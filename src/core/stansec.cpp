@@ -75,9 +75,8 @@ int Stansec::startTUI()
 		    qWarning() << "================";
 		});
 
-		parser::Parser parser(&monitor, errReceiver);
-		parser.addChecker(CheckerConfiguration("ReachabilityChecker"));
-		parser.addChecker(CheckerConfiguration("AutomatonChecker", { "auto.xml" }));
+		parser::Parser parser(&monitor, errReceiver,
+				      cmdLine->getCheckerConfiguration());
 		parser.parseAndCheck(fileName.toStdString(),
 				     data.toStdString());
 	}
