@@ -171,9 +171,11 @@ Parser::~Parser()
 {
 }
 
-void Parser::parseAndCheck(const std::string &code)
+void Parser::parseAndCheck(const std::string &fileName,
+			   const std::string &code)
 {
-	tooling::runToolOnCode(std::make_unique<ParserAction>(this), code, "input.c");
+	tooling::runToolOnCode(std::make_unique<ParserAction>(this), code,
+			       fileName);
 }
 
 void Parser::check(const codestructs::LazyInternalStructures &LIS)

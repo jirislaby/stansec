@@ -26,7 +26,7 @@ public:
 	       checker::CheckerErrorReceiver &errReceiver);
 	~Parser();
 
-	void parseAndCheck(const std::string &in);
+	void parseAndCheck(const std::string &fileName, const std::string &in);
 	void check(const codestructs::LazyInternalStructures &LIS);
 
 	//CFG *getFunction(unsigned int line) const;

@@ -78,7 +78,8 @@ int Stansec::startTUI()
 		parser::Parser parser(&monitor, errReceiver);
 		parser.addChecker(CheckerConfiguration("ReachabilityChecker"));
 		parser.addChecker(CheckerConfiguration("AutomatonChecker", { "auto.xml" }));
-		parser.parseAndCheck(data.toStdString());
+		parser.parseAndCheck(fileName.toStdString(),
+				     data.toStdString());
 	}
 
 	return 0;

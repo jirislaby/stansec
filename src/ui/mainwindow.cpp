@@ -103,7 +103,7 @@ void MainWindow::on_pbRun_clicked()
 
 	auto parser = new parser::Parser(&monitor, errReceiver);
 	parser->addChecker(core::CheckerConfiguration("ReachabilityChecker"));
-	parser->parseAndCheck(cur->toPlainText().toStdString());
+	parser->parseAndCheck("input.c", cur->toPlainText().toStdString());
 	parsers.insert(cur, parser);
 	cur->setParser(parser);
 	//std::cout << getParseTree(cur->toPlainText().toStdString()) << std::endl;
