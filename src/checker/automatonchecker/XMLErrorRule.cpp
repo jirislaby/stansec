@@ -8,6 +8,7 @@
 #include <QList>
 #include <QPair>
 #include <QString>
+#include <QVector>
 
 #include "AutomatonState.h"
 #include "XMLErrorRule.h"
@@ -101,7 +102,7 @@ bool XMLErrorRule::checkIncludedStates(const QSet<AutomatonState> &statesCollect
     const auto &flags = getIncludedMatchFlags();
     const int numIncluded = flags.size();
 
-    QList<bool> matchingFlags(numIncluded);
+    QVector<bool> matchingFlags(numIncluded);
 
     for (auto state : statesCollection) {
 	//            if (isExitRule() && state.getContext().size() > 1)
