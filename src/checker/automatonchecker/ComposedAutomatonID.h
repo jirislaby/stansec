@@ -26,7 +26,7 @@ public:
     }
 
     explicit ComposedAutomatonID(const QList<SimpleAutomatonID> &ids) :
-	    automataIDs(QList<SimpleAutomatonID>::fromList(ids)) { }
+	    automataIDs(ids) { }
 
     const QList<SimpleAutomatonID> getSimpleAutomataIDs() const {
         return automataIDs;
