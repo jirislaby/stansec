@@ -22,29 +22,34 @@ public:
     static std::unique_ptr<Checker>
     createInterprocedural(const QString &checkerName, const QStringList &args)
 		/*throws UnsupportedOperationException, CheckerException*/ {
-	return getCheckerCreator(checkerName)->createInterprocedural(args);
+	auto chC = getCheckerCreator(checkerName);
+	return chC ? chC->createInterprocedural(args) : nullptr;
     }
 
     static std::unique_ptr<Checker>
     createIntraprocedural(const QString &checkerName, const QStringList &args)
 		/*throws UnsupportedOperationException, CheckerException*/ {
-	return getCheckerCreator(checkerName)->createIntraprocedural(args);
+	auto chC = getCheckerCreator(checkerName);
+	return chC ? chC->createIntraprocedural(args) : nullptr;
     }
 
     static QString getCheckerCreationInfo(const QString &checkerName)
 		/*throws UnsupportedOperationException*/ {
-	return getCheckerCreator(checkerName)->getCheckerCreationInfo();
+	auto chC = getCheckerCreator(checkerName);
+	return chC ? chC->getCheckerCreationInfo() : QString();
     }
 
     static QStringList getDataFilesExtensions(const QString &checkerName)
     /*throws UnsupportedOperationException*/ {
-	return getCheckerCreator(checkerName)->getDataFilesExtensions();
+	auto chC = getCheckerCreator(checkerName);
+	return chC ? chC->getDataFilesExtensions() : QStringList();
     }
 
     static bool checkArgumentList(const QString &checkerName,
 				  const QStringList &args)
     /*throws UnsupportedOperationException*/ {
-	return getCheckerCreator(checkerName)->checkArgumentList(args);
+	auto chC = getCheckerCreator(checkerName);
+	return chC ? chC->checkArgumentList(args) : false;
     }
 
     static const QStringList getRegisteredCheckers() {
