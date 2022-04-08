@@ -66,6 +66,65 @@ CheckingResult CheckerErrorBuilder::buildErrorList(const NodeLocationDictionary 
 	return result ? *result : CheckingResult();
 }
 
+class CFGPathVisitor {
+public:
+	CFGPathVisitor(codestructs::CFGPathVisitor &visitor) : visitor(visitor) {}
+
+	void visitBlkReverse(codestructs::CFGPathVisitor::Path &path,
+			     const clang::CFGBlock &blk) {
+	    visitBlkReverse(path, blk, blk.rref_begin());
+	}
+
+	void visitBlkReverse(codestructs::CFGPathVisitor::Path &path,
+			     const clang::CFGBlock &blk,
+			     const clang::CFGBlock::const_reverse_ref_iterator &it);
+
+	static void visitBlkReverse(codestructs::CFGPathVisitor &visitor,
+				    const clang::CFGBlock &blk) {
+		CFGPathVisitor v(visitor);
+		codestructs::CFGPathVisitor::Path path;
+		path.append(codestructs::CFGNode(&blk));
+		v.visitBlkReverse(path, blk);
+	}
+private:
+	using VisitedSet = QSet<const clang::CFGBlock *>;
+	VisitedSet visited;
+	codestructs::CFGPathVisitor &visitor;
+};
+
+void CFGPathVisitor::visitBlkReverse(codestructs::CFGPathVisitor::Path &path,
+				     const clang::CFGBlock &blk,
+				     const clang::CFGBlock::const_reverse_ref_iterator &it)
+{
+	codestructs::CFGPathVisitor::CallStack stack;
+
+	if (visited.contains(&blk)) {
+		visitor.onEndPath(path, stack);
+		return;
+	}
+	visited.insert(&blk);
+
+	visitor.visit(path, stack);
+
+	qDebug() << __func__ << "====";
+	blk.dump();
+	qDebug() << "----";
+	for (auto i = it; i != blk.rref_end(); ++i) {
+	    llvm::errs() << "  ";
+	    (*i).dump();
+	    auto cfgStmt = **i;
+	    if (cfgStmt.getKind() == clang::CFGElement::Statement) {
+		    path.prepend(codestructs::CFGNode(&blk, (*i).getIndexInBlock()));
+		    visitor.visit(path, stack);
+	    }
+	}
+	qDebug() << __func__ << "==== END";
+	path.prepend(codestructs::CFGNode(&blk));
+	for (auto pred : blk.preds())
+	    visitBlkReverse(path, *pred);
+	path.removeFirst();
+}
+
 QPair<int, CheckingResult>
 CheckerErrorBuilder::buildErrorsInLocation(PatternLocation &location,
 					   const NodeLocationDictionary &NLD,
@@ -118,11 +177,16 @@ CheckerErrorBuilder::buildErrorsInLocation(PatternLocation &location,
 
 	    qWarning() << "error" << rule.getErrorDescription() << "at:";
 	    auto &refNode = location.getCFGreferenceNode();
+	    auto &dict = internals.getNodeToCFGdictionary();
+	    auto it = dict.find(refNode);
+	    assert(it != dict.end());
 	    auto &SM = internals.getAnalysisManager().getSourceManager();
-	    if (auto stmt = refNode.getStmt())
+	    const clang::CFGBlock *blk = refNode.getBlock();
+	    size_t idx = -1;
+	    if (auto stmt = refNode.getStmt()) {
 		    stmt->getBeginLoc().dump(SM);
-	    else {
-		    auto blk = refNode.getBlock();
+		    idx = refNode.getBlockIdx();
+	    } else {
 		    auto &dict = internals.getNodeToCFGdictionary();
 		    auto it = dict.find(refNode);
 		    assert(it != dict.end());
@@ -132,14 +196,21 @@ CheckerErrorBuilder::buildErrorsInLocation(PatternLocation &location,
 			    cfg.getFD()->getBeginLoc();
 		    qDebug() << "block" << blk->getBlockID();
 		    loc.dump(SM);
+		    idx = blk->size() - 1;
 	    }
-#if 0
+	    Q_UNUSED(idx);
+
+	    CFGPathVisitor::visitBlkReverse(creator, *blk);
+#ifdef OLD
 	    codestructs::CFGTraversal::traverseCFGPathsBackwardInterprocedural(
 			callNavigator, location.getCFGreferenceNode(),
 			creator, cfgContext);
+#endif
 
 	    const auto traces = creator.getErrorTracesList();
+	    qWarning() << traces;
 
+#if 0
 	    if (result instanceof CheckingSuccess &&
 		    creator.getFailMessage() != nullptr)
 		result = new CheckingFailed(creator.getFailMessage(),
