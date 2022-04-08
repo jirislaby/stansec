@@ -181,8 +181,18 @@ void Parser::parseAndCheck(const std::string &fileName,
 
 void Parser::check(const codestructs::LazyInternalStructures &LIS)
 {
-	for (auto &ch: checkers)
-		ch.getChecker()->check(LIS, errReceiver, *monitor);
+	for (auto &chC: checkers) {
+		auto ch = chC.getChecker();
+		if (!ch) {
+			monitor->write("Could not create " +
+				       chC.getCheckerClassName() +
+				       " with args: \"" +
+				       chC.getCheckerArgumentsList().join(':') +
+				       '"');
+			continue;
+		}
+		ch->check(LIS, errReceiver, *monitor);
+	}
 }
 
 #if 0
