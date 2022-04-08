@@ -133,11 +133,11 @@ CheckerErrorBuilder::buildErrorsInLocation(PatternLocation &location,
 		    qDebug() << "block" << blk->getBlockID();
 		    loc.dump(SM);
 	    }
-
+#if 0
 	    codestructs::CFGTraversal::traverseCFGPathsBackwardInterprocedural(
 			callNavigator, location.getCFGreferenceNode(),
 			creator, cfgContext);
-#if 0
+
 	    const auto traces = creator.getErrorTracesList();
 
 	    if (result instanceof CheckingSuccess &&
