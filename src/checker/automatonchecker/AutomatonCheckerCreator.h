@@ -57,11 +57,15 @@ public:
 
     virtual std::unique_ptr<Checker>
     createIntraprocedural(const QStringList &args) override {
+	if (!checkArgumentList(args))
+	    return nullptr;
 	return std::make_unique<AutomatonChecker>(args[0]);
     }
 
     virtual std::unique_ptr<Checker>
     createInterprocedural(const QStringList &args) override {
+	if (!checkArgumentList(args))
+	    return nullptr;
 	return std::make_unique<AutomatonChecker>(args[0]);
     }
 
