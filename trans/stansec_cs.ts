@@ -207,17 +207,17 @@
 <context>
     <name>core::Stansec</name>
     <message>
-        <location filename="../src/core/stansec.cpp" line="52"/>
+        <location filename="../src/core/stansec.cpp" line="53"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="57"/>
+        <location filename="../src/core/stansec.cpp" line="58"/>
         <source>Cannot open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core/stansec.cpp" line="59"/>
+        <location filename="../src/core/stansec.cpp" line="60"/>
         <source>due to error</source>
         <translation type="unfinished"></translation>
     </message>

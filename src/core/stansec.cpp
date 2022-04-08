@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "../checker/CheckerErrorReceiver.h"
+#include "../checker/CheckerProgressMonitor.h"
 #include "../parser/parser.h"
 
 #include "CheckerConfiguration.h"

@@ -20,6 +20,7 @@
 #include "../codestructures/LazyInternalStructuresIntra.h"
 #include "../codestructures/LazyInternalStructuresInter.h"
 #include "../checker/Checker.h"
+#include "../checker/CheckerProgressMonitor.h"
 
 #include "parser.h"
 
@@ -40,6 +41,9 @@ public:
 
 		auto chkMgr = mgr.getCheckerManager();
 		auto p = parserMap[&chkMgr->getAnalyzerOptions()];
+		auto monitor = p->getMonitor();
+
+		monitor->write(QLatin1String("Started analyzing TranslationUnit"));
 
 #ifndef INTER
 		codestructs::LazyInternalStructuresIntra LIS(mgr, TU);
@@ -69,6 +73,8 @@ public:
 			    d->dumpColor();
 		    } /*else
 			d->dumpColor();*/
+		monitor->write("Finished analyzing TranslationUnit");
+		llvm::errs() << __func__ << " END\n";
 	}
 
 	void checkASTCodeBody(const Decl *D, AnalysisManager& mgr,

@@ -15,7 +15,10 @@
 
 #include "../core/CheckerConfiguration.h"
 #include "../checker/CheckerErrorReceiver.h"
-#include "../checker/CheckerProgressMonitor.h"
+
+namespace checker {
+class CheckerProgressMonitor;
+}
 
 namespace parser {
 
@@ -26,6 +29,8 @@ public:
 	       checker::CheckerErrorReceiver &errReceiver,
 	       const QList<core::CheckerConfiguration> &checkers);
 	~Parser();
+
+	checker::CheckerProgressMonitor *getMonitor() const { return monitor; }
 
 	void parseAndCheck(const std::string &fileName, const std::string &in);
 	void check(const codestructs::LazyInternalStructures &LIS);
