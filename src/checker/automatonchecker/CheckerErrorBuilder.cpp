@@ -116,7 +116,7 @@ CheckerErrorBuilder::buildErrorsInLocation(PatternLocation &location,
 					   location.getCFGreferenceNode(),
 					   internals, detectors, monitor);
 
-	    qDebug() << "error" << rule.getErrorDescription() << "at:";
+	    qWarning() << "error" << rule.getErrorDescription() << "at:";
 	    auto &refNode = location.getCFGreferenceNode();
 	    auto &SM = internals.getAnalysisManager().getSourceManager();
 	    if (auto stmt = refNode.getStmt())

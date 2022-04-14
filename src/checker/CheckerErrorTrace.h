@@ -51,7 +51,8 @@ public:
 	return description + " [locations: " + QString::number(getLocations().size()) + "]";
     }
 
-    void dump() const;
+    void dump(QDebug output) const;
+    void dump() const { dump(qDebug()); }
     //Element xmlDump() const;
 
     CheckerErrorTraceLocation getCauseLocation() {

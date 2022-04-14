@@ -21,11 +21,11 @@ using namespace checker;
 
 //#include "LinearCode.h"
 
-void CheckerErrorTrace::dump() const
+void CheckerErrorTrace::dump(QDebug output) const
 {
-	qDebug().noquote().nospace() << toString();
+	output.noquote().nospace() << toString();
 	for (const auto &location : getLocations())
-	    qDebug().noquote().nospace() << location.toString();
+	    output.noquote().nospace() << location.toString();
 }
 
 #if 0
