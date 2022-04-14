@@ -72,7 +72,7 @@ int Stansec::startTUI()
 		    qWarning() << err.getFullDesc() << "with importance" <<
 				  err.getImportance();
 		    for (const auto &trace : err.getTraces())
-			    trace.dump();
+			    trace.dump(qWarning());
 		    qWarning() << "================";
 		});
 
