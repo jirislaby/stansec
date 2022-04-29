@@ -15,10 +15,10 @@
 
 using namespace codestructs;
 
-QList<QString>
+QStringList
 PassingSolver::makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment)
 {
-    QList<QString> res;
+    QStringList res;
 #ifdef OLD
     for (auto key : varToElement)
 	res.append(makeArgument(varToElement[key]));

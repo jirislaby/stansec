@@ -13,6 +13,7 @@
 #include <QList>
 #include <QPair>
 #include <QString>
+#include <QStringList>
 
 namespace clang {
 class Expr;
@@ -28,7 +29,7 @@ namespace codestructs {
 class PassingSolver {
 public:
     using CallMapping = QPair<QString, QString>;
-    static QList<QString> makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment);
+    static QStringList makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment);
     static QString makeArgument(const clang::Stmt *node);
     static QString makeArgument(const clang::Expr *op);
 #if 0
