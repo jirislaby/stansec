@@ -159,7 +159,7 @@ CheckingResult AutomatonChecker::check(const std::unique_ptr<XMLAutomatonDefinit
 #endif
 	}
 	//PatternLocationBuilder::dumpNLD(NLD, internals.getAnalysisManager().getSourceManager());
-	PatternLocationBuilder::NLDToDotFile(NLD, internals.getAnalysisManager(), "out.dot");
+	PatternLocationBuilder::NLDToDotFileSep(NLD, internals, "out");
 
 	monitor.phaseLog("collecting false-positive detectors");
 #ifdef FALSE_POSITIVE_DETECTORS

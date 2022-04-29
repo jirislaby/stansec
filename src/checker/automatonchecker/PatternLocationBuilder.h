@@ -55,8 +55,12 @@ public:
     static void NLDToDotFile(const NodeLocationDictionary &NLD,
 			     clang::ento::AnalysisManager &AM,
 			     const QString &file);
+    static void NLDToDotFileSep(const NodeLocationDictionary &NLD,
+				const codestructs::LazyInternalStructures &LIS,
+				const QString &file_prefix);
     static QString NLDToDot(const NodeLocationDictionary &NLD,
-			    clang::ento::AnalysisManager &AM);
+			    clang::ento::AnalysisManager &AM,
+			    const clang::CFG *CFGFilter = nullptr);
     static void dumpNLD(const NodeLocationDictionary &NLD,
 			const clang::SourceManager &SM,
 			const QString &prefix = QString());

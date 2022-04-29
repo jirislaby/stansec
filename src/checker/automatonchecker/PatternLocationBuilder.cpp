@@ -80,6 +80,31 @@ void PatternLocationBuilder::NLDToDotFile(const NodeLocationDictionary &NLD,
 	out.close();
 }
 
+void PatternLocationBuilder::NLDToDotFileSep(const NodeLocationDictionary &NLD,
+					     const codestructs::LazyInternalStructures &LIS,
+					     const QString &file_prefix)
+{
+	auto &AM = LIS.getAnalysisManager();
+
+	QSet<const clang::CFG *> NLDCFGs;
+	for (const auto &blk : NLD.keys()) {
+		const auto parent = blk->getParent();
+		if (&parent->getEntry() != blk && &parent->getExit() != blk)
+		    NLDCFGs.insert(parent);
+	}
+
+	for (const auto &CFG : LIS.getCFGHandles()) {
+	    if (!NLDCFGs.contains(CFG.getCFG()))
+		    continue;
+	    QFile out(file_prefix + "_" + CFG.getName() + ".dot");
+	    qDebug() << "XXX dumping" << CFG.getName() << "to" << out.fileName();
+	    if (!out.open(QIODevice::WriteOnly | QIODevice::Text))
+		return;
+	    out.write(NLDToDot(NLD, AM, CFG.getCFG()).toLatin1());
+	    out.close();
+	}
+}
+
 QString PatternLocationBuilder::nodeToSrcLine(const codestructs::CFGNode &node,
 					      clang::ento::AnalysisManager &AM)
 {
@@ -120,16 +145,20 @@ QString PatternLocationBuilder::nodeToDotID(const codestructs::CFGNode &node)
 }
 
 QString PatternLocationBuilder::NLDToDot(const NodeLocationDictionary &NLD,
-					 clang::ento::AnalysisManager &AM)
+					 clang::ento::AnalysisManager &AM,
+					 const clang::CFG *CFGFilter)
 {
 	QString dot("digraph G {\nnode [shape=box];\n");
 
 	QSet<QPair<QString, QString> > addedArcs;
 
-	for (const auto &blk : NLD.keys())
+	for (const auto &blk : NLD.keys()) {
+		if (CFGFilter && blk->getParent() != CFGFilter)
+			continue;
 		for (const auto &stmt : NLD[blk])
 			NodeToDot(codestructs::CFGNode(blk, stmt.first),
 				  stmt.second, AM, dot, addedArcs);
+	}
 
 	return dot.append('}');
 }
