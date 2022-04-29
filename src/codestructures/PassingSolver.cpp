@@ -68,24 +68,40 @@ QString PassingSolver::makeArgument(const clang::Expr *op)
 	decast->dumpColor();
 	assert(0);
 	abort();
-
-#ifdef OLD
-	switch (op.type) {
-	case varptr:
-	    result.append("& ");
-
-	case function:
-	case constant:
-	case varval:
-	    result.append(op.id.toString());
-	    break;
-
-	case nodeval:
-	    result.append(makeArgument((CFGNode)op.id));
-	    break;
-	}
-#endif
 }
+
+#if 0
+    public static QString makeArgument(const Element elem) {
+	assert elem != null;
+
+	StringBuilder result = new StringBuilder(parseElement(elem));
+	for (Element e: (List<Element>)elem.elements())
+	    result.append(' ').append(makeArgument(e));
+	return result.toString();
+    }
+
+    QString parseElement(const Element elem) {
+	if (elem.getName() == "id") return elem.getText();
+	if (elem.getName() == "member") return elem.getText();
+	if (elem.getName() == "intConst") return elem.getText();
+	if (elem.getName() == "stringConst") return '"'+elem.getText()+'"';
+	if (elem.getName() == "addrExpression") return "&";
+	if (elem.getName() == "derefExpression") return "*";
+	if (elem.getName() == "dotExpression") return ".";
+	if (elem.getName() == "arrowExpression") return ". *";
+	if (elem.getName() == "arrayAccess") return "[]";
+	if (elem.getName() == "functionCall") return "(" +
+						 (elem.elements().size()  - 1) +
+							  ")";
+	return "";
+    }
+
+    QString parseNodeType(const QString type) {
+	if (type.equals("member")) return ".";
+	if (type.equals("deref")) return "*";
+	return "";
+    }
+#endif
 
 llvm::Optional<QString>
 PassingSolver::pass(const QString &argument,
@@ -134,36 +150,3 @@ QString PassingSolver::parseRootVariableName(const QString &argument)
 	    }
 	return QString();
 }
-
-#if 0
-    public static QString makeArgument(const Element elem) {
-        assert elem != null;
-
-        StringBuilder result = new StringBuilder(parseElement(elem));
-        for (Element e: (List<Element>)elem.elements())
-            result.append(' ').append(makeArgument(e));
-        return result.toString();
-    }
-
-    QString parseElement(const Element elem) {
-	if (elem.getName() == "id") return elem.getText();
-	if (elem.getName() == "member") return elem.getText();
-	if (elem.getName() == "intConst") return elem.getText();
-	if (elem.getName() == "stringConst") return '"'+elem.getText()+'"';
-	if (elem.getName() == "addrExpression") return "&";
-	if (elem.getName() == "derefExpression") return "*";
-	if (elem.getName() == "dotExpression") return ".";
-	if (elem.getName() == "arrowExpression") return ". *";
-	if (elem.getName() == "arrayAccess") return "[]";
-	if (elem.getName() == "functionCall") return "(" +
-						 (elem.elements().size()  - 1) +
-							  ")";
-	return "";
-    }
-
-    QString parseNodeType(const QString type) {
-        if (type.equals("member")) return ".";
-        if (type.equals("deref")) return "*";
-        return "";
-    }
-#endif
