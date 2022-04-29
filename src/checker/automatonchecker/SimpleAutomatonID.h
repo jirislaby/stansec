@@ -98,7 +98,8 @@ inline QDebug operator<<(QDebug d, const SimpleAutomatonID &item)
 {
 	if (item.isGlobal())
 		d << 'G';
-	d << 'L';
+	else
+		d << 'L';
 	d << item.getVarsAssignment();
 	return d;
 }
