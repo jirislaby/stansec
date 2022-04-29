@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-project(stansec VERSION 1.0.0 LANGUAGES CXX)
+# C needed for LLVM -> terminfo
+project(stansec VERSION 1.0.0 LANGUAGES C CXX)
 
 enable_testing()
 
