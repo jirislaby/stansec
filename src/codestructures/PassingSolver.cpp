@@ -64,6 +64,10 @@ QString PassingSolver::makeArgument(const clang::Expr *op)
 	} else if (auto unaryOp = llvm::dyn_cast<clang::UnaryOperator>(decast)) {
 		if (unaryOp->getOpcode() == clang::UnaryOperatorKind::UO_AddrOf)
 			return "& " + makeArgument(unaryOp->getSubExpr());
+	} else if (auto member = llvm::dyn_cast<clang::MemberExpr>(decast)) {
+		return ". *" + makeArgument(member->getBase()) +
+			QLatin1Char(' ') +
+			QString::fromStdString(member->getMemberDecl()->getName().str());
 	}
 	decast->dumpColor();
 	assert(0);
