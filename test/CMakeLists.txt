@@ -40,6 +40,13 @@ set_tests_properties(lockBadDoubleTest PROPERTIES
 	PASS_REGULAR_EXPRESSION "double lock"
         ENVIRONMENT "QT_FORCE_STDERR_LOGGING=1")
 
+add_test(NAME lockMemberTest
+	COMMAND stansec -c AutomatonChecker:auto.xml lock_member.c
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set_tests_properties(lockMemberTest PROPERTIES
+	FAIL_REGULAR_EXPRESSION "error \".*\" at:"
+        ENVIRONMENT "QT_FORCE_STDERR_LOGGING=1")
+
 add_test(NAME lockGoodTest
 	COMMAND stansec -c AutomatonChecker:auto.xml lock_good.c
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
