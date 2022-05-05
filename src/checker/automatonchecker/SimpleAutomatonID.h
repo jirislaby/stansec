@@ -20,13 +20,6 @@ namespace checker {
 
 class SimpleAutomatonID final {
 public:
-#if 0
-    public bool equals(Object obj) {
-        return (obj == null || getClass() != obj.getClass()) ?
-                false : isEqualWith((SimpleAutomatonID)obj);
-    }
-#endif
-
     // package-private section
 
     SimpleAutomatonID(const utils::XMLPatternVariablesAssignment &assignment,
@@ -41,14 +34,7 @@ public:
 
     QString toString() const;
 
-#if 0
-    bool isEqualWith(const SimpleAutomatonID other) {
-        return getVarsAssignment().equals(other.getVarsAssignment());
-    }
-#endif
-
 private:
-
     static QStringList
     buildVarsCollection(const utils::XMLPatternVariablesAssignment &varsAssignment);
 
