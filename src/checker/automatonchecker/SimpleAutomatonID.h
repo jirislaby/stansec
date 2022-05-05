@@ -20,25 +20,26 @@ namespace checker {
 
 class SimpleAutomatonID final {
 public:
+    using VarsAssignment = QStringList;
     // package-private section
 
     SimpleAutomatonID(const utils::XMLPatternVariablesAssignment &assignment,
 		      const bool isGlobal);
 
-    SimpleAutomatonID(const QStringList &varsAssignment, const bool isGlobal) :
+    SimpleAutomatonID(const VarsAssignment &varsAssignment, const bool isGlobal) :
 	    varsAssignment(varsAssignment), _isGlobal(isGlobal) {}
 
-    const QStringList getVarsAssignment() const { return varsAssignment; }
+    const VarsAssignment getVarsAssignment() const { return varsAssignment; }
 
     bool isGlobal() const { return _isGlobal; }
 
     QString toString() const;
 
 private:
-    static QStringList
+    static VarsAssignment
     buildVarsCollection(const utils::XMLPatternVariablesAssignment &varsAssignment);
 
-    QStringList varsAssignment;
+    VarsAssignment varsAssignment;
     bool _isGlobal;
 };
 
