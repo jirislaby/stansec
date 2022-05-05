@@ -4,6 +4,7 @@
  * Licensed under GPLv2.
  */
 
+#include <QDomElement>
 #include <QList>
 #include <QString>
 #include <QStringList>
