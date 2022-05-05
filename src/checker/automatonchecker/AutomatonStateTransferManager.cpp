@@ -43,7 +43,7 @@ AutomatonStateTransferManager::transferImpl(const codestructs::CFGNode &from,
     if (id.isGlobal())
 	return id;
 
-    QList<QString> transformedVarsAssignments;
+    QList<const clang::Expr *> transformedVarsAssignments;
 
     for (const auto &varsAssignment : id.getVarsAssignment()) {
 	const auto transformedVarAssign = getPassingManager().pass(from,
@@ -53,7 +53,7 @@ AutomatonStateTransferManager::transferImpl(const codestructs::CFGNode &from,
 	if (!transformedVarAssign)
 	    return llvm::Optional<SimpleAutomatonID>();
 
-	transformedVarsAssignments.append(*transformedVarAssign);
+	transformedVarsAssignments.append(transformedVarAssign);
     }
 
     return SimpleAutomatonID(transformedVarsAssignments, id.isGlobal());

@@ -18,8 +18,10 @@
 
 namespace clang {
 class CFG;
+class FunctionDecl;
 class Stmt;
 class SourceManager;
+class ParmVarDecl;
 
 namespace ento {
 class AnalysisManager;
@@ -106,20 +108,10 @@ private:
 
     static bool
     isParameterDependentID(const SimpleAutomatonID &automatonID,
-			   const QList<QString> &params) {
-	for (const auto &param : params)
-	    if (isParameterDependentID(automatonID, param))
-                return true;
-        return false;
-    }
+			   const clang::FunctionDecl *FD);
 
     static bool isParameterDependentID(const SimpleAutomatonID &id,
-				       const QString &paramName) {
-	for (const auto &varsAssign : id.getVarsAssignment())
-            if (varsAssign.contains(paramName))
-                return true;
-        return false;
-    }
+				       const clang::ParmVarDecl *param);
 
     static bool isOfLocallyDeclaredVariable(const SimpleAutomatonID &id,
 					    const codestructs::CFGHandle &cfg);

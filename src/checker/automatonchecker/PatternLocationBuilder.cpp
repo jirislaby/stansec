@@ -7,6 +7,7 @@
 #include <llvm/ADT/BreadthFirstIterator.h>
 
 #include <clang/Analysis/CFG.h>
+#include <clang/AST/Decl.h>
 #include <clang/Basic/SourceManager.h>
 #include <clang/Lex/Lexer.h>
 #include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
@@ -22,6 +23,7 @@
 
 #include "../../codestructures/ArgumentPassingManager.h"
 #include "../../codestructures/CFGsNavigator.h"
+#include "../../codestructures/PassingSolver.h"
 #include "../../codestructures/traversal/CFGTraversal.h"
 
 #include "AutomatonStateTransferManager.h"
@@ -391,7 +393,7 @@ PatternLocationBuilder::splitAutomataIDsIntoGlobalLocalAndFloation(const QSet<Si
 								   QSet<SimpleAutomatonID> &floats)
 {
     for (const auto &id : IDs) {
-	if (isParameterDependentID(id, cfg.getParamNames())) {
+	if (isParameterDependentID(id, cfg.getFD())) {
 	    floats.insert(id);
 	} else if (isOfLocallyDeclaredVariable(id, cfg)) {
 	    if (isInReturnExpression(id, cfg))
@@ -402,6 +404,22 @@ PatternLocationBuilder::splitAutomataIDsIntoGlobalLocalAndFloation(const QSet<Si
 	    globals.insert(SimpleAutomatonID(id.getVarsAssignment(), true));
 	}
     }
+}
+
+bool PatternLocationBuilder::isParameterDependentID(const SimpleAutomatonID &automatonID,
+						    const clang::FunctionDecl *FD) {
+	for (const auto &param : FD->parameters())
+		if (isParameterDependentID(automatonID, param))
+			return true;
+	return false;
+}
+
+bool PatternLocationBuilder::isParameterDependentID(const SimpleAutomatonID &id,
+						    const clang::ParmVarDecl *param) {
+	for (const auto &varsAssign : id.getVarsAssignment())
+		if (codestructs::PassingSolver::stmtContainsDecl(varsAssign, param))
+			return true;
+	return false;
 }
 
 bool PatternLocationBuilder::isOfLocallyDeclaredVariable(const SimpleAutomatonID &id,

@@ -30,7 +30,6 @@ public:
 	const clang::FunctionDecl *getFD() const { return FD; }
 
 	QString getName() const;
-	QList<QString> getParamNames() const;
 
 	const codestructs::CFGNode getStartNode() const;
 	const codestructs::CFGNode getEndNode() const;

@@ -15,65 +15,6 @@
 
 using namespace codestructs;
 
-QStringList
-PassingSolver::makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment)
-{
-    QStringList res;
-#ifdef OLD
-    for (auto key : varToElement)
-	res.append(makeArgument(varToElement[key]));
-#endif
-
-    for (auto &val : xmlAssignment.getVarsNodeMap())
-	res.append(makeArgument(val));
-
-    return res;
-}
-
-
-QString PassingSolver::makeArgument(const clang::Stmt *node)
-{
-#if 0
-	if (node.getNodeType() == null)
-	    return makeArgument(node.getElement());
-
-	QString result = new StringBuilder(parseNodeType(node.getNodeType()));
-	for (CFGNode.Operand op : node.getOperands())
-	{
-	    result.append(' ').append(makeArgument(op));
-	}
-	return result.toString();
-#else
-	assert(0); abort();
-#endif
-}
-
-QString PassingSolver::makeArgument(const clang::Expr *op)
-{
-	auto decast = op->IgnoreCasts();
-
-	if (auto declRef = llvm::dyn_cast<clang::DeclRefExpr>(decast)) {
-		auto decl = declRef->getDecl();
-		if (auto nd = llvm::dyn_cast<clang::NamedDecl>(decl)) {
-		    //nd->dumpColor();
-		    return QString::fromStdString(nd->getName().str());
-		} else {
-		    qWarning() << "no name for";
-		    decl->dumpColor();
-		}
-	} else if (auto unaryOp = llvm::dyn_cast<clang::UnaryOperator>(decast)) {
-		if (unaryOp->getOpcode() == clang::UnaryOperatorKind::UO_AddrOf)
-			return "& " + makeArgument(unaryOp->getSubExpr());
-	} else if (auto member = llvm::dyn_cast<clang::MemberExpr>(decast)) {
-		return ". *" + makeArgument(member->getBase()) +
-			QLatin1Char(' ') +
-			QString::fromStdString(member->getMemberDecl()->getName().str());
-	}
-	decast->dumpColor();
-	assert(0);
-	abort();
-}
-
 #if 0
     public static QString makeArgument(const Element elem) {
 	assert elem != null;
@@ -107,50 +48,54 @@ QString PassingSolver::makeArgument(const clang::Expr *op)
     }
 #endif
 
-llvm::Optional<QString>
-PassingSolver::pass(const QString &argument,
+const clang::Expr *
+PassingSolver::pass(const clang::Expr *argument,
 		    const QList<CallMapping> &callMapping)
 {
 	bool wasTransformed = false;
-	QString result(argument);
+	auto result = argument;
 
 	for (const auto &map : callMapping) {
 	    const auto paramTransformation = pass(result, map);
 	    if (paramTransformation) {
 		wasTransformed = true;
-		result = *paramTransformation;
+		result = paramTransformation;
 	    }
 	}
 
-	return wasTransformed ? result : llvm::Optional<QString>();
+	return wasTransformed ? result : nullptr;
 }
 
-llvm::Optional<QString>
-PassingSolver::pass(QString argument, const CallMapping &callMapping)
+const clang::Expr *
+PassingSolver::pass(const clang::Expr *argument, const CallMapping &callMapping)
 {
 	const auto &fi = callMapping.first;
-	const auto &se = callMapping.second;
+	//const auto &se = callMapping.second;
 
-	if (argument.isEmpty() || fi.isEmpty())
-	    return llvm::Optional<QString>();
-
+	if (!argument || !fi)
+	    return nullptr;
+#if 0
 	if (argument.contains(fi))
 	    return simplify(argument.replace(fi, se));
 
 	if (fi.contains(argument) && fi[0] == '&')
 	    return "* " + se;
+#else
+	assert(0); abort();
+#endif
 
-	return llvm::Optional<QString>();
+	return nullptr;
 }
 
-QString PassingSolver::parseRootVariableName(const QString &argument)
+bool PassingSolver::stmtContainsDecl(const clang::Stmt *stmt,
+				     const clang::Decl *decl)
 {
-	for (int i = 0; i < argument.length(); ++i)
-	    if (argument[i] == '_' || argument[i].isLetter()) {
-		int j = i+1;
-		while (j < argument.length() && argument[j] != ' ')
-		    j++;
-		return argument.mid(i, j - i);
-	    }
-	return QString();
+	if (auto DRE = llvm::dyn_cast<const clang::DeclRefExpr>(stmt))
+		return DRE->getDecl() == decl;
+
+	for (auto ch : stmt->children())
+		if (stmtContainsDecl(ch, decl))
+			return true;
+
+	return false;
 }

@@ -8,8 +8,6 @@
  * Licensed under GPLv2.
  */
 
-#include <llvm/ADT/Optional.h>
-
 #include <QList>
 #include <QMap>
 #include <QPair>
@@ -21,6 +19,7 @@
 #include "PassingSolver.h"
 
 namespace clang {
+class Expr;
 class Stmt;
 }
 
@@ -43,9 +42,9 @@ public:
 	return !getMapping().contains(qMakePair(from, to));
     }
 
-    llvm::Optional<QString> pass(const codestructs::CFGNode &from,
-				 const QString &argument,
-				 const codestructs::CFGNode &to) {
+    const clang::Expr *pass(const codestructs::CFGNode &from,
+			    const clang::Expr *argument,
+			    const codestructs::CFGNode &to) {
 	assert(from.hasStmt());
 	return PassingSolver::pass(argument, getMapping()[qMakePair(from, to)]);
     }

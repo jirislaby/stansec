@@ -151,19 +151,16 @@ bool PatternLocationCreator::isGlobalAssignment(const utils::XMLPatternVariables
 	const SimpleAutomatonID id(assignment, false);
 
 	for (const auto param : getCfg().getFD()->parameters()) {
-	    auto paramNamed = llvm::dyn_cast<clang::NamedDecl>(param);
-	    if (!paramNamed)
-		    continue;
-	    auto paramName = QString::fromStdString(paramNamed->getName().str());
 	    for (const auto &var : id.getVarsAssignment()) {
-		if (var.contains(paramName))
+		if (codestructs::PassingSolver::stmtContainsDecl(var, param))
 		    return false;
 	    }
 	}
 
 	for (const auto &var : id.getVarsAssignment()) {
-	    const auto varName = codestructs::PassingSolver::parseRootVariableName(var);
-	    qDebug() << __func__ << "is" << varName << "local in:";
+	    qDebug() << __func__ << "is";
+	    var->dump();
+	    qDebug() << "local in:";
 	    getCfg().getFD()->dumpColor();
 #if 0
 	    if (!getCfg().isSymbolLocal(varName))

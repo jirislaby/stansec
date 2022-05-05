@@ -9,10 +9,11 @@
  */
 
 #include <QDebug>
+#include <QList>
 #include <QString>
-#include <QStringList>
 
 namespace clang {
+class Expr;
 class LangOptions;
 }
 
@@ -24,7 +25,7 @@ namespace checker {
 
 class SimpleAutomatonID final {
 public:
-    using VarsAssignment = QStringList;
+    using VarsAssignment = QList<const clang::Expr *>;
     // package-private section
 
     SimpleAutomatonID(const utils::XMLPatternVariablesAssignment &assignment,
@@ -47,12 +48,8 @@ private:
     bool _isGlobal;
 };
 
-inline bool operator==(const SimpleAutomatonID &lhs,
-		       const SimpleAutomatonID &rhs)
-{
-	return lhs.isGlobal() == rhs.isGlobal() &&
-			lhs.getVarsAssignment() == rhs.getVarsAssignment();
-}
+bool operator==(const SimpleAutomatonID &lhs,
+		const SimpleAutomatonID &rhs);
 
 inline bool operator!=(const SimpleAutomatonID &lhs,
 		       const SimpleAutomatonID &rhs)

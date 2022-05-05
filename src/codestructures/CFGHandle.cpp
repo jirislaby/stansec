@@ -22,19 +22,6 @@ QString CFGHandle::getName() const
 	return QString::fromStdString(getFD()->getName().str());
 }
 
-QList<QString> CFGHandle::getParamNames() const
-{
-	QList<QString> result;
-
-	for (auto p : getFD()->parameters())
-		result.append(QString::fromStdString(p->getName().str()));
-
-	//llvm::errs() << FD() << "\n";
-	//qDebug() << result;
-
-	return result;
-}
-
 const codestructs::CFGNode CFGHandle::getStartNode() const
 {
 	return codestructs::CFGNode(&getCFG()->getEntry());
