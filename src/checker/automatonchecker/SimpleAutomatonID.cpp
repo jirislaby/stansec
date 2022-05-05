@@ -12,9 +12,9 @@ SimpleAutomatonID::SimpleAutomatonID(const utils::XMLPatternVariablesAssignment 
 
 QString SimpleAutomatonID::toString() const {
 	QString result;
-	if (isGlobal())
-		result.append('G');
+	result.append(isGlobal() ? 'G' : 'L').append('(');
 	result.append(getVarsAssignment().join(','));
+	result.append(')');
 	return result;
 }
 
