@@ -12,6 +12,10 @@
 #include <QString>
 #include <QStringList>
 
+namespace clang {
+class LangOptions;
+}
+
 namespace utils {
 class XMLPatternVariablesAssignment;
 }
@@ -33,7 +37,7 @@ public:
 
     bool isGlobal() const { return _isGlobal; }
 
-    QString toString() const;
+    QString toString(const clang::LangOptions &LO) const;
 
 private:
     static VarsAssignment

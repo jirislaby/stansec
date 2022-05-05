@@ -14,6 +14,9 @@
 
 #include "SimpleAutomatonID.h"
 
+namespace clang {
+class LangOptions;
+}
 namespace checker {
 
 class ComposedAutomatonID final {
@@ -32,10 +35,10 @@ public:
         return automataIDs;
     }
 
-    QString toString() const {
+    QString toString(const clang::LangOptions &LO) const {
 	    QStringList result;
 	    for (const auto &s: getSimpleAutomataIDs())
-		    result << s.toString();
+		    result << s.toString(LO);
 	    return result.join(", ");
     }
 

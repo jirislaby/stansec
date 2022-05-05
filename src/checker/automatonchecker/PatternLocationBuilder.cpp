@@ -172,10 +172,11 @@ void PatternLocationBuilder::NodeToDot(const codestructs::CFGNode &n,
 	const auto &patLoc = locPair.first;
 	const auto ID = nodeToDotID(n);
 	const auto srcLine = nodeToSrcLine(n, AM);
+	auto &LO = AM.getLangOpts();
 
 	QStringList strList;
 	for (auto &s : patLoc->getDeliveredAutomataStates()) {
-	    strList << s.getSymbol() + '[' + s.getAutomatonID().toString() + ']';
+	    strList << s.getSymbol() + '[' + s.getAutomatonID().toString(LO) + ']';
 	}
 
 	QString filling;
@@ -195,7 +196,7 @@ void PatternLocationBuilder::NodeToDot(const codestructs::CFGNode &n,
 
 	strList.clear();
 	for (auto &tr : patLoc->getTransitionRules())
-		strList << tr.toString();
+		strList << tr.toString(LO);
 	if (!strList.empty()) {
 		dot.append('t').append(ID).
 			append(" [ style=\"filled\" fillcolor=\"yellow\" shape=\"ellipse\" label=\"Transition Rules\\n").
@@ -205,7 +206,7 @@ void PatternLocationBuilder::NodeToDot(const codestructs::CFGNode &n,
 
 	strList.clear();
 	for (auto &err : patLoc->getErrorRules())
-	    strList << err.toString();
+	    strList << err.toString(LO);
 	if (!strList.empty()) {
 		dot.append('e').append(ID).
 			append(" [ style=\"filled\" fillcolor=\"red\" shape=\"ellipse\" label=\"Error Rules\\n").

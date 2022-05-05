@@ -14,6 +14,10 @@
 #include "SimpleAutomatonID.h"
 #include "XMLErrorRule.h"
 
+namespace clang {
+class LangOptions;
+}
+
 namespace checker {
 
 class ErrorRule final {
@@ -61,8 +65,8 @@ public:
     const XMLErrorRule *getXMLrule() const { return XMLrule; }
     const SimpleAutomatonID &getAutomatonID() const { return automatonID; }
 
-    QString toString() const {
-	QString result(getAutomatonID().toString());
+    QString toString(const clang::LangOptions &LO) const {
+	QString result(getAutomatonID().toString(LO));
 	result.append(": ").append(getXMLrule()->toString());
 	return result;
     }

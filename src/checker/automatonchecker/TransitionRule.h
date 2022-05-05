@@ -17,6 +17,10 @@
 #include "SimpleAutomatonID.h"
 #include "XMLTransitionRule.h"
 
+namespace clang {
+class LangOptions;
+}
+
 namespace checker {
 
 class TransitionRule final {
@@ -34,8 +38,8 @@ public:
     const SimpleAutomatonID &getAutomatonID() const { return automatonID; }
     const XMLTransitionRule *getXMLrule() const { return XMLrule; }
 
-    QString toString() const {
-	QString result(getAutomatonID().toString());
+    QString toString(const clang::LangOptions &LO) const {
+	QString result(getAutomatonID().toString(LO));
 	result.append(": ").append(getXMLrule()->toString());
 	return result;
     }

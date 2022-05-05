@@ -10,7 +10,7 @@ SimpleAutomatonID::SimpleAutomatonID(const utils::XMLPatternVariablesAssignment 
 {
 }
 
-QString SimpleAutomatonID::toString() const {
+QString SimpleAutomatonID::toString(const clang::LangOptions &LO) const {
 	QString result;
 	result.append(isGlobal() ? 'G' : 'L').append('(');
 	result.append(getVarsAssignment().join(','));
