@@ -58,6 +58,7 @@ public:
 	return getXMLrule()->isExitRule();
     }
 
+    const XMLErrorRule *getXMLrule() const { return XMLrule; }
     const SimpleAutomatonID &getAutomatonID() const { return automatonID; }
 
     QString toString() const {
@@ -67,15 +68,13 @@ public:
     }
 
 private:
-    const XMLErrorRule *getXMLrule() const { return XMLrule; }
-
     const XMLErrorRule *XMLrule;
     SimpleAutomatonID automatonID;
 };
 
 inline QDebug operator<<(QDebug d, const ErrorRule &r)
 {
-	d << r.toString();
+	d << r.getAutomatonID() << r.getXMLrule();
 	return d;
 }
 

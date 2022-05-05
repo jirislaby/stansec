@@ -47,7 +47,7 @@ private:
 
 inline QDebug operator<<(QDebug d, const TransitionRule &r)
 {
-	d << r.toString();
+	d << r.getAutomatonID() << r.getXMLrule();
 	return d;
 }
 
