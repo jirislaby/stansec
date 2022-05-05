@@ -49,6 +49,7 @@ add_library(checker STATIC
 	automatonchecker/PatternLocationBuilder.h
 	automatonchecker/PatternLocationCreator.cpp
 	automatonchecker/PatternLocationCreator.h
+	automatonchecker/SimpleAutomatonID.cpp
 	automatonchecker/SimpleAutomatonID.h
 	automatonchecker/TransitionRule.h
 	automatonchecker/XMLAutomatonDefinition.cpp

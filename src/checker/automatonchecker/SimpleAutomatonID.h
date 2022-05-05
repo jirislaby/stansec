@@ -12,8 +12,6 @@
 #include <QString>
 #include <QStringList>
 
-#include "../../codestructures/PassingSolver.h"
-
 namespace utils {
 class XMLPatternVariablesAssignment;
 }
@@ -32,8 +30,7 @@ public:
     // package-private section
 
     SimpleAutomatonID(const utils::XMLPatternVariablesAssignment &assignment,
-		      const bool isGlobal) :
-	varsAssignment(buildVarsCollection(assignment)), _isGlobal(isGlobal) {}
+		      const bool isGlobal);
 
     SimpleAutomatonID(const QStringList &varsAssignment, const bool isGlobal) :
 	    varsAssignment(varsAssignment), _isGlobal(isGlobal) {}
@@ -42,13 +39,7 @@ public:
 
     bool isGlobal() const { return _isGlobal; }
 
-    QString toString() const {
-	QString result;
-	if (isGlobal())
-		result.append('G');
-	result.append(getVarsAssignment().join(','));
-	return result;
-    }
+    QString toString() const;
 
 #if 0
     bool isEqualWith(const SimpleAutomatonID other) {
@@ -59,9 +50,7 @@ public:
 private:
 
     static QStringList
-    buildVarsCollection(const utils::XMLPatternVariablesAssignment &varsAssignment) {
-	return codestructs::PassingSolver::makeArgumentList(varsAssignment);
-    }
+    buildVarsCollection(const utils::XMLPatternVariablesAssignment &varsAssignment);
 
     QStringList varsAssignment;
     bool _isGlobal;
@@ -97,15 +86,7 @@ inline uint qHash(const SimpleAutomatonID &item, uint seed)
 	return (qHash(item.getVarsAssignment(), seed) << 1) + item.isGlobal();
 }
 
-inline QDebug operator<<(QDebug d, const SimpleAutomatonID &item)
-{
-	if (item.isGlobal())
-		d << 'G';
-	else
-		d << 'L';
-	d << item.getVarsAssignment();
-	return d;
-}
+QDebug operator<<(QDebug d, const SimpleAutomatonID &item);
 
 }
 
