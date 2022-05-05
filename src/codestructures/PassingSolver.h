@@ -29,6 +29,7 @@ namespace codestructs {
 class PassingSolver {
 public:
     using CallMapping = QPair<QString, QString>;
+    using CallSiteToCalleeMap = QList<CallMapping>;
     static QStringList makeArgumentList(const utils::XMLPatternVariablesAssignment &xmlAssignment);
     static QString makeArgument(const clang::Stmt *node);
     static QString makeArgument(const clang::Expr *op);
@@ -37,11 +38,9 @@ public:
 #endif
 
     static llvm::Optional<QString>
-    pass(const QString &argument,
-	 const QList<CallMapping> &callMapping);
+    pass(const QString &argument, const CallSiteToCalleeMap &callMapping);
     static llvm::Optional<QString>
-    pass(QString argument,
-	 const CallMapping &callMapping);
+    pass(QString argument, const CallMapping &callMapping);
 
     static QString simplify(QString argument) {
 	    return argument.replace("* & ", "")

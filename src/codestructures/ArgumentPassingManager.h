@@ -51,22 +51,22 @@ public:
     }
 
 private:
-    using CallSiteToCalleeMap = QList<QPair<QString, QString> >;
-    using Mapping = QMap<QPair<const codestructs::CFGNode, const codestructs::CFGNode>, CallSiteToCalleeMap>;
+    using Mapping = QMap<QPair<const codestructs::CFGNode, const codestructs::CFGNode>,
+	PassingSolver::CallSiteToCalleeMap>;
 
     void build(const CFGsNavigator &navigator,
 	       const LazyInternalStructures::NodeToCFGDictionary &nodeToCFGdict);
 
     void buildPassingsForCallSite(const clang::Stmt *caller,
 				  const CFGHandle &callee);
-
-    static CallSiteToCalleeMap
+#ifdef NEEDED
+    static PassingSolver::CallSiteToCalleeMap
     buildMappingFromCallSiteToCallee(const clang::Stmt *caller,
 				     const CFGHandle &callee);
 
-    static CallSiteToCalleeMap
-    transposeCallSiteMapping(const CallSiteToCalleeMap &map);
-
+    static PassingSolver::CallSiteToCalleeMap
+    transposeCallSiteMapping(const PassingSolver::CallSiteToCalleeMap &map);
+#endif
     Mapping getMapping() const { return mapping; }
     Mapping &getMapping() { return mapping; }
 
