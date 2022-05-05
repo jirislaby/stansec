@@ -13,7 +13,6 @@
 #include <QDebug>
 #include <QString>
 
-#include "AutomatonState.h"
 #include "SimpleAutomatonID.h"
 #include "XMLTransitionRule.h"
 
@@ -22,6 +21,8 @@ class LangOptions;
 }
 
 namespace checker {
+
+class AutomatonState;
 
 class TransitionRule final {
     // package-private section

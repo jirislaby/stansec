@@ -14,6 +14,7 @@
 
 #include "../../codestructures/CFGNode.h"
 
+#include "AutomatonState.h"
 #include "ErrorRule.h"
 #include "TransitionRule.h"
 
