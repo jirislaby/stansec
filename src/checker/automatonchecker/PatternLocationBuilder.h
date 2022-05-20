@@ -18,6 +18,7 @@
 
 namespace clang {
 class CFG;
+class Decl;
 class FunctionDecl;
 class Stmt;
 class SourceManager;
@@ -118,7 +119,7 @@ private:
     static bool isInReturnExpression(const SimpleAutomatonID &id,
 				     const codestructs::CFGHandle &cfg);
     static bool isInReturnExpression(const SimpleAutomatonID &id,
-				     const QSet<QString> &dependentVars);
+				     const QSet<const clang::Decl *> &dependentVars);
 
     static void addInitialAutomatonStatesForCFGLocations(PatternLocation &startLoc,
 		    PatternLocation &endLoc,

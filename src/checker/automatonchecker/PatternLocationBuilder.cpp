@@ -443,26 +443,37 @@ bool PatternLocationBuilder::isOfLocallyDeclaredVariable(const SimpleAutomatonID
 bool PatternLocationBuilder::isInReturnExpression(const SimpleAutomatonID &id,
 						  const codestructs::CFGHandle &cfg)
 {
-#if 0
-	for (const CFGNode node : cfg.getEndNode().getPredecessors()) {
-	    QSet<QString> dependentVars = nullptr;
-	    if (node.getNodeType() != null && node.getNodeType().equals("assign")
-		    && ((QString)node.getOperands().get(0).id).equals(cfg.getRetVar())) {
-		CFGNode.Operand retop = node.getOperands().get(1);
-		dependentVars = CFGNode.getDependentVars(retop);
-	    } else if (node.getElement() != null && node.getElement().getName().equals("returnStatement")) {
-		dependentVars = new QSet<QString>();
-		for (Object idElem : node.getElement().selectNodes("id"))
-		    dependentVars.add(((org.dom4j.Element)idElem).getText());
+	for (const auto pred : cfg.getEndNode().getBlock()->preds()) {
+	    QSet<const clang::Decl *> dependentVars;
+	    auto lastCFGStmt = pred->back().getAs<clang::CFGStmt>();
+	    if (!lastCFGStmt)
+		    continue;
+	    auto lastStmt = lastCFGStmt->getStmt();
+	    if (auto ret = llvm::dyn_cast_or_null<clang::ReturnStmt>(lastStmt)) {
+		    codestructs::PassingSolver::forEachDecl(ret,
+							    [&dependentVars](const clang::Decl *id) -> bool {
+			    dependentVars.insert(id);
+			    return false;
+		    });
 	    }
-	    if (dependentVars != null && isInReturnExpression(id,dependentVars))
+	    if (!dependentVars.empty() && isInReturnExpression(id, dependentVars))
 		return true;
 	}
 
 	return false;
-#else
-	assert(0); abort();
-#endif
+}
+
+bool PatternLocationBuilder::isInReturnExpression(const SimpleAutomatonID &id,
+						  const QSet<const clang::Decl *> &dependentVars)
+{
+	for (const auto expr : id.getVarsAssignment()) {
+	    auto decl = codestructs::PassingSolver::getFirstDecl(expr);
+	    for (const auto &depVar : dependentVars)
+		if (depVar == decl)
+		    return true;
+	}
+
+	return false;
 }
 
 void PatternLocationBuilder::addInitialAutomatonStatesForCFGLocations(PatternLocation &startLoc,
@@ -506,17 +517,3 @@ QList<ErrorRule> PatternLocationBuilder::getExitErrorRules(const QList<const XML
 							  asGlobal)));
     return errorRules;
 }
-
-#if 0
-bool isInReturnExpression(const SimpleAutomatonID id,
-			  const Set<QString> dependentVars) {
-    for (const QString varsAssign : id.getVarsAssignment()) {
-	const QString varName = cz.muni.stanse.codestructures.PassingSolver.
-		parseRootVariableName(varsAssign);
-	for (QString depVar : dependentVars)
-	    if (varName.equals(depVar))
-		return true;
-    }
-    return false;
-}
-#endif
