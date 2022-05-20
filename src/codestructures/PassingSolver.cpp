@@ -87,6 +87,18 @@ PassingSolver::pass(const clang::Expr *argument, const CallMapping &callMapping)
 	return nullptr;
 }
 
+const clang::Decl *PassingSolver::getFirstDecl(const clang::Stmt *stmt)
+{
+	if (auto DRE = llvm::dyn_cast<const clang::DeclRefExpr>(stmt))
+		return DRE->getDecl();
+
+	for (auto ch : stmt->children())
+		if (auto decl = getFirstDecl(ch))
+			return decl;
+
+	return nullptr;
+}
+
 bool PassingSolver::stmtContainsDecl(const clang::Stmt *stmt,
 				     const clang::Decl *decl)
 {

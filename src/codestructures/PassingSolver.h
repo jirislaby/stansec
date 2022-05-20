@@ -38,6 +38,7 @@ public:
     static bool stmtContainsDecl(const clang::Stmt *stmt,
 				 const clang::Decl *decl);
 
+    static const clang::Decl *getFirstDecl(const clang::Stmt *stmt);
 private:
     //static QString parseElement(const Element &elem);
 

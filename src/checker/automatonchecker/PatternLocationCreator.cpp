@@ -148,26 +148,10 @@ void PatternLocationCreator::createStartEndPatternLocations()
 
 bool PatternLocationCreator::isGlobalAssignment(const utils::XMLPatternVariablesAssignment &assignment)
 {
-	const SimpleAutomatonID id(assignment, false);
-
-	for (const auto param : getCfg().getFD()->parameters()) {
-	    for (const auto &var : id.getVarsAssignment()) {
-		if (codestructs::PassingSolver::stmtContainsDecl(var, param))
-		    return false;
-	    }
-	}
-
-	for (const auto &var : id.getVarsAssignment()) {
-	    qDebug() << __func__ << "is";
-	    var->dump();
-	    qDebug() << "local in:";
-	    getCfg().getFD()->dumpColor();
-#if 0
-	    if (!getCfg().isSymbolLocal(varName))
-		return true;
-#else
-	assert(0); abort();
-#endif
+	for (const auto &var : assignment.getVarsNodeMap().values()) {
+	    auto decl = codestructs::PassingSolver::getFirstDecl(var);
+	    if (decl->isDefinedOutsideFunctionOrMethod())
+		    return true;
 	}
 
 	return false;
