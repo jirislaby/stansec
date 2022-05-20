@@ -52,7 +52,8 @@ public:
 	}
 
 	void setInitialAutomataStates(const QList<AutomatonState> initStates) {
-	    assert(getUnprocessedAutomataStates().isEmpty());
+	    // We can have a start function accepting locks as parameters
+	    // assert(getUnprocessedAutomataStates().isEmpty());
 	    getUnprocessedAutomataStates() << initStates;
 	}
 
