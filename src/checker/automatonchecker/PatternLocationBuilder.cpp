@@ -404,6 +404,12 @@ PatternLocationBuilder::splitAutomataIDsIntoGlobalLocalAndFloation(const QSet<Si
 	    globals.insert(SimpleAutomatonID(id.getVarsAssignment(), true));
 	}
     }
+#ifdef DUMP_SPLIT
+    qDebug() << __func__ << cfg.getName() << ":";
+    qDebug() << "locals" << locals;
+    qDebug() << "floats" << floats;
+    qDebug() << "globals" << globals;
+#endif
 }
 
 bool PatternLocationBuilder::isParameterDependentID(const SimpleAutomatonID &automatonID,
