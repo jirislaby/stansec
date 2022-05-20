@@ -3,10 +3,12 @@
 
 /*
  * Copyright (c) 2008-2009 Marek Trtik
- * Copyright (c) 2021 Jiri Slaby <jirislaby@gmail.com>
+ * Copyright (c) 2021-2022 Jiri Slaby <jirislaby@gmail.com>
  *
  * Licensed under GPLv2.
  */
+
+#include <functional>
 
 #include <QList>
 #include <QPair>
@@ -39,6 +41,8 @@ public:
 				 const clang::Decl *decl);
 
     static const clang::Decl *getFirstDecl(const clang::Stmt *stmt);
+    static bool forEachDecl(const clang::Stmt *stmt,
+			    const std::function<bool (const clang::Decl *)> &CB);
 private:
     //static QString parseElement(const Element &elem);
 
