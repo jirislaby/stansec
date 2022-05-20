@@ -425,16 +425,13 @@ bool PatternLocationBuilder::isParameterDependentID(const SimpleAutomatonID &id,
 bool PatternLocationBuilder::isOfLocallyDeclaredVariable(const SimpleAutomatonID &id,
 							 const codestructs::CFGHandle &cfg)
 {
-#if 0
-	for (const auto &varsAssign : id.getVarsAssignment())
-	    if (!cfg.isSymbolLocal(cz.muni.stanse.codestructures.PassingSolver.
-				   parseRootVariableName(varsAssign)))
-		return false;
+	for (const auto &expr : id.getVarsAssignment()) {
+		auto decl = codestructs::PassingSolver::getFirstDecl(expr);
+		if (decl->isDefinedOutsideFunctionOrMethod())
+			return false;
+	}
 
 	return true;
-#else
-	assert(0); abort();
-#endif
 }
 
 bool PatternLocationBuilder::isInReturnExpression(const SimpleAutomatonID &id,
