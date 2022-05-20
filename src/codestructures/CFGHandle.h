@@ -7,6 +7,7 @@
  * Licensed under GPLv2.
  */
 
+#include <QDebug>
 #include <QList>
 #include <QPair>
 #include <QString>
@@ -47,6 +48,12 @@ inline bool operator==(const CFGHandle &lhs, const CFGHandle &rhs)
 inline uint qHash(const CFGHandle &item)
 {
 	return ::qHash(item.getCFG());
+}
+
+inline QDebug operator<<(QDebug d, const CFGHandle &n)
+{
+	d << n.getName();
+	return d;
 }
 
 }
