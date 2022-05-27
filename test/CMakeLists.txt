@@ -54,10 +54,10 @@ set_tests_properties(lockLocalTest PROPERTIES
 	FAIL_REGULAR_EXPRESSION "error \".*\" at:"
         ENVIRONMENT "QT_FORCE_STDERR_LOGGING=1")
 
-add_test(NAME lockGlobalTest
-	COMMAND stansec -c AutomatonChecker:auto.xml lock_global.c
+add_test(NAME lockGlobalGoodTest
+	COMMAND stansec -c AutomatonChecker:auto.xml lock_global_good.c
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-set_tests_properties(lockGlobalTest PROPERTIES
+set_tests_properties(lockGlobalGoodTest PROPERTIES
 	FAIL_REGULAR_EXPRESSION "error \".*\" at:"
         ENVIRONMENT "QT_FORCE_STDERR_LOGGING=1")
 
