@@ -24,6 +24,10 @@ class Stmt;
 class SourceManager;
 }
 
+namespace codestructs {
+class LazyInternalStructures;
+}
+
 namespace checker {
 
 class AutomatonStateTransferManager;
@@ -32,12 +36,14 @@ class PatternLocation final {
 
     // package-private section
 public:
-	PatternLocation(const codestructs::CFGNode &referenceNode,
+	PatternLocation(const codestructs::LazyInternalStructures &LIS,
+			const codestructs::CFGNode &referenceNode,
 			const QList<TransitionRule> transitionRules = QList<TransitionRule>(),
 			const QList<ErrorRule> errorRules = QList<ErrorRule>(),
 			AutomatonStateTransferManager *transferor = nullptr) :
-	    CFGreferenceNode(referenceNode), transitionRules(transitionRules),
-	    errorRules(errorRules), transferor(transferor) { }
+	    LIS(LIS), CFGreferenceNode(referenceNode),
+	    transitionRules(transitionRules), errorRules(errorRules),
+	    transferor(transferor) { }
 
 	QList<PatternLocation *> &getSuccessorPatternLocations() {
 	    return successorPatternLocations;
@@ -120,7 +126,7 @@ public:
 	    return unprocessedAutomataStates;
 	}
 
-	QString toString(const clang::SourceManager &SM);
+	QString toString();
 
 private:
 
@@ -131,6 +137,7 @@ private:
 
 	static void reduceStateSet(QSet<AutomatonState> &set);
 
+	const codestructs::LazyInternalStructures &LIS;
 	codestructs::CFGNode CFGreferenceNode;
 	QSet<AutomatonState> processedAutomataStates;
 	QList<AutomatonState> unprocessedAutomataStates;

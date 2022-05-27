@@ -54,9 +54,8 @@ public:
 			   const XMLAutomatonDefinition &automatonDefinition,
 			   const codestructs::LazyInternalStructures &internals,
 			   NodeLocationDictionary &NLD) :
-	automatonDefinition(automatonDefinition), NLD(NLD),
-	navigator(internals.getNavigator()), cfg(cfg),
-	aliasResolver(internals.getAliasResolver()) {
+	LIS(internals), automatonDefinition(automatonDefinition), NLD(NLD),
+	cfg(cfg), aliasResolver(internals.getAliasResolver()) {
 	createStartEndPatternLocations();
     }
 
@@ -78,7 +77,8 @@ private:
     std::unique_ptr<PatternLocation>
     createCommonPatternLocation(const codestructs::CFGNode &node,
 				const Matchings &matchings) {
-	return std::make_unique<PatternLocation>(node, createTransitionRules(matchings),
+	return std::make_unique<PatternLocation>(LIS, node,
+						 createTransitionRules(matchings),
 						 createErrorRules(matchings));
     }
 
@@ -87,7 +87,7 @@ private:
 
     std::unique_ptr<PatternLocation>
     createRuleLessPatternLocation(const codestructs::CFGNode &node) {
-	return std::make_unique<PatternLocation>(node);
+	return std::make_unique<PatternLocation>(LIS, node);
     }
 
     void createStartEndPatternLocations();
@@ -99,17 +99,17 @@ private:
     }
 
     codestructs::CFGsNavigator &getNavigator() const {
-	return navigator;
+	return LIS.getNavigator();
     }
 
     const codestructs::CFGHandle &getCfg() const {
 	return cfg;
     }
 
+    const codestructs::LazyInternalStructures &LIS;
     const XMLAutomatonDefinition &automatonDefinition;
     NodeLocationDictionary &NLD;
     QSet<SimpleAutomatonID> automataIDs;
-    codestructs::CFGsNavigator &navigator;
     const codestructs::CFGHandle &cfg;
     utils::AliasResolver aliasResolver;
     //const static Logger logger = Logger.getLogger(PatternLocationCreator.class);

@@ -6,11 +6,14 @@
 
 #include <clang/AST/Stmt.h>
 #include <clang/Basic/SourceManager.h>
+#include <clang/StaticAnalyzer/Core/PathSensitive/AnalysisManager.h>
 
 #include <QList>
 #include <QPair>
 #include <QStack>
 #include <QString>
+
+#include "../../codestructures/LazyInternalStructures.h"
 
 #include "AutomatonStateCFGcontextAlgo.h"
 #include "AutomatonStateTransferManager.h"
@@ -34,7 +37,8 @@ bool PatternLocation::processUnprocessedAutomataStates()
 	return successorsWereAffected;
 }
 
-QString PatternLocation::toString(const clang::SourceManager &SM) {
+QString PatternLocation::toString() {
+	auto &SM = LIS.getAnalysisManager().getSourceManager();
 	auto ln = SM.getPresumedLineNumber(CFGreferenceNode.getBeginLoc());
 	return "PL(line " + QString::number(ln) + ")";
 }
