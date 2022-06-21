@@ -66,12 +66,16 @@ inline bool operator<(const SimpleAutomatonID &lhs,
 
 inline uint qHash(const SimpleAutomatonID &item)
 {
-	return (qHash(item.getVarsAssignment()) << 1) + item.isGlobal();
+	// clang::Expr can vary, but still point to the same DeclRef
+	// So depend only on isGlobal for now.
+	//return (qHash(item.getVarsAssignment()) << 1) + item.isGlobal();
+	return item.isGlobal();
 }
 
 inline uint qHash(const SimpleAutomatonID &item, uint seed)
 {
-	return (qHash(item.getVarsAssignment(), seed) << 1) + item.isGlobal();
+	return item.isGlobal();
+	//return (qHash(item.getVarsAssignment(), seed) << 1) + item.isGlobal();
 }
 
 QDebug operator<<(QDebug d, const SimpleAutomatonID &item);
