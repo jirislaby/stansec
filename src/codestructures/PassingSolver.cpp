@@ -6,6 +6,7 @@
  */
 
 #include <clang/AST/Expr.h>
+#include <clang/AST/Stmt.h>
 
 #include <QList>
 #include <QString>
@@ -121,6 +122,68 @@ bool PassingSolver::stmtContainsDecl(const clang::Stmt *stmt,
 	for (auto ch : stmt->children())
 		if (stmtContainsDecl(ch, decl))
 			return true;
+
+	return false;
+}
+
+bool PassingSolver::isSameExpr(const clang::Expr *e1, const clang::Expr *e2)
+{
+	if (e1 == e2)
+		return true;
+
+	e1 = e1->IgnoreParenCasts();
+	e2 = e2->IgnoreParenCasts();
+
+	if (e1->getStmtClass() != e2->getStmtClass())
+		return false;
+
+#ifdef DEBUG_SAME
+	qDebug() << __func__ << e1->getStmtClassName() << "==" <<
+		    e1->getStmtClassName();
+	e1->dumpColor();
+	e2->dumpColor();
+#endif
+
+	switch (e1->getStmtClass()) {
+	case clang::Stmt::StmtClass::UnaryOperatorClass: {
+		auto UO1 = llvm::cast<clang::UnaryOperator>(e1);
+		auto UO2 = llvm::cast<clang::UnaryOperator>(e2);
+		if (UO1->getOpcode() != UO2->getOpcode())
+			return false;
+		return isSameExpr(UO1->getSubExpr(), UO2->getSubExpr());
+	}
+	case clang::Stmt::StmtClass::DeclRefExprClass: {
+		const auto *DRE1 = llvm::cast<clang::DeclRefExpr>(e1);
+		const auto *DRE2 = llvm::cast<clang::DeclRefExpr>(e2);
+		return DRE1->getDecl() == DRE2->getDecl();
+	}
+	case clang::Stmt::StmtClass::MemberExprClass:
+		while (llvm::isa<clang::MemberExpr>(e1) &&
+				llvm::isa<clang::MemberExpr>(e2)) {
+		    auto ME1 = llvm::cast<clang::MemberExpr>(e1);
+		    auto ME2 = llvm::cast<clang::MemberExpr>(e2);
+		    if (!clang::declaresSameEntity(ME1->getMemberDecl(),
+						   ME2->getMemberDecl()))
+			return false;
+		    e1 = ME1->getBase()->IgnoreParenImpCasts();
+		    e2 = ME2->getBase()->IgnoreParenImpCasts();
+		}
+
+		return isSameExpr(e1, e2);
+	default:
+		break;
+	}
+
+#if 0
+	if (!clang::Expr::isSameComparisonOperand(e1, e2)) {
+		qDebug() << "\tdiff" << e1->getStmtClassName() << e2->getStmtClassName();
+		e1->dumpColor();
+		e2->dumpColor();
+		return false;
+	}
+#else
+	qDebug() << "UNHANDLED";
+#endif
 
 	return false;
 }

@@ -43,6 +43,7 @@ public:
     static const clang::Decl *getFirstDecl(const clang::Stmt *stmt);
     static bool forEachDecl(const clang::Stmt *stmt,
 			    const std::function<bool (const clang::Decl *)> &CB);
+    static bool isSameExpr(const clang::Expr *e1, const clang::Expr *e2);
 private:
     //static QString parseElement(const Element &elem);
 

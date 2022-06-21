@@ -4,6 +4,7 @@
 
 #include <QDebug>
 
+#include "../../codestructures/PassingSolver.h"
 #include "../../utils/xmlpatterns/XMLPatternVariablesAssignment.h"
 
 #include "SimpleAutomatonID.h"
@@ -57,7 +58,7 @@ bool checker::operator==(const SimpleAutomatonID &lhs,
 	const auto &e1 = ll.constEnd();
 	const auto &e2 = rl.constEnd();
 	for (; i1 != e1 && i2 != e2; ++i1, ++i2)
-		if (!clang::Expr::isSameComparisonOperand(*i1, *i2))
+		if (!codestructs::PassingSolver::isSameExpr(*i1, *i2))
 			return false;
 
 	return i1 == e1 && i2 == e2;
