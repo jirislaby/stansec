@@ -71,7 +71,7 @@ AutomatonStateCFGcontextAlgo::filterUniqueStates(const QSet<AutomatonState> &sta
     QMap<AutomatonStateContextItem, QSet<AutomatonState>> spliter;
     for (const auto &state : states)
 	if (state.getContext().size() > idx) {
-	    const auto &item = state.getContext()[idx];
+	    const auto item = state.getContext()[idx];
 	    if (!spliter.contains(item))
 		spliter.insert(item, QSet<AutomatonState>());
 	    spliter[item].insert(state);
